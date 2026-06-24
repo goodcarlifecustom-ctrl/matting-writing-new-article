@@ -1,0 +1,281 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-01",
+        "heading": "バイク買取で最初に知っておきたい結論"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d3091675c1ba3ff2613b107021747352822720b62d59139b96f42af8bcf17b47",
+      "tone": "positive",
+      "text": "この章では、バイク買取を始める前に押さえたい全体像を整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-02",
+        "heading": "バイク買取の査定額が決まる主な要素"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "dae34cb99b0b4a8fd2bc8873c8235c21a1d13ad02cd1d74e499be2c4d2006d53",
+      "tone": "positive",
+      "text": "この章では、査定額がどのような条件で変わるのかを説明します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-03",
+        "heading": "バイク買取相場を確認する方法"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "b55893d1b3e91ac93b67448663f4acb5a567b93ecd0ce6a8981b8ca5dbf74c13",
+      "tone": "positive",
+      "text": "この章では、査定を受ける前に相場感をつかむ方法を紹介します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-04",
+        "heading": "バイクの売却方法を比較"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d20c94960db1db347f0c442db04b26a930889e505bd90239e79180799934a342",
+      "tone": "positive",
+      "text": "この章では、買取専門店、下取り、一括査定、持ち込み、オークション、個人売買の違いを比較します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-05",
+        "heading": "バイク買取業者はどこがいい？選び方と確認項目"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "128fa96fcd0a2b1a7327e567a781321ea3f5c2d1b9bd0ca9bb938071e7879f09",
+      "tone": "positive",
+      "text": "この章では、バイク買取業者を比較するときの確認項目を整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-06",
+        "heading": "バイクを高く売るための査定前準備"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "69dd24b3d830881814425848233de5a5534c886f715d3b982fc568e4669e4a54",
+      "tone": "positive",
+      "text": "この章では、査定前にできる準備を説明します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-07",
+        "heading": "バイク買取の流れ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "09140a30f2cc2577a348bcc0fc083ad614206ad9464246ffe411603b28715254",
+      "tone": "positive",
+      "text": "この章では、査定依頼から入金までの一般的な流れを整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-08",
+        "heading": "バイク買取の必要書類と手続き"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "7134db765b3293cc0181b42065504f390e1e4df760fb22674bcafd8d8c68fe27",
+      "tone": "positive",
+      "text": "この章では、排気量別に必要になりやすい書類と手続きを整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-09",
+        "heading": "契約前後の注意点とトラブル防止"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "2c1c65eaf3139d61cedd1f999c7d1c5900729284d3b2652eb6b7361cc6a7b147",
+      "tone": "negative",
+      "text": "この章では、バイク買取で避けたいトラブルと、契約前に確認すべきことを説明します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-10",
+        "heading": "ケース別の相談ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "dbb979666c6fbbfe6532e3fefbf04a3d0dbc95cff34fc513278fa7a87cc6a93c",
+      "tone": "negative",
+      "text": "この章では、ローン中、不動車、事故車、カスタム車、書類紛失など、通常より確認事項が増えるケースを整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-11",
+        "heading": "バイク買取に関するよくある質問"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f0be1722829988dbf6ccbea6722ce7f68785f3cd65a80b6d3c6d547d5a729f1f",
+      "tone": "positive",
+      "text": "この章では、査定前後によくある疑問に簡潔に答えます。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "h2-section-12",
+        "heading": "まとめ：相場と条件を確認して納得できるバイク買取を選ぼう"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d4122072840eef6b60469df063262bac2a39091bd4314258d6050833e71ad44f",
+      "tone": "positive",
+      "text": "バイク買取は、査定額だけでなく、売却方法、費用、必要書類、名義変更、支払い、キャンセル条件まで含めて判断することが大切です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-10-01",
+        "heading": "ローン中のバイクを売却する場合"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e3ea43bb8a8a9068c35337c3d03074101f9ccfc0c6afc4d83e7064baf68ba956",
+      "tone": "positive",
+      "text": "ローン中のバイクは、車検証や登録書類の所有者欄を確認してください。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-10-02",
+        "heading": "不動車・事故車・車検切れの場合"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d11e07f41278eb30767b73391110010bbbbcdb59cdb2a04875dc3d866bc3662b",
+      "tone": "positive",
+      "text": "不動車や事故車でも、部品価値や再販ルートがあれば買取対象になる可能性があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-10-03",
+        "heading": "カスタムバイクの場合"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "7bf9954f47d48c41b2e34f4d0f24b4c55b2b2809442e0245d4e8597bc9d87416",
+      "tone": "positive",
+      "text": "カスタム内容はプラスにもマイナスにもなります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-10-04",
+        "heading": "書類を紛失した場合"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "3587c080f811df86ae597cc641a37155f00a11fbf8f4e3d0d9abc497887c7f1e",
+      "tone": "negative",
+      "text": "標識交付証明書、軽自動車届出済証、車検証などを紛失した場合は、再交付や代替手続きが必要になることがあります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-01",
+        "heading": "バイクの査定だけを依頼してもよいですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "a68c66c8584f9c5719d6bc09ac1739e959ea2f668b20d2f48bc1ef31b26f534b",
+      "tone": "positive",
+      "text": "査定だけの相談が可能な業者はあります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-02",
+        "heading": "査定額に納得できない場合は断れますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "bb09fcdf2c564321d4072f131eb9af32e35f88ff29ec38de5b490a0078697247",
+      "tone": "positive",
+      "text": "契約前であれば断れるのが一般的です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-03",
+        "heading": "バイクを売るときに必要な書類は何ですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "50bd345df98c790d17d8f3aced4d2d7e13b1f740e449247db0d17383e8ea2bf1",
+      "tone": "positive",
+      "text": "排気量によって異なります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-04",
+        "heading": "車検切れのバイクでも査定できますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "750819d84e4491cba0a0319f46d74996600729fe4278f61c8175218b9b6e5e34",
+      "tone": "positive",
+      "text": "車検切れでも査定相談できる場合があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-05",
+        "heading": "ローンが残っているバイクは売れますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "15ca30c9eb0f7ee6f2be4f24681ec7fc5588b42242d20bbfbb758b166fc53ea9",
+      "tone": "positive",
+      "text": "残債や所有者名義によって異なります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-06",
+        "heading": "不動車や事故車でも買取対象になりますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "796bb67420b7a82f483b38ac10d7bd4a9f3525cdd71c49fb83f2f6b5bcb7439d",
+      "tone": "positive",
+      "text": "業者によって対応が異なります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-07",
+        "heading": "売却前に修理や洗車をしたほうがよいですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "8ea364e56fdd387a5070e600a8698b12b462aff51e7a2a0a76d74ad683dc58ff",
+      "tone": "positive",
+      "text": "洗車は軽く行うと状態確認がしやすくなります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "h2-section-11-08",
+        "heading": "自賠責保険や税金はどうなりますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "61b553115694e24ae287fe1a60c16c96f1cfef5340a4961b4ec1e96d04996501",
+      "tone": "positive",
+      "text": "自賠責は名義変更、解約、残期間の扱いが状況で異なります。"
+    }
+  ]
+}

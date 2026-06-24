@@ -1,0 +1,25 @@
+target_media: "https://poi-poi.co.jp/bike/"
+article_type: "比較"
+main_keyword: "ネオクラシックバイク おすすめ"
+
+related_keywords:
+  - "ネオクラシックバイク 初心者"
+  - "ネオクラシックバイク 400cc"
+  - "ネオクラシックバイク 比較"
+
+persona: "ネオクラシックバイク選びで迷っている初心者"
+article_purpose: "候補の比較軸と売却・乗り換え時の判断材料を理解してもらう"
+min_word_count: 3000
+target_word_count: 4000
+max_word_count: 5000
+wordpress_draft: false
+post_to_wp: false
+status: draft
+
+# Optional overrides:
+# title: ""
+# slug: ""
+# category: "バイク買取"
+# reference_urls:
+#   - "https://example.com/reference"
+# notes: ""

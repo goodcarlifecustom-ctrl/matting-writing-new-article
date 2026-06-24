@@ -1,0 +1,29 @@
+{
+  "name": "bike-kaitori-max-article-workflow",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "create": "node scripts/create-article-dir.mjs",
+    "extract": "node scripts/extract-headings.mjs",
+    "check": "node scripts/check-article.mjs",
+    "post": "node scripts/post-wordpress-draft.mjs --confirm --adopt-existing",
+    "test": "node --test",
+    "decorate": "node scripts/decorate-article.mjs",
+    "check:decoration": "node scripts/check-decoration.mjs",
+    "wp:draft": "node scripts/post-wordpress-draft.mjs",
+    "wp:doctor": "node scripts/check-wordpress-connection.mjs",
+    "finish": "node scripts/finish-new-article.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "parse5": "^7.1.2",
+    "undici": "^7.28.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@wordpress/block-serialization-default-parser": "^5.48.1"
+  }
+}

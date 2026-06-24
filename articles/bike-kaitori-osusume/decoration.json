@@ -1,0 +1,457 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "id": "choice-summary",
+        "heading": "バイク買取はどこがいい？最初に選び方の結論を確認"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "0487deef56e164a5825a50fbcbef5267c0ef363c82f06d428c39ff0764d4cec9",
+      "tone": "positive",
+      "text": "最初に、どの売却方法が自分に合うかを整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "comparison",
+        "heading": "おすすめのバイク買取業者・査定サービスを用途別に比較"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "a6f4e99d964a786f6d24f4612b640a0d6c28d130092ddd33be181f27af1bfb66",
+      "tone": "positive",
+      "text": "ここでは、公式情報を確認できた主要サービスを用途別に比較します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "criteria",
+        "heading": "バイク買取業者で失敗しないための比較ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "bf376275158dcf176413d233468106e78fa829bfbbccffb203f57acc8bd0b780",
+      "tone": "positive",
+      "text": "バイク買取業者のおすすめを探すときは、査定額だけでなく、売却後に発生する可能性がある費用や手続きまで比べることが重要です"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "services",
+        "heading": "おすすめ候補の特徴と利用前に確認したい点"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "650cb9e07851a19e87abf4e8155ef6a2e77582012cd0c09c7073c6f82bf2d683",
+      "tone": "positive",
+      "text": "ここからは、比較表に掲載した各サービスの特徴を説明します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "methods",
+        "heading": "バイクを売る方法はどれがいい？出張・持ち込み・一括査定の違い"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "4d4709975566b10e86fbef2334fb280a442e6df6e2470828b76e4572d348d838",
+      "tone": "positive",
+      "text": "バイク売却の方法は大きく分けて、出張買取、店舗持ち込み、一括査定、入札型・オークション型があります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "high-price",
+        "heading": "バイクを高く売るために査定前にできること"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "123402ade4481800c748c78948fb78bf606fb83e3a8d8db57f5de46fb0dd4bcc",
+      "tone": "positive",
+      "text": "バイクを高く売るコツは、査定額アップを保証する裏技ではありません。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "flow",
+        "heading": "バイク査定の申込みから売却・入金までの流れ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e8b783b71e83d1e37135f79349a56ee057b07a6dac9979a09417637dc13ab38d",
+      "tone": "positive",
+      "text": "初めてバイクを売る人は、申込みから入金までの流れを知っておくと安心です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "documents",
+        "heading": "バイク売却時に必要な書類と名義変更などの手続き"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "738e3c5b4c71720bfd7698cc0a1b3dc46fccab18ac774b25a66ae6b1d6e202d0",
+      "tone": "positive",
+      "text": "必要書類は排気量、登録状態、所有者名義、ローン残債の有無で変わります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "cautions",
+        "heading": "バイク買取を依頼する前に確認したい注意点"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "97dc51de7df9972ea77bf07faf3a9470c201654d70be10384c1f7a5b4ad0d6e2",
+      "tone": "positive",
+      "text": "売却契約は、査定額に納得してから進めるものです。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "max-cta",
+        "heading": "関東で出張買取を相談するならバイク買取MAXも候補に入れる"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "949e38464133d87fa9ff2ed3596752ff4d6ebfaa3de47198b1a99590fecdaf8b",
+      "tone": "negative",
+      "text": "関東でバイク売却を検討しており、出張査定、不動車、事故車、旧車、カスタムバイク、原付の相談先を探しているなら、バイク買取MAXも候補の一つです。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "faq",
+        "heading": "バイク買取についてよくある質問"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d1f6aaf79df26d4f20d40321b8b68cf961646eb1bf0abb61bf1d53e7b16e659a",
+      "tone": "positive",
+      "text": "最後に、査定依頼前によくある疑問を整理します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "summary",
+        "heading": "自分に合う買取方法を選んで査定額と条件を比較しよう"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "6ce0dcddfeb9a1211d5fe8355fca87b673cb4602791e1e79ed8fbb8632b1c4a7",
+      "tone": "positive",
+      "text": "バイク買取のおすすめは、すべての人に共通する一社ではありません。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "criteria-fee",
+        "heading": "査定額だけでなく手数料・出張料・引取料を確認する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "ec6342e9125d0edb4bf6c8a53b66e1b738c6642a34447fe6681521e6082a04c4",
+      "tone": "positive",
+      "text": "提示された査定額が高く見えても、出張料、引取料、キャンセル料、名義変更手数料が別にかかると、最終的な手取り額は変わります"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "criteria-cancel",
+        "heading": "査定後と契約後のキャンセル条件を分けて見る"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "513d5c9449a5257b9ab9323999b0a72fb856a5e54488277cc162138d135eceaf",
+      "tone": "positive",
+      "text": "査定後に売却を断ることと、契約後にキャンセルすることは別です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "criteria-contact",
+        "heading": "一括査定は査定額比較と営業電話のバランスで選ぶ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "79cbef1f0007a950222edf2fbad6ce8ccd0e14c28d5784827f2c7fcd231cea0b",
+      "tone": "positive",
+      "text": "一括査定は、バイクの査定額を比較しやすい方法です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "criteria-area",
+        "heading": "対応エリアと車両状態を事前に伝える"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "119db2b2a63942499f1cc85a5b1e27f83c76839666ba7926e067776c0a98451f",
+      "tone": "positive",
+      "text": "「全国対応」「即日対応」と書かれていても、離島、山間部、予約状況、車両の保管場所によって対応が変わることがあります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "bikeou",
+        "heading": "バイク王｜全国規模の出張買取を相談したい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "ec669efdb30ef559508d7cbd3ee1e14fd24d14cb16ea1e6e58ef5e2f23890425",
+      "tone": "positive",
+      "text": "利用前には、査定当日の支払い方法、引取タイミング、名義変更の完了確認、ローン中の対応を確認しましょう。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "katix",
+        "heading": "カチエックス｜写真をもとに複数社の入札を比較したい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "95f45388de12b6687dee655bda07b8091fedea26ec8c40ff58b4ceee9f5fc1d8",
+      "tone": "positive",
+      "text": "実車を見ない査定では、写真や申告内容と車両の実際の状態が一致していることが重要です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "goobike",
+        "heading": "グーバイク買取｜相場を見ながら売却を進めたい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "6ce66de6f47d60dbee0361471bdf85aab628d951b9cbe9a789b2055d837ae997",
+      "tone": "positive",
+      "text": "ただし、相場はあくまで目安です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "bikeland",
+        "heading": "バイクランド｜出張査定の費用条件を重視する人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "d976d76e8bc4e8cf5111ac3ea0f521376a5d7865a975227f4b74c917bc897d3e",
+      "tone": "positive",
+      "text": "一方で、キャンペーン、対応地域、車両状態、支払い方法は申込み時点で確認が必要です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "bikeone",
+        "heading": "バイクワン｜事故車・不動車を含めて相談したい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "49a28b2c240f4738085afc5be506760714aa35dc6622cde909fd696160d5effa",
+      "tone": "positive",
+      "text": "ただし、即日対応や現金買取は、地域、車両状態、必要書類の有無によって変わる可能性があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "redbaron",
+        "heading": "レッドバロン｜店舗網と手続き対応を重視する人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "68201eee25435444c9a40c05d1becf4a1ee9caa8168a27a3fd499cceca2f8ed3",
+      "tone": "positive",
+      "text": "購入店や整備履歴がある店舗へ相談したい人には使いやすい一方、査定条件は車両や店舗の状況で変わる可能性があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "bikekan",
+        "heading": "バイク館｜事前に自動査定で相場感をつかみたい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1e077c3e84b321378d752e5ae265715c8224a318b394e72bb2d194c42a0f85fd",
+      "tone": "negative",
+      "text": "自動査定は便利ですが、実車の傷、消耗品、改造、書類状態までは完全に反映できません。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "bikehikaku",
+        "heading": "バイク比較.com｜相見積もりで査定額の差を見たい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "46f15d87fb99e92219f604fb54c866986c23323587cb08bded952ff8f976e418",
+      "tone": "positive",
+      "text": "一括査定は便利な反面、複数社から連絡が来ることがあります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "max",
+        "heading": "バイク買取MAX｜関東で旧車・カスタム・不動車を相談したい人向け"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "c14cf5d8ed64f67ccd259dbb9453194a36b0a6939e4d41ac2cbb12a0023751a5",
+      "tone": "positive",
+      "text": "関東で不動車、事故車、原付、カスタム車を相談したい人は候補にできます。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "method-visit",
+        "heading": "出張買取は動かせないバイクや忙しい人に向いている"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "06cb68ecd9b83d0f90d78006a2b20ae0578d432dff18d672736e6958bf5ba7d1",
+      "tone": "positive",
+      "text": "出張買取は、自宅や保管場所で査定を受けられる方法です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "method-store",
+        "heading": "店舗持ち込みは対面相談と即時確認を重視する人に向いている"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "909eb9f1fb7b9563a1a79fae97c09dc44db7df3673dd65495ad15ae8d250e7e4",
+      "tone": "positive",
+      "text": "店舗持ち込みは、販売店や買取店へ自分でバイクを持ち込む方法です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "method-bulk",
+        "heading": "一括査定は査定額比較に強いが連絡対応の準備が必要"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "029e43e3de76d2c0ea6faf73c3c36b04a55eca12aeb8cbb0d56983871d9f9961",
+      "tone": "positive",
+      "text": "一括査定は、複数社の査定額を比較したい人に向いています。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "method-bid",
+        "heading": "入札型・オークション型は交渉窓口を減らしたい人に向いている"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "08d0dda73ce42d7eb08613e47bcea3fa944190b2e73cc7a39563e67e63b70963",
+      "tone": "positive",
+      "text": "入札型やオークション型は、写真や車両情報をもとに複数業者が入札し、売り手は条件を見て判断する仕組みです。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "documents-basic",
+        "heading": "基本書類は車検証・登録書類・本人確認書類から確認する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "c6b5d499bfd4a0dc013ded6efca115caf0c8499a199aadf9158e2a63e90533c9",
+      "tone": "positive",
+      "text": "一般的には、車検証または軽自動車届出済証、標識交付証明書、本人確認書類、自賠責保険証明書、印鑑、譲渡に関する書類などが関係します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "documents-loan",
+        "heading": "ローン中のバイクは所有者欄と残債処理を確認する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "6c1cbf17fddfc4d6cbdc915daf175750c9551e86b8955cb63c02c3e836057f97",
+      "tone": "positive",
+      "text": "ローン中のバイクは、車検証や登録書類の所有者欄が信販会社や販売店になっていることがあります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "documents-tax",
+        "heading": "自賠責保険・軽自動車税・ナンバーの扱いも確認する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "68f12e2631bccb42350f5cd180406f84b66cb4a7f853db312b837bb0158c0089",
+      "tone": "positive",
+      "text": "自賠責保険の残り期間、軽自動車税、ナンバープレートの扱いは、登録状態や売却時期で変わります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-best",
+        "heading": "バイク買取はどこに依頼するのがおすすめですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "19000d20903cdc73e73645589e43ef738580a5a724c53e546c0d1e5516b86c22",
+      "tone": "positive",
+      "text": "すぐに売りたい人は出張買取、査定額を比べたい人は一括査定や入札型、店舗で相談したい人は販売店系が候補です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-number",
+        "heading": "バイクの査定は何社くらい比較すべきですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f5d54a2deffcb3d1ec40f9b3faf763018fba074e1e12d65f4ae620b3ab40f4b9",
+      "tone": "positive",
+      "text": "時間に余裕があるなら、2〜3社以上を比較すると査定額や条件の違いを把握しやすくなります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-visit-store",
+        "heading": "出張査定と店舗持ち込みはどちらがよいですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "5f5a6279b01140aec0f241dc821f8e675caa58501331ed84e45e1434700db076",
+      "tone": "positive",
+      "text": "動かないバイク、車検切れ、忙しくて店舗へ行けない人は出張査定が向いています。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-phone",
+        "heading": "一括査定を利用すると営業電話が増えますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "cf7a5c7ab884ddfa1f2db4066f6d83c48859d7f700c90b9c2c1974dc492433dc",
+      "tone": "positive",
+      "text": "通常の一括査定では、複数業者から電話やメールが届く可能性があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-cancel",
+        "heading": "査定後に売却を断ることはできますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "9be4822282497daff6dcc20e2db3fe38f26d59faf0bc89016d54db4548b67122",
+      "tone": "positive",
+      "text": "査定額に納得できなければ断れるサービスは多いですが、条件は業者ごとに異なります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-docs",
+        "heading": "バイク売却時にはどのような書類が必要ですか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "b3de5da3a2fa28a1f7dd064fc04c41f03c163d4523b4458f6d6eb3b80299c57d",
+      "tone": "positive",
+      "text": "排気量や登録状態によって異なりますが、車検証または登録書類、本人確認書類、自賠責保険証明書、印鑑、譲渡関係書類などが関係します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-loan",
+        "heading": "ローンが残っているバイクでも売却できますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e89d6847a94767be09951edf032a3bbcf1dcbc94652d2f9b4448c8b8c828c405",
+      "tone": "positive",
+      "text": "ローン中でも売却相談できる場合があります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "faq-custom",
+        "heading": "不動車・事故車・カスタムバイクでも査定を依頼できますか？"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e49291e2abd0a40fd58ba74c0c0923937ffe6c8a4a7b890c3371e1f720e52f67",
+      "tone": "negative",
+      "text": "不動車、事故車、カスタムバイクに対応する業者はあります。"
+    }
+  ]
+}

@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクとは？125cc・250ccとの違い"
+      },
+      "tone": "positive",
+      "text": "150ccは原付二種ではなく、普通自動二輪免許またはAT限定普通自動二輪免許などが必要になる排気量"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "125ccとの違い"
+      },
+      "tone": "negative",
+      "text": "普通自動車免許だけでは運転できず、小型限定普通二輪免許でも排気量条件を満たさない点に注意"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "250ccとの違い"
+      },
+      "tone": "positive",
+      "text": "150ccは250ccほどの余裕はないものの、軽量で取り回しがしやすく"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "免許区分と登録区分の基本"
+      },
+      "tone": "negative",
+      "text": "住んでいる自治体の最新情報も確認しましょう"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクのメリット"
+      },
+      "tone": "positive",
+      "text": "125ccより余裕があり、250ccより気軽に扱いやすいことが150ccバイクの最大のメリット"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクのデメリットと注意点"
+      },
+      "tone": "negative",
+      "text": "150ccはファミリーバイク特約の対象外になりやすく、保険料が125ccより高くなる場合があります"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクのおすすめ車種"
+      },
+      "tone": "positive",
+      "text": "迷ったら、通勤重視ならスクーター、走る楽しさ重視ならMT・ネイキッド、悪路や旅気分も欲しいならアドベンチャー系から選ぶ"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ホンダ PCX160"
+      },
+      "tone": "positive",
+      "text": "PCX160は収納、燃費、扱いやすさのバランスがよく、初めての150ccクラスにも選びやすい1台"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ホンダ ADV160"
+      },
+      "tone": "positive",
+      "text": "PCX160よりタフな雰囲気と装備感を重視するならADV160が候補"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ヤマハ NMAX155"
+      },
+      "tone": "positive",
+      "text": "通勤だけでなく、走りの楽しさも欲しいスクーター派に向いています"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "スズキ ジクサー150"
+      },
+      "tone": "positive",
+      "text": "MT操作を楽しみたい人や、スクーターではなくバイクらしい見た目を重視する人におすすめしやすいモデル"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ヤマハ トリシティ155"
+      },
+      "tone": "negative",
+      "text": "停車時には自立しないため、三輪だから足を着かなくてよいと誤解しないことが大切"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ヤマハ XSR155"
+      },
+      "tone": "positive",
+      "text": "クラシックな見た目と軽快な走りを両立したい人に向いたMTモデル"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "カワサキ KLX150系"
+      },
+      "tone": "negative",
+      "text": "並行輸入車や海外仕様は、価格だけで判断せず整備体制まで含めて比較することが重要"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "用途別に見る150ccバイクの選び方"
+      },
+      "tone": "positive",
+      "text": "通勤距離、荷物の量、高速道路の利用頻度、休日の走行距離を基準にすると失敗しにくくなります"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "通勤向けおすすめ"
+      },
+      "tone": "positive",
+      "text": "毎日乗るなら、速さよりも疲れにくさと荷物の置きやすさを重視するほうが満足しやすい"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "街乗り向けおすすめ"
+      },
+      "tone": "positive",
+      "text": "普段使いの荷物対策を考えておくと安心"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "ツーリング向けおすすめ"
+      },
+      "tone": "negative",
+      "text": "高速道路を長時間走る前提なら、150ccだけでなく250cc以上も比較したほうが後悔しにくい"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "スクーター系おすすめ"
+      },
+      "tone": "positive",
+      "text": "走りの操作感を重視するなら、ジクサー150やXSR155も比較"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "MT・ネイキッド系おすすめ"
+      },
+      "tone": "positive",
+      "text": "スクーターより積載は工夫が必要ですが、趣味性を重視するならMT系の満足度は高くなりやすい"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "オフロード・アドベンチャー系おすすめ"
+      },
+      "tone": "positive",
+      "text": "タイヤ、最低地上高、転倒時の修理費も見ておきましょう"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクを購入する前に確認したいポイント"
+      },
+      "tone": "negative",
+      "text": "乗り出し価格には車両本体価格のほか、登録費用、保険、税金、用品、整備費が加わるため、総額で比較することが重要"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "必要な免許を確認する"
+      },
+      "tone": "positive",
+      "text": "これから免許を取る人は、乗りたい車種がMTかATかを先に決める"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "高速道路や自動車専用道路の使い方を確認する"
+      },
+      "tone": "positive",
+      "text": "150ccを選ぶメリットは、125ccでは通れない道路の選択肢が増えること"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "維持費と保険を確認する"
+      },
+      "tone": "negative",
+      "text": "125ccで使えることが多いファミリーバイク特約は、150ccでは対象外になる可能性が高い"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "新車と中古のどちらで買うか決める"
+      },
+      "tone": "negative",
+      "text": "タイヤ、バッテリー、ブレーキ、駆動系、転倒歴、リコール対応の確認が重要"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクが向いている人・向いていない人"
+      },
+      "tone": "negative",
+      "text": "高速道路を頻繁に長距離走る人、二人乗りや大量積載が多い人、任意保険料を最小限にしたい人には向かない場合があります"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクは高速道路を走れますか？"
+      },
+      "tone": "positive",
+      "text": "長距離の高速移動が多いなら、250cc以上も比較すると安心"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクは普通自動車免許で乗れますか？"
+      },
+      "tone": "negative",
+      "text": "乗りたい車種の排気量と変速方式を確認"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクはファミリーバイク特約を使えますか？"
+      },
+      "tone": "negative",
+      "text": "150ccを購入する前に任意保険の見積もりを取らないと、維持費の想定がずれる可能性があります"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクに車検はありますか？"
+      },
+      "tone": "negative",
+      "text": "中古車は購入前整備の内容も確認"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "150ccバイクは初心者にもおすすめですか？"
+      },
+      "tone": "positive",
+      "text": "ブレーキ、加速、低速バランスに慣れましょう"
+    },
+    {
+      "section": {
+        "level": 3,
+        "heading": "中古の150ccバイクを買うときの注意点は？"
+      },
+      "tone": "negative",
+      "text": "納車後の整備費が高くなる場合があります"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "まとめ：150ccバイクは軽さと実用性を重視する人におすすめ"
+      },
+      "tone": "positive",
+      "text": "おすすめは、実用性重視ならPCX160やNMAX155、休日の冒険感ならADV160、MTの楽しさならジクサー150やXSR155を比較する選び方"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "まとめ：150ccバイクは軽さと実用性を重視する人におすすめ"
+      },
+      "tone": "negative",
+      "text": "車両本体価格だけでなく、乗り出し価格、保険、税金、駐輪環境、整備体制を確認することが大切"
+    },
+    {
+      "section": {
+        "level": 2,
+        "heading": "150ccバイクに関するよくある質問"
+      },
+      "tone": "positive",
+      "text": "最終判断は公式情報や販売店、保険会社で確認してください"
+    }
+  ]
+}
