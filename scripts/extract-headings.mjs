@@ -28,7 +28,7 @@ function isExcluded(url) {
   if (/\.pdf($|[?#])/.test(u)) reasons.push('PDF');
   if (/go\.jp|lg\.jp|police\.|mlit\.go\.jp/.test(u)) reasons.push('公的機関');
   if (/amazon\.|rakuten\.|yahoo\.co\.jp\/shopping/.test(u)) reasons.push('ECサイト');
-  if (/poi-poi\.co\.jp\/bike/.test(u)) reasons.push('バイク買取MAX関連メディア');
+  if (/atarijo\.com\/media/.test(u)) reasons.push('対象メディア');
   return reasons;
 }
 async function fetchHtml(url) {
@@ -88,7 +88,48 @@ if (selected.length < 3) {
 }
 await writeFile(path.join(dir, 'serp.md'), serp, 'utf8');
 const h3Counts = selected.map((s) => ({ url: s.url, count: s.headings.filter((h) => h.tag === 'h3').length })).sort((a,b)=>b.count-a.count);
-const analysis = `# 見出し分析\n\n## 3サイトで共通するH2テーマ\n\n- heading-plan作成時にheadings.csvから検索意図上同じテーマを統合して記録する。\n\n## 2サイトで共通するH2テーマ\n\n- 3サイト共通が不足する場合の補助候補として記録する。\n\n## 採用したH2\n\n- heading-plan.mdに反映したH2を記録する。\n\n## 採用しなかったH2と理由\n\n- 検索意図、重複、公式/UGC文脈などの理由で記録する。\n\n## H3が最も多い競合ページ\n\n- ${h3Counts[0] ? `${h3Counts[0].url}（H3数: ${h3Counts[0].count}）` : '未取得'}\n\n## H3数の基準\n\n- 最多競合のH3数と同等以上を目安にする。ただし無関係なテーマは追加しない。\n\n## 採用したH3テーマ\n\n- 親H2から逸脱しないテーマを記録する。\n\n## FAQを入れる理由\n\n- 不動車、原付、廃車、出張査定など検索者の不安を下部で解消するため。\n\n## まとめを入れる理由\n\n- 要点を整理し、バイク買取MAXへの自然な相談導線につなげるため。\n\n## 検索意図上、上部に置くべきH2\n\n- ${mainKeyword}の結論、買取準備、業者選びに関するH2を優先する。\n\n## 競合見出しを一語一句コピーしていないことの確認\n\n- heading-plan.md作成時に表現を言い換え、完全一致を避ける。\n`;
+const analysis = `# 見出し分析
+
+## 上位ページの共通論点
+
+- headings.csvから検索意図上同じテーマを統合して記録する。
+
+## 上位ページ間で異なる論点
+
+- 競合ごとの独自論点を記録する。
+
+## 不足する論点
+
+- 作成予定記事に不足する安全、同意、個人情報、法令、公式確認事項を記録する。
+
+## 採用するトピック
+
+- 必須、推奨、独自トピックに分類して記録する。
+
+## 採用しないトピックと理由
+
+- 検索意図、重複、安全性、違法助長リスクなどの理由で記録する。
+
+## 独自に追加する情報
+
+- 読者の安全判断に役立つチェックリスト、公式情報確認手順、相談窓口などを検討する。
+
+## 一次情報が必要な箇所
+
+- 料金、規約、年齢条件、法律、健康、安全情報。
+
+## 別記事へ分けるべきトピック
+
+- 検索意図が大きく異なる地域ガイド、個別サービスレビュー、法律解説。
+
+## H3数の基準
+
+- 最多競合のH3数（${h3Counts[0] ? `${h3Counts[0].url} / ${h3Counts[0].count}件` : '未取得'}）を参考にするが、無関係なテーマは追加しない。
+
+## 競合見出しを一語一句コピーしていないことの確認
+
+- heading-plan.md作成時に表現を言い換え、完全一致を避ける。
+`;
 await writeFile(path.join(dir, 'heading-analysis.md'), analysis, 'utf8');
 const planPath = path.join(dir, 'heading-plan.md');
 if (!existsSync(planPath) || (await readFile(planPath, 'utf8')).trim() === '') await writeFile(planPath, '', 'utf8');

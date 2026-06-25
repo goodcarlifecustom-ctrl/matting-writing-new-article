@@ -4,7 +4,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { execSync } from 'node:child_process';
-import { argvValue, isUnresolved, parseList, parseScalar } from './workflow-utils.mjs';
+import { argvValue, DEFAULT_TARGET_MEDIA, isUnresolved, normalizeMediaUrl, parseList, parseScalar } from './workflow-utils.mjs';
 import { redact } from './wordpress-utils.mjs';
 import { validateGutenbergContent, visibleCharCount } from './gutenberg-utils.mjs';
 const execFileAsync = promisify(execFile);
@@ -89,6 +89,8 @@ const maxCount = Number(metadata.max_char_count ?? metadata.max_word_count);
 for (const [key, value] of [['min_char_count/min_word_count', minCount], ['target_char_count/target_word_count', targetCount], ['max_char_count/max_word_count', maxCount]]) { if (!Number.isSafeInteger(value) || value <= 0) await fail(`metadata.json の ${key} が正の数値ではありません`); else pass(`${key} を確認しました`); }
 if (minCount > targetCount || targetCount > maxCount) await fail('文字数設定が min <= target <= max を満たしていません'); else pass('文字数設定の大小関係を確認しました');
 if (metadata.wordpress_draft !== undefined && metadata.post_to_wp !== undefined && metadata.wordpress_draft !== metadata.post_to_wp) await fail('wordpress_draft と post_to_wp が矛盾しています'); else pass('wordpress_draft と post_to_wp の整合性を確認しました');
+const targetMediaValue = parseScalar(input, 'target_media') || metadata.target_media;
+if (normalizeMediaUrl(targetMediaValue) !== normalizeMediaUrl(DEFAULT_TARGET_MEDIA)) await fail('target_media が対象サイトと一致していません'); else pass('target_media は対象サイトと一致しています');
 for (const key of ['target_media','article_type','persona','article_purpose']) { const v = key === 'target_media' ? parseScalar(input, key) : (metadata[key] || parseScalar(input, key)); if (isUnresolved(v)) await fail(`${key} が未入力です`); else pass(`${key} を確認しました`); }
 if (typeof metadata.post_to_wp !== 'boolean') await fail('metadata.json の post_to_wp がbooleanではありません'); else pass('post_to_wp はbooleanです');
 if (metadata.slug && metadata.slug !== slug) await fail('slug がパスとmetadata.jsonで一致しません'); else pass('slug は一致しています');
@@ -129,6 +131,9 @@ else if (target && (len < target * 0.5 || len > target * 1.6)) await fail('本�
 if (/https?:\/\/[^"'<>\s]+/.test(decorated.replace(/<a\b[^>]*href=["'][^"']+["'][^>]*>/gi, '<a>'))) await fail('外部URLのベタ書きがあります'); else pass('外部URLのベタ書きは検出されません');
 try { const trackedEnv = execSync('git status --short .env', { encoding: 'utf8' }).trim(); if (trackedEnv) await fail('.env がGitの変更対象です'); else pass('.env はコミット対象ではありません'); } catch { results.push('- WARN: git statusで.envを確認できませんでした'); }
 const secretPattern = 'WP_APP_PASSWORD=.+|WP_APPLICATION_PASSWORD=.+|Authori' + 'zation:|Ba' + 'sic [A-Za-z0-9+/=]{20,}|_wp' + 'nonce|preview_' + 'nonce';
+const oldSitePattern = 'poi-poi|バイク買取MAX|バイク買取|バイク査定|CTN|ネオクラシック|不動車|事故車|原付|廃車';
+const oldSiteHits = scanRepo(oldSitePattern).split('\n').filter((line) => line && !line.includes('check-article.mjs')).join('\n');
+if (oldSiteHits) await fail('旧サイト固有文言が残っています', oldSiteHits); else pass('旧サイト固有文言は検出されませんでした');
 const leaks = scanRepo(secretPattern).split('\n').filter((line) => line && !line.includes('check-article.mjs') && !line.includes('README.md') && !line.includes('rules/99-quality-check.md') && !line.includes('scripts/post-wp-draft.mjs')).join('\n');
 if (leaks) await fail('認証情報またはnonceらしき文字列が残っています', leaks); else pass('認証情報・nonceの残存は検出されませんでした');
 if (metadata.post_to_wp === false) pass('post_to_wp:false のためWordPress環境変数は要求しません');

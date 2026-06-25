@@ -5,7 +5,7 @@ import { validateDecoratedHtml } from '../scripts/decoration-utils.mjs';
 import { cpSync, readFileSync, writeFileSync, rmSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 const fixtureRoot = 'test/fixtures/decoration-article';
-const requiredCreateArgs=['--target-media','https://poi-poi.co.jp/bike/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
+const requiredCreateArgs=['--target-media','https://www.atarijo.com/media/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
 function sh(args){const patched=args[0]==='run'&&args[1]==='create'?args.concat(requiredCreateArgs):args; return execFileSync('npm',patched,{encoding:'utf8',stdio:'pipe'});}
 function prepare(slug){rmSync(`articles/${slug}`,{recursive:true,force:true}); mkdirSync(`articles/${slug}`,{recursive:true}); cpSync(fixtureRoot,`articles/${slug}`,{recursive:true});}
 function cleanup(slug){rmSync(`articles/${slug}`,{recursive:true,force:true});}
@@ -24,8 +24,8 @@ test('decorate creates ids, outline, h3 nav, capbox, markers and is idempotent w
     assert.match(one,/id="existing-summary"/);
     assert.match(one,/【この記事でわかること】/);
     assert.match(one,/この章でわかること/);
-    assert.match(one,/買取業者を比較するときの確認項目/);
-    assert.match(one,/<span class="swl-marker mark_yellow">査定条件を同じ基準で比較することが重要です<\/span>/);
+    assert.match(one,/利用前に確認したい項目/);
+    assert.match(one,/<span class="swl-marker mark_yellow">安全条件を同じ基準で確認することが重要です<\/span>/);
     assert.match(one,/<mark[^>]+>契約後のキャンセル条件は業者によって異なります<\/mark>/);
     assert.equal(existsSync(`articles/${slug}/decoration-manifest.json`), true);
     sh(['run','check:decoration','--','--slug',slug]);
@@ -219,7 +219,7 @@ test('decorate preserves existing Gutenberg block attributes, nesting, custom bl
       '<h2 class="wp-block-heading keep-class" id="keep-anchor">保持する見出し</h2>',
       '<!-- /wp:heading -->',
       '<!-- wp:paragraph -->',
-      '<p>保持する本文です。査定条件を同じ基準で比較することが重要です。</p>',
+      '<p>保持する本文です。安全条件を同じ基準で確認することが重要です。</p>',
       '<!-- /wp:paragraph -->',
       '<!-- wp:columns {"align":"wide"} -->',
       '<div class="wp-block-columns alignwide"><!-- wp:column {"width":"50%"} --><div class="wp-block-column" style="flex-basis:50%"><!-- wp:paragraph --><p>列の本文です。</p><!-- /wp:paragraph --></div><!-- /wp:column --></div>',

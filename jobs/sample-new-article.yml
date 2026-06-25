@@ -1,25 +1,17 @@
-target_media: "https://poi-poi.co.jp/bike/"
-article_type: "比較"
-main_keyword: "ネオクラシックバイク おすすめ"
-
+main_keyword: "マッチングアプリ 初心者 安全"
 related_keywords:
-  - "ネオクラシックバイク 初心者"
-  - "ネオクラシックバイク 400cc"
-  - "ネオクラシックバイク 比較"
-
-persona: "ネオクラシックバイク選びで迷っている初心者"
-article_purpose: "候補の比較軸と売却・乗り換え時の判断材料を理解してもらう"
+  - "マッチングアプリ 始め方"
+  - "出会い系 安全対策"
+article_type: "ハウツー"
+persona: "初めて出会い系サービスを使う成人読者"
+article_purpose: "安全に始めるための確認事項と注意点を理解してもらう"
 min_word_count: 3000
 target_word_count: 4000
 max_word_count: 5000
 wordpress_draft: false
-post_to_wp: false
-status: draft
-
-# Optional overrides:
-# title: ""
-# slug: ""
-# category: "バイク買取"
-# reference_urls:
-#   - "https://example.com/reference"
-# notes: ""
+category: "出会い系"
+tags:
+  - "安全対策"
+reference_urls: []
+internal_link_candidates: []
+notes: "年齢確認、同意、個人情報保護、詐欺回避を必ず扱う。"
