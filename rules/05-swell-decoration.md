@@ -1,44 +1,50 @@
-# 05 SWELL・Gutenberg装飾
+# 出会いメディアナビ記事制作ルール
 
-新規記事では `decoration.json` を作成し、`npm run decorate -- --slug <slug>` で `article-linked.html`（なければ `article.html`）から `article-decorated.html` を生成する。
+必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://www.atarijo.com/media/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
-- H2に安定したIDを付与し、最初のH2直前に「この記事でわかること」をcapboxで追加する。
-- H3が3個以上あるH2では、H2直下の導入文直後にH3アンカーリストをcapboxで追加する。
-- 通常ulは `decoration.json` の `list_boxes` で指定されたものだけcapbox化する。仮タイトルは禁止。
+## 入力と保存
 
-## 本文マーカー適用工程（必須）
+- 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`, `wordpress_draft`。
+- 任意入力: `title`, `slug`, `category`, `tags`, `reference_urls`, `notes`, `internal_link_candidates`。
+- `target_media` 未指定時は標準値を使い、異なる値は停止する。
+- `category` と `tags` は `metadata.json` にも保存する。
+- 安全な英数字slugを生成できない場合は明示slugを要求して停止する。
 
-段落分割とリスト装飾が完了した後、`npm run decorate -- --slug <slug>` が本文構造から `decoration.json` の `markers` を自動生成・補完し、`article-decorated.html` にだけ適用する。必要に応じて `markers` を手動調整してもよいが、新規記事では手作業の追加を前提にしない。
+## 競合調査・見出し設計
 
-- 各H2セクションの導入本文 `<p>` に原則1箇所、最大2箇所のマーカーを指定する。
-- 各H3セクションの本文 `<p>` に原則1箇所、最大2箇所のマーカーを指定する。
-- 導入文、まとめ、FAQも適用対象に含める。
-- 表、リスト、見出し、リンクテキストには適用しない。本文の `<p>` 内だけに適用する。
-- 強調範囲は原則として1文全体ではなく、重要な文節または短い一文にする。
-- 同じ段落内へ複数のマーカーを連続して適用しない。
-- メリット、推奨行動、重要な判断基準、読者が実行すべき内容は positive とし、次のHTMLで出力する。
+1. メインキーワードを確定する。
+2. 関連キーワードを整理する。
+3. 上位ページを調査する。
+4. 上位ページのH2・H3を抽出する。
+5. PAAや関連質問を取得する。
+6. 類似見出しをトピック単位に統合する。
+7. 必須、推奨、独自、除外の4種類に分類する。
+8. 検索意図に合う見出し構成を作成する。
+9. 既存上位記事の単なる要約にならない独自情報を追加する。
+10. リライト・執筆後に必須トピックの充足を検証する。
 
-```html
-<span class="swl-marker mark_yellow">強調するテキスト</span>
-```
+ラッコキーワードMCPが利用可能な場合は、上位10〜20ページの見出し、関連キーワード、PAA、サジェスト、共起語、同時ランクインキーワードを取得する。利用できない場合は理由を `research.md` と `heading-analysis.md` に記録する。
 
-- 注意点、デメリット、リスク、誤解防止、契約・費用・制度上の確認事項は negative とし、次のHTMLで出力する。
+## 成果物
 
-```html
-<mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-swl-deep-01-color">強調するテキスト</mark>
-```
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。
 
-- 既存の negative 用 `<mark class="has-swl-deep-01-color">` を機械的に黄色マーカーへ置換しない。
-- `markers` で指定または自動補完された本文内の一意な文字列に positive/negative マーカーを適用する。空マーカーは禁止。
-- `decoration.json` がない場合でも、通常フローで `npm run decorate -- --slug <slug>` を実行すれば標準設定と `markers` を自動作成する。
-- `article.html` と `article-linked.html` は装飾前ソースとして扱い、マーカーを書き込まない。マーカーは `article-decorated.html` のみに出力する。
+`heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
 
-## 自動検証
+## 本文生成
 
-装飾後は `npm run check:decoration -- --slug <slug>` を実行し、PASSしない場合はWordPressへ投稿しない。検証では以下を必ず確認する。
+- WordPress投稿タイトルと本文を分離する。本文内H1は禁止。
+- 記事タイトル相当のH2を本文先頭へ重複させない。
+- 完成本文はGutenbergブロックマークアップにする。
+- 「この記事でわかること」は1回だけ生成する。
+- H2・H3には安定した重複しないIDを設定し、目次リンク先IDを実在させる。
+- 架空の口コミ、体験談、統計、料金、ランキングを生成しない。
+- 年齢、同意、個人情報、詐欺、犯罪、安全、健康、法律に関する注意を適切に扱う。
 
-- 本文を持つH2/H3セクションにマーカーがない。
-- マーカーが空。
-- 1セクションに3件以上ある。
-- 見出し、リスト、表、リンクテキスト内に入っている。
-- マーカーが入れ子になっている。
+## 外部リンク・装飾・品質
+
+外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイトURLや旧文言、target_media不一致、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値、カテゴリー解決、draft固定を検証する。
+
+## WordPress下書き
+
+WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。

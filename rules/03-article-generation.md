@@ -1,45 +1,50 @@
-# 03 記事生成
+# 出会いメディアナビ記事制作ルール
 
-`input.yml`、`metadata.json`、`research.md`、`heading-plan.md` をもとに作成する。新規記事の完成本文はMarkdownではなく、WordPressコードエディターへ貼り付けたときにブロックとして認識されるGutenbergブロックマークアップを `article.html` へ出力する。`draft.md` は作業用メモとして残してよいが、完成本文・WordPress送信用本文として扱わない。
+必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://www.atarijo.com/media/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
-## 必須入力
+## 入力と保存
 
-新規記事生成を開始する前に、`target_media`、`article_type`、`main_keyword`、`related_keywords`、`persona`、`article_purpose`、`min_word_count`、`target_word_count`、`max_word_count`（互換名。日本語の可視本文文字数として扱い、metadataでは `min_char_count`、`target_char_count`、`max_char_count` も保存）、`wordpress_draft`、`post_to_wp` が確定していることを確認する。文字数は必ず `min_word_count <= target_word_count <= max_word_count` とし、未入力・数字以外・大小関係不正の場合は生成を開始しない。デフォルトは `wordpress_draft: true`、`post_to_wp: true`、`status: draft` を自動設定する。
+- 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`, `wordpress_draft`。
+- 任意入力: `title`, `slug`, `category`, `tags`, `reference_urls`, `notes`, `internal_link_candidates`。
+- `target_media` 未指定時は標準値を使い、異なる値は停止する。
+- `category` と `tags` は `metadata.json` にも保存する。
+- 安全な英数字slugを生成できない場合は明示slugを要求して停止する。
 
-## 本文構成
+## 競合調査・見出し設計
 
-- ですます調、初心者にも理解できる15歳程度でも読める日本語で書く。
-- 結論、理由、具体例、注意点の順を基本にする。
-- 記事冒頭に「結論：」「要点：」「ポイント：」などのラベルを直接置かない。
-- 結論先出しは、ラベル化せず自然な導入文として文章内に組み込む。
-- H2直下には、章の読みどころや前提が伝わる導入文を置く。
-- 1文は原則40〜100文字を目安にし、主語と述語を近づけ、同じ語尾を3回以上連続させない。
-- 段落ごとに `<p>` タグを使い、専門用語は最初に説明する。
-- 同じ内容を繰り返さず、キーワードを不自然に詰め込まない。
-- H3直下を1段落だけで終えない。
-- 各H3は原則として2〜4段落で構成する。
-- 各H3には「端的な回答」「理由や条件」「具体例または行動」を含める。
-- 「場合があります」「確認しましょう」だけで回答を終わらせず、最後に判断基準・具体例・次の行動を明示する。
-- 複数のH3で文章量や文型を均一にしすぎず、検索意図に応じて説明量に差をつける。
-- 100文字未満で完結する内容は、独立したH3にせずリストやFAQブロックへまとめる。
-- 根拠が必要な情報は `research.md` の一次情報・信頼できる情報源に基づいて書く。
-- バイク買取MAXへの送客は自然に行い、査定額や検索順位を保証しない。
-- 架空の体験談、口コミ、料金、価格、順位を書かない。
-- メリットだけでなく注意点も説明する。
-- 導入文とまとめは原則300〜400文字を目安にする。
-- 記事全体の長さは検索意図に応じて自動決定し、目標文字数だけを満たす水増しは禁止。
-- `article.html` にH1を入れず、記事タイトルを本文へ重複して入れない。
-- PASONAは全記事へ強制せず、評判記事、サービス記事、CTAで有効な場合のみ使う。
+1. メインキーワードを確定する。
+2. 関連キーワードを整理する。
+3. 上位ページを調査する。
+4. 上位ページのH2・H3を抽出する。
+5. PAAや関連質問を取得する。
+6. 類似見出しをトピック単位に統合する。
+7. 必須、推奨、独自、除外の4種類に分類する。
+8. 検索意図に合う見出し構成を作成する。
+9. 既存上位記事の単なる要約にならない独自情報を追加する。
+10. リライト・執筆後に必須トピックの充足を検証する。
 
-## HTML
+ラッコキーワードMCPが利用可能な場合は、上位10〜20ページの見出し、関連キーワード、PAA、サジェスト、共起語、同時ランクインキーワードを取得する。利用できない場合は理由を `research.md` と `heading-analysis.md` に記録する。
 
-完成本文はWordPress標準ブロックを使ったGutenbergブロックマークアップにする。通常の段落、見出し、リスト、表、画像を安易に `wp:html` へ入れず、記事全体を1つの `wp:html` ブロックにしない。
+## 成果物
 
-- 段落: `<!-- wp:paragraph -->` と `<!-- /wp:paragraph -->` で `<p>本文</p>` を囲む。
-- H2: `<!-- wp:heading {"level":2,"anchor":"sec-01"} -->` と `<!-- /wp:heading -->` で `<h2 class="wp-block-heading" id="sec-01">見出し</h2>` を囲む。
-- H3: `<!-- wp:heading {"level":3} -->` と `<!-- /wp:heading -->` で `<h3 class="wp-block-heading">見出し</h3>` を囲む。
-- リスト: `<!-- wp:list -->` の中に `<ul class="wp-block-list">` と `<!-- wp:list-item -->` で囲んだ `<li>` を置く。
-- 表: `<!-- wp:table -->` の中に `<figure class="wp-block-table"><table><tbody>...</tbody></table></figure>` を置く。
-- 画像: `<!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->` の中に `<figure class="wp-block-image size-large"><img src="実在URL" alt="代替テキスト"/></figure>` を置き、架空のWordPressメディアIDを付けない。
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。
 
-導入文の後、最初のH2より前に「この記事でわかること」を置き、主要な全H2へのアンカーリンクを設定する。H2のidは `sec-01`、`sec-02` のように安定付与し、リンクの `href` とH2の `id`、リンクテキストとH2文言を一致させる。比較表または要点表、選び方、詳細解説、注意点、FAQ、まとめを検索意図に合わせて自然に含める。
+`heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
+
+## 本文生成
+
+- WordPress投稿タイトルと本文を分離する。本文内H1は禁止。
+- 記事タイトル相当のH2を本文先頭へ重複させない。
+- 完成本文はGutenbergブロックマークアップにする。
+- 「この記事でわかること」は1回だけ生成する。
+- H2・H3には安定した重複しないIDを設定し、目次リンク先IDを実在させる。
+- 架空の口コミ、体験談、統計、料金、ランキングを生成しない。
+- 年齢、同意、個人情報、詐欺、犯罪、安全、健康、法律に関する注意を適切に扱う。
+
+## 外部リンク・装飾・品質
+
+外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイトURLや旧文言、target_media不一致、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値、カテゴリー解決、draft固定を検証する。
+
+## WordPress下書き
+
+WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。

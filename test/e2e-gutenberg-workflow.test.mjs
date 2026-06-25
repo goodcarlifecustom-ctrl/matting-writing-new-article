@@ -26,6 +26,8 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
       const u = new URL(req.url, 'http://x');
       if (u.pathname === '/wp-json/') return res.end('{}');
       if (u.pathname === '/wp-json/wp/v2/users/me') return res.end('{"id":1}');
+      if (u.pathname === '/wp-json/wp/v2/categories') return res.end('[{"id":3,"name":"出会い系","slug":"dating"}]');
+      if (u.pathname === '/wp-json/wp/v2/tags') return res.end('[]');
       if (u.pathname === '/wp-json/wp/v2/posts' && req.method === 'GET') return res.end('[]');
       if (u.pathname === '/wp-json/wp/v2/posts' && req.method === 'POST') {
         captured = JSON.parse(body);
@@ -40,7 +42,7 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
     mkdirSync(path.join(root, 'tmp-e2e-jobs'), { recursive: true });
     const job = path.join(root, 'tmp-e2e-jobs', `${slug}.yml`);
     writeFileSync(job, [
-      'target_media: "https://poi-poi.co.jp/bike/"',
+      'target_media: "https://www.atarijo.com/media/"',
       'article_type: "比較"',
       'main_keyword: "安全 Gutenberg"',
       'related_keywords:',
@@ -53,7 +55,8 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
       'wordpress_draft: true',
       'post_to_wp: true',
       `slug: "${slug}"`,
-      'title: "安全なGutenberg記事"'
+      'title: "安全なGutenberg記事"',
+      'category: "出会い系"'
     ].join('\n') + '\n');
     npm(['run', 'create', '--', '--input', job]);
     const source = [

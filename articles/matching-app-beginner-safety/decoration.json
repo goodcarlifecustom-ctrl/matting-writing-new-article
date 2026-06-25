@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "id": "safety-basics",
+        "heading": "安全に始めるための基本"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "1286bad9bd8a76315872eb6a637a12b9ab9c9456a50842b70c6ba45067f8e5fc",
+      "tone": "positive",
+      "text": "初回は公共の場所を選び、不安がある誘いは断って構いません。"
+    }
+  ]
+}

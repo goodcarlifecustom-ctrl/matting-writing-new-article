@@ -13,7 +13,7 @@ const repo = path.resolve('.');
 async function run(args, cwd) { return execFileAsync('node', [path.join(repo,'scripts/create-article-dir.mjs'), ...args], { cwd, maxBuffer: 1024*1024 }); }
 
 test('related_keywords array/comma normalization and duplicates', () => {
-  assert.deepEqual(normalizeRelatedKeywords([' CTN　バイク  買取 口コミ ', 'CTN バイク 買取 評判', 'CTN バイク 買取 口コミ'], 'CTN バイク 買取 評判'), ['CTN バイク 買取 口コミ']);
+  assert.deepEqual(normalizeRelatedKeywords([' 安全　対策 ', 'マッチングアプリ 安全', '安全 対策'], 'マッチングアプリ 安全'), ['安全 対策']);
   assert.deepEqual(normalizeRelatedKeywords('a, b, a,, c', 'main'), ['a','b','c']);
 });
 
@@ -24,15 +24,15 @@ test('wordpress_draft conversion and default', () => {
   assert.throws(() => postToWpFromInputs({ wordpressDraft: 'false', postToWp: 'true' }), /must match/);
 });
 
-test('slug generation', () => { assert.equal(slugFromKeyword('CTN バイク買取 評判'), 'ctn-bike-kaitori-reviews'); });
+test('slug generation', () => { assert.equal(slugFromKeyword('マッチングアプリ 初心者 安全'), 'matching-app-beginner-safety'); });
 
 test('create reads main_keyword and related_keywords list, writes required files', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'workflow-'));
   try {
     await mkdir(path.join(dir,'jobs'));
-    await writeFile(path.join(dir,'jobs/in.yml'), 'main_keyword: "ネオクラシックバイク おすすめ"\nrelated_keywords:\n  - "ネオクラシックバイク 初心者"\n  - "ネオクラシックバイク 比較"\nwordpress_draft: false\ntarget_media: \"https://poi-poi.co.jp/bike/\"\narticle_type: \"比較\"\npersona: \"初心者\"\narticle_purpose: \"選び方を理解してもらう\"\nmin_word_count: 1000\ntarget_word_count: 1500\nmax_word_count: 2000\n');
+    await writeFile(path.join(dir,'jobs/in.yml'), 'main_keyword: "マッチングアプリ 初心者 安全"\nrelated_keywords:\n  - "マッチングアプリ 始め方"\n  - "出会い系 安全対策"\nwordpress_draft: false\ntarget_media: "https://www.atarijo.com/media/"\narticle_type: "ハウツー"\npersona: "成人初心者"\narticle_purpose: "安全な始め方を理解してもらう"\nmin_word_count: 1000\ntarget_word_count: 1500\nmax_word_count: 2000\n');
     await run(['--input','jobs/in.yml'], dir);
-    const articleDir = path.join(dir,'articles/neo-classic-bike-recommended');
+    const articleDir = path.join(dir,'articles/matching-app-beginner-safety');
     assert.equal(existsSync(articleDir), true);
     const input = await readFile(path.join(articleDir,'input.yml'),'utf8');
     assert.match(input, /main_keyword:/); assert.match(input, /related_keywords:/); assert.match(input, /post_to_wp: false/);
@@ -44,9 +44,9 @@ test('create reads main_keyword and related_keywords list, writes required files
 
 test('create supports comma related keywords and wordpress_draft true', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'workflow-'));
-  try { await run(['--main-keyword','CTN バイク買取 評判','--related-keywords','CTN バイク買取 口コミ,CTN バイク買取 査定','--wordpress-draft','true','--target-media','https://poi-poi.co.jp/bike/','--article-type','評判','--persona','売却検討者','--article-purpose','評判の判断材料を示す','--min-word-count','1000','--target-word-count','1500','--max-word-count','2000'], dir);
-    const input = await readFile(path.join(dir,'articles/ctn-bike-kaitori-reviews/input.yml'),'utf8');
-    assert.match(input, /post_to_wp: true/); assert.match(input, /CTN バイク買取 口コミ/);
+  try { await run(['--main-keyword','出会い系 評判','--related-keywords','出会い系 口コミ,出会い系 安全','--wordpress-draft','true','--target-media','https://www.atarijo.com/media/','--article-type','評判','--persona','成人読者','--article-purpose','安全な判断材料を示す','--min-word-count','1000','--target-word-count','1500','--max-word-count','2000'], dir);
+    const input = await readFile(path.join(dir,'articles/dating-app-reviews/input.yml'),'utf8');
+    assert.match(input, /post_to_wp: true/); assert.match(input, /出会い系 口コミ/);
   } finally { await rm(dir,{recursive:true,force:true}); }
 });
 

@@ -27,7 +27,7 @@ function tmpArticle(slug,postToWp=true){const d=path.join(root,'articles',slug);
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p><span class="swl-marker mark_yellow">本文です。</span></p>
-<!-- /wp:paragraph -->`; writeFileSync(path.join(d,'article-decorated.html'),html); writeFileSync(path.join(d,'metadata.json'),JSON.stringify({title:'テスト記事',slug,target_keyword:'x',related_keywords:['y'],status:'draft',post_to_wp:postToWp,wordpress_draft_id:null,wordpress_draft_url:null},null,2)); return d;}
+<!-- /wp:paragraph -->`; writeFileSync(path.join(d,'article-decorated.html'),html); writeFileSync(path.join(d,'metadata.json'),JSON.stringify({title:'テスト記事',slug,target_keyword:'x',related_keywords:['y'],status:'draft',post_to_wp:postToWp,wordpress_draft_id:null,wordpress_draft_url:null,category:'出会い系',tags:[]},null,2)); return d;}
 async function server(handler){const s=http.createServer(handler); await new Promise(r=>s.listen(0,'127.0.0.1',r)); return {url:`http://127.0.0.1:${s.address().port}`, close:()=>new Promise(r=>s.close(r))};}
 
 test('env validation rejects missing and production http',()=>{
@@ -39,13 +39,13 @@ test('env validation rejects missing and production http',()=>{
 
 
 test('wp env supports legacy and current variable names with normalized URLs',()=>{
- const legacy=requireWpEnv({WP_REST_ROOT:'https://poi-poi.co.jp/bike/wp-json/',WP_USERNAME:'u',WP_APP_PASSWORD:'legacy',WP_DEFAULT_STATUS:'draft'});
- assert.equal(legacy.siteUrl,'https://poi-poi.co.jp/bike');
- assert.equal(legacy.restRoot,'https://poi-poi.co.jp/bike/wp-json/');
+ const legacy=requireWpEnv({WP_REST_ROOT:'https://www.atarijo.com/media/wp-json/',WP_USERNAME:'u',WP_APP_PASSWORD:'legacy',WP_DEFAULT_STATUS:'draft'});
+ assert.equal(legacy.siteUrl,'https://www.atarijo.com/media');
+ assert.equal(legacy.restRoot,'https://www.atarijo.com/media/wp-json/');
  assert.equal(legacy.password,'legacy');
- const current=requireWpEnv({WP_SITE_URL:'https://poi-poi.co.jp/bike/',WP_USERNAME:'u',WP_APPLICATION_PASSWORD:'current'});
- assert.equal(current.siteUrl,'https://poi-poi.co.jp/bike');
- assert.equal(current.restRoot,'https://poi-poi.co.jp/bike/wp-json/');
+ const current=requireWpEnv({WP_SITE_URL:'https://www.atarijo.com/media/',WP_USERNAME:'u',WP_APPLICATION_PASSWORD:'current'});
+ assert.equal(current.siteUrl,'https://www.atarijo.com/media');
+ assert.equal(current.restRoot,'https://www.atarijo.com/media/wp-json/');
  assert.equal(current.password,'current');
  assert.ok(!current.restRoot.includes('/wp-json/wp-json/'));
 });
@@ -70,6 +70,8 @@ test('wp draft creates draft, saves metadata, updates same ID on rerun, and dry-
  const srv=await server((req,res)=>{res.setHeader('content-type','application/json'); let body=''; req.on('data',c=>body+=c); req.on('end',()=>{const u=new URL(req.url,'http://x');
   if(u.pathname==='/wp-json/') return res.end('{}');
   if(u.pathname==='/wp-json/wp/v2/users/me') return res.end('{"name":"tester"}');
+  if(u.pathname==='/wp-json/wp/v2/categories') return res.end('[{"id":3,"name":"出会い系","slug":"dating"}]');
+  if(u.pathname==='/wp-json/wp/v2/tags') return res.end('[]');
   if(u.pathname==='/wp-json/wp/v2/posts' && req.method==='GET'){const slugq=u.searchParams.get('slug'); return res.end(JSON.stringify(slugq?posts.filter(p=>p.slug===slugq):posts));}
   if(u.pathname==='/wp-json/wp/v2/posts' && req.method==='POST'){writes++; const p=JSON.parse(body); assert.equal(p.status,'draft'); const post={id:1,status:'draft',slug:p.slug,title:{raw:p.title},content:{raw:p.content}}; posts=[post]; res.statusCode=201; return res.end(JSON.stringify(post));}
   const m=u.pathname.match(/\/wp-json\/wp\/v2\/posts\/(\d+)/); if(m&&req.method==='GET') return res.end(JSON.stringify(posts.find(p=>p.id==m[1])||{}));

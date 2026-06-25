@@ -1,65 +1,50 @@
-# 06 WordPress下書き投稿ルール
+# 出会いメディアナビ記事制作ルール
 
-`post_to_wp: true` かつ `metadata.status: draft` の場合のみ、通常の新規記事完了処理では `npm run check -- --slug {slug}` のPASS後に `npm run check:decoration`、`npm run wp:doctor`、`npm run wp:draft -- --slug {slug} --confirm --adopt-existing` を自動実行する。`npm run finish -- --slug {slug}` も同じ完了処理を実行する。個別実行時も明示確認付きで `npm run wp:draft -- --slug {slug} --confirm` を実行する。公開、予約、private、pending への変更は禁止し、送信payloadの `status` はコード上で常に `draft` に固定する。
+必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://www.atarijo.com/media/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
-## 環境変数
+## 入力と保存
 
-認証情報はプロセス環境変数のみから読む。
+- 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`, `wordpress_draft`。
+- 任意入力: `title`, `slug`, `category`, `tags`, `reference_urls`, `notes`, `internal_link_candidates`。
+- `target_media` 未指定時は標準値を使い、異なる値は停止する。
+- `category` と `tags` は `metadata.json` にも保存する。
+- 安全な英数字slugを生成できない場合は明示slugを要求して停止する。
 
-- `WP_SITE_URL`
-- `WP_USERNAME`
-- `WP_APPLICATION_PASSWORD`
+## 競合調査・見出し設計
 
-WordPress Application Passwordを使用し、通常のログインパスワードを保存・記録しない。`.env` はGit管理しない。Authorizationヘッダー、Application Password、nonce、認証情報をmetadata、wp-result、check-report、ログ、fixtureへ出力しない。
+1. メインキーワードを確定する。
+2. 関連キーワードを整理する。
+3. 上位ページを調査する。
+4. 上位ページのH2・H3を抽出する。
+5. PAAや関連質問を取得する。
+6. 類似見出しをトピック単位に統合する。
+7. 必須、推奨、独自、除外の4種類に分類する。
+8. 検索意図に合う見出し構成を作成する。
+9. 既存上位記事の単なる要約にならない独自情報を追加する。
+10. リライト・執筆後に必須トピックの充足を検証する。
 
-## 接続確認
+ラッコキーワードMCPが利用可能な場合は、上位10〜20ページの見出し、関連キーワード、PAA、サジェスト、共起語、同時ランクインキーワードを取得する。利用できない場合は理由を `research.md` と `heading-analysis.md` に記録する。
 
-書き込み前に必要に応じて `npm run wp:doctor` を実行し、次を確認する。
+## 成果物
 
-1. `WP_SITE_URL` と `/wp-json/` に接続できる
-2. Application Passwordで `wp/v2/users/me?context=edit` を取得できる
-3. `wp/v2/posts` エンドポイントへ認証付きでアクセスできる
-4. 失敗時も秘密情報を出力しない
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。
 
-HTTPSサイトだけを原則許可し、localhost等の開発環境以外のHTTPサイトへ認証情報を送らない。認証付きリクエストのリダイレクト先originが `WP_SITE_URL` と異なる場合は停止する。
+`heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
 
-## 投稿前チェック
+## 本文生成
 
-`wp:draft` は書き込み前に以下を実行し、失敗時はWordPress APIへ書き込みリクエストを送らない。
+- WordPress投稿タイトルと本文を分離する。本文内H1は禁止。
+- 記事タイトル相当のH2を本文先頭へ重複させない。
+- 完成本文はGutenbergブロックマークアップにする。
+- 「この記事でわかること」は1回だけ生成する。
+- H2・H3には安定した重複しないIDを設定し、目次リンク先IDを実在させる。
+- 架空の口コミ、体験談、統計、料金、ランキングを生成しない。
+- 年齢、同意、個人情報、詐欺、犯罪、安全、健康、法律に関する注意を適切に扱う。
 
-1. `npm run check -- --slug {slug}`
-2. `npm run check:decoration -- --slug {slug}`
+## 外部リンク・装飾・品質
 
-投稿元は必ず `articles/{slug}/article-decorated.html` とし、`article.html`、`article-linked.html`、`draft.md` へフォールバックしない。
+外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイトURLや旧文言、target_media不一致、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値、カテゴリー解決、draft固定を検証する。
 
-## 重複防止
+## WordPress下書き
 
-1. `metadata.wordpress_draft_id` がある場合はその投稿を取得し、statusがdraftなら同じIDを更新する。
-2. IDがない場合は同一slugを検索する。
-3. 同一slugの公開済み投稿があれば更新も新規作成もせず停止する。
-4. 同一slugの下書きが見つかった場合は、通常の新規記事完了処理では `--adopt-existing` を付けて既存draftを更新する。個別実行では `--adopt-existing` が明示された場合のみ採用する。
-5. 同一slugが複数件あれば停止する。
-
-ネットワーク切断等でmetadata更新前にWordPress側へ作成済みとなった場合も、次回実行時にslug検索で検出して重複作成を避ける。
-
-## 投稿仕様
-
-- エンドポイント: `POST {WP_SITE_URL}/wp-json/wp/v2/posts` または `POST {WP_SITE_URL}/wp-json/wp/v2/posts/{id}`
-- payload: `title`、`slug`、`content`、`status: draft`
-- title: `metadata.title`
-- slug: `metadata.slug`
-- content: `articles/{slug}/article-decorated.html` からfront matterを除去したGutenbergブロックマークアップ全文
-
-WordPress REST APIへ送信する `content` にfront matter、作業ログ、metadata、Markdown原稿、`rendered.html` 相当のレンダリング済みHTMLを混入させない。送信前にGutenbergブロックコメントの対応、H2 IDと目次リンク、重複ID、missing target、Markdown構文残存、H1混入、タイトル重複を検証する。
-
-H1を本文へ追加しない。カテゴリー、タグ、アイキャッチ、投稿者、コメント状態は明示設定がない限り変更しない。`metadata.meta_description` は `wordpress.seo_meta_key` のような明示設定がない限り未知のカスタムフィールドやexcerptへ送らない。
-
-## 投稿後検証と記録
-
-投稿後は `context=edit` で再取得し、ID、status、slug、title.raw、content.raw、H2/H3順序、table件数、id属性、SWELLブロックコメント、class属性、marker/mark、外部リンクhrefを検証する。改行コード差以外の本文改変は `CONTENT_MISMATCH` として失敗扱いにする。
-
-成功時は `metadata.json` をatomic renameで更新し、`wordpress_draft_id`、`wordpress_draft_url`、`wordpress_status: draft`、`wordpress_last_synced_at`、`wordpress_content_sha256` を保存する。`wp-result.md` には実行日時、created/updated/adopted、投稿ID、編集URL、status、title、slug、投稿元ファイル、SHA-256、本文検証、SEOメタディスクリプション結果、投稿前チェック結果、警告、エラーを記録する。
-
-## dry-run
-
-`npm run wp:draft -- --slug {slug} --dry-run` はmetadata、投稿元、投稿前チェック、title、slug、status、content SHA-256、作成/更新判定に必要な情報、必須環境変数名を表示する。WordPressへの作成・更新リクエスト、metadata更新、wp-result更新は行わない。
+WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。
