@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "id": "section-01",
+        "heading": "マッチングアプリの初デートは「会うか判断する場」と考える"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d1a9518327e72ba4c35958db110e68d21be4c9464143cb6a8137e33767d96437",
+      "tone": "positive",
+      "text": "初デートを「相手に気に入られなければならない日」と考えると、違和感があっても我慢しやすくなります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-02",
+        "heading": "会う前に確認したい安全チェック"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "a7bf6e74637f9ee13bc6aa77aacef1983131caecfb42133357a5adf929b7947d",
+      "tone": "positive",
+      "text": "初デートの安全性は、当日だけでなく会う前の準備で大きく変わります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-03",
+        "heading": "初デートの場所と時間の選び方"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "cd512a13e8d8e831315c1a375b367be8862d552c348a138cca26022d32d801b3",
+      "tone": "positive",
+      "text": "初回は、楽しさよりも帰りやすさと人目を優先しましょう。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-04",
+        "heading": "当日の会話と距離感で注意すること"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "2b17b30c0dabddaee9d38ebec51b3017492d98788aef3fc7b098f7b1b67a5fe1",
+      "tone": "positive",
+      "text": "会話は盛り上げることだけを目的にせず、安心して話せる相手かを見極める時間にしましょう。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-05",
+        "heading": "断り方と途中で帰る判断"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e6572549199aa885e0bb25a08be54413b56d20770758ca8794f969269c6c5f32",
+      "tone": "positive",
+      "text": "断ることは失礼ではありません。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-06",
+        "heading": "トラブル時の相談先と証拠の残し方"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "2b6378e2149a650c88811787c7b145bc31fc50a6f2eaacf9e624daa664b648b7",
+      "tone": "positive",
+      "text": "金銭要求、投資・副業勧誘、個人情報の悪用、脅し、性的な強要、ストーカーの不安がある場合は、一人で抱え込まないことが大切です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-07",
+        "heading": "まとめ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "80dc0962cf45cc027b7beeca722ce9c35d29052cf84555f4722807f8ac2bd05f",
+      "tone": "positive",
+      "text": "マッチングアプリの初デートで大切なのは、相手を属性で決めつけることではなく、会う前から当日までの行動を見て安全に判断することです。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-01",
+        "heading": "アプリ内のやり取りで違和感を見直す"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "4d532cff34d1516070b6162c085922946fd49caf07c6347252aa49ad6bb537e6",
+      "tone": "positive",
+      "text": "会う約束をする前に、相手のプロフィールとメッセージに大きな矛盾がないか確認しましょう。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-02",
+        "heading": "個人情報は信頼関係ができるまで出さない"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "c1780fd3fa07b1c4275459abc405878a6493025b6f53cd8fe47e1beacf95925e",
+      "tone": "positive",
+      "text": "初デート前後は、本名、住所、勤務先、学校名、最寄り駅、生活圏、SNSアカウントを急いで伝えないようにしましょう。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-03",
+        "heading": "外部SNSや投資話への誘導は慎重にする"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "cf8d9e16c7c399d390e7c33e2cd1ea18014b8ccc00cdfb0cc097ee931f31c098",
+      "tone": "positive",
+      "text": "「アプリをあまり見ないからLINEで」「この投資を一緒に」「詳しい人に会わせたい」など、外部サービスや金銭の話へ早く移ろうとする場合は慎重に判断してください。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-03-01",
+        "heading": "昼間の公共の場所を選ぶ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "ee4d3f2ef3dea2de8d5ed8c2d48edf5da91cecb3b9415d581e3b53dc4067304f",
+      "tone": "positive",
+      "text": "初デートは昼間から夕方の時間帯に設定し、現地集合・現地解散にすると安全を保ちやすくなります。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-03-02",
+        "heading": "車・個室・ホテルに流れやすい予定は避ける"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e371086e2b0978bd115999f0cbaab6175a6f99a2cbce682637832ba48cd736eb",
+      "tone": "positive",
+      "text": "初対面では、相手の車に乗る、ドライブ、カラオケ、完全個室、相手の家、ホテルに近い場所を避けるのが無難です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-03-03",
+        "heading": "帰りやすさを先に確保する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "d2dda3bcc3a49a15811e0064a3d6864480f7a73dc54ad8f8b4449c35889d7b78",
+      "tone": "positive",
+      "text": "帰宅手段は事前に調べ、終電やバスの時間、タクシー乗り場、近くの交番や人通りの多い道を確認しておきましょう。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-04-01",
+        "heading": "聞きすぎない個人情報を決めておく"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f43b02ba7a19a0f15ea81504433b9f5933f1903228edf0ebd6840078378147a4",
+      "tone": "positive",
+      "text": "初対面では、相手の本名、勤務先、年収、住所、家族構成、過去の恋愛、性的な経験などに踏み込みすぎない配慮が必要です。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-04-02",
+        "heading": "飲酒やボディタッチは同意を基準にする"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "a91880060cb8726fd2d78624724fea2fac717fc98b5cd12e35b67dafdcf1c70b",
+      "tone": "positive",
+      "text": "お酒を飲む場合は、自分のペースを守り、強く勧められても断って構いません。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-04-03",
+        "heading": "違和感を小さく扱わない"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "2e9ee10dca4b2e201b830d1fca4f836e9cf5173a5ab1cc50cb5b18630a48ad3c",
+      "tone": "positive",
+      "text": "「少し怖い」「話がかみ合わない」「急に態度が変わった」と感じた時は、その感覚を無視しないでください。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-05-01",
+        "heading": "会う前に断る場合は短く明確にする"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "5b2ce2e3ff040b1cee4eac0d2002a8a0415492b839d945ad08c83138f281ac46",
+      "tone": "negative",
+      "text": "会う前に不安を感じたら、「今回は予定を見送ります」「やり取りを続ける中で会う判断ができませんでした」など、短い文で伝えましょう。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-05-02",
+        "heading": "当日に帰る時は説明より安全を優先する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "8ebf4b9a146d6ade827b6729c93a4d3f5e7563fb4ef519920b65b3bdcc5df767",
+      "tone": "positive",
+      "text": "当日に危険を感じた場合は、丁寧な説明よりその場を離れることを優先してください。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-05-03",
+        "heading": "しつこい相手は記録して通報する"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "b867d7b4a1a8d14b6930008cf24852bddaa800d01726623b96c122c7cb99873f",
+      "tone": "positive",
+      "text": "断った後に連絡が続く、脅しや晒しをほのめかす、金銭を求める、会う場所へ来ると言う場合は、やり取りを保存し、アプリ運営へ通報しましょう。"
+    }
+  ]
+}
