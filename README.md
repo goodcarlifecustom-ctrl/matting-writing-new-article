@@ -1,8 +1,8 @@
-# 出会いメディアナビ 新規SEO記事作成ワークフロー
+# Writingマッチングメディア 新規SEO記事作成ワークフロー
 
-`https://www.atarijo.com/media/` 専用の新規SEO記事をGutenbergブロックマークアップで作成し、条件を満たす場合のみWordPress下書きへ連携するワークフローです。
+`https://writing-corp.co.jp/matting/` 専用の新規SEO記事をGutenbergブロックマークアップで作成し、条件を満たす場合のみWordPress下書きへ連携するワークフローです。
 
-対象メディア標準値: `https://www.atarijo.com/media/`
+対象メディア標準値: `https://writing-corp.co.jp/matting/`
 サイト固有のコード設定は `config/site-profile.json`、編集方針は `rules/00-site-profile.md` に集約します。
 
 ## 必須入力項目
@@ -17,7 +17,7 @@
 - `max_word_count`
 - `wordpress_draft`
 
-`target_media` は未指定時に標準値を自動設定します。指定された値が `https://www.atarijo.com/media/` と異なる場合、誤投稿防止のため記事ディレクトリ作成前に停止します。
+`target_media` は未指定時に標準値を自動設定します。指定された値が `https://writing-corp.co.jp/matting/` と異なる場合、誤投稿防止のため記事ディレクトリ作成前に停止します。
 
 ## 任意項目
 
@@ -55,11 +55,11 @@ npm run wp:draft -- --slug matching-app-beginner-safety --dry-run
 
 ## WordPress環境変数
 
-`.env` は作成しません。Codex Cloud等のプロセス環境変数を使います。`WP_SITE_URL` と `WP_REST_ROOT` は両方設定可能ですが、矛盾する場合は認証情報を送信する前に停止します。推奨は `WP_SITE_URL=https://www.atarijo.com/media` です。
+`.env` は作成しません。Codex Cloud等のプロセス環境変数を使います。`WP_SITE_URL` と `WP_REST_ROOT` は両方設定可能ですが、矛盾する場合は認証情報を送信する前に停止します。推奨は `WP_SITE_URL=https://writing-corp.co.jp/matting` です。
 
 ```text
-WP_SITE_URL=https://www.atarijo.com/media
-WP_REST_ROOT=https://www.atarijo.com/media/wp-json/
+WP_SITE_URL=https://writing-corp.co.jp/matting
+WP_REST_ROOT=https://writing-corp.co.jp/matting/wp-json/
 WP_USERNAME=
 WP_APPLICATION_PASSWORD=
 ```

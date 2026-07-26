@@ -28,7 +28,7 @@ function isExcluded(url) {
   if (/\.pdf($|[?#])/.test(u)) reasons.push('PDF');
   if (/go\.jp|lg\.jp|police\.|mlit\.go\.jp/.test(u)) reasons.push('公的機関');
   if (/amazon\.|rakuten\.|yahoo\.co\.jp\/shopping/.test(u)) reasons.push('ECサイト');
-  if (/atarijo\.com\/media/.test(u)) reasons.push('対象メディア');
+  if (/writing-corp\.co\.jp\/matting/.test(u)) reasons.push('対象メディア');
   return reasons;
 }
 async function fetchHtml(url) {

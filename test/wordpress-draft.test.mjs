@@ -39,13 +39,13 @@ test('env validation rejects missing and production http',()=>{
 
 
 test('wp env supports legacy and current variable names with normalized URLs',()=>{
- const legacy=requireWpEnv({WP_REST_ROOT:'https://www.atarijo.com/media/wp-json/',WP_USERNAME:'u',WP_APP_PASSWORD:'legacy',WP_DEFAULT_STATUS:'draft'});
- assert.equal(legacy.siteUrl,'https://www.atarijo.com/media');
- assert.equal(legacy.restRoot,'https://www.atarijo.com/media/wp-json/');
+ const legacy=requireWpEnv({WP_REST_ROOT:'https://writing-corp.co.jp/matting/wp-json/',WP_USERNAME:'u',WP_APP_PASSWORD:'legacy',WP_DEFAULT_STATUS:'draft'});
+ assert.equal(legacy.siteUrl,'https://writing-corp.co.jp/matting');
+ assert.equal(legacy.restRoot,'https://writing-corp.co.jp/matting/wp-json/');
  assert.equal(legacy.password,'legacy');
- const current=requireWpEnv({WP_SITE_URL:'https://www.atarijo.com/media/',WP_USERNAME:'u',WP_APPLICATION_PASSWORD:'current'});
- assert.equal(current.siteUrl,'https://www.atarijo.com/media');
- assert.equal(current.restRoot,'https://www.atarijo.com/media/wp-json/');
+ const current=requireWpEnv({WP_SITE_URL:'https://writing-corp.co.jp/matting/',WP_USERNAME:'u',WP_APPLICATION_PASSWORD:'current'});
+ assert.equal(current.siteUrl,'https://writing-corp.co.jp/matting');
+ assert.equal(current.restRoot,'https://writing-corp.co.jp/matting/wp-json/');
  assert.equal(current.password,'current');
  assert.ok(!current.restRoot.includes('/wp-json/wp-json/'));
 });

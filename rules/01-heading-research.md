@@ -1,6 +1,6 @@
-# 出会いメディアナビ記事制作ルール
+# Writingマッチングメディア記事制作ルール
 
-必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://www.atarijo.com/media/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
+必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://writing-corp.co.jp/matting/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
 ## 入力と保存
 

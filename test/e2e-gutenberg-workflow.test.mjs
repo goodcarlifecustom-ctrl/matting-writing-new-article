@@ -42,7 +42,7 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
     mkdirSync(path.join(root, 'tmp-e2e-jobs'), { recursive: true });
     const job = path.join(root, 'tmp-e2e-jobs', `${slug}.yml`);
     writeFileSync(job, [
-      'target_media: "https://www.atarijo.com/media/"',
+      'target_media: "https://writing-corp.co.jp/matting/"',
       'article_type: "比較"',
       'main_keyword: "安全 Gutenberg"',
       'related_keywords:',

@@ -10,8 +10,8 @@ export function loadSiteProfileSync() {
 }
 export const SITE_PROFILE = loadSiteProfileSync();
 export const DEFAULT_CATEGORY = SITE_PROFILE.default_category || '未分類';
-export const DEFAULT_TARGET_MEDIA = ensureTrailingSlash(SITE_PROFILE.site_url || 'https://www.atarijo.com/media');
-export const DEFAULT_REST_ROOT = SITE_PROFILE.rest_root || 'https://www.atarijo.com/media/wp-json/';
+export const DEFAULT_TARGET_MEDIA = ensureTrailingSlash(SITE_PROFILE.site_url || 'https://writing-corp.co.jp/matting');
+export const DEFAULT_REST_ROOT = SITE_PROFILE.rest_root || 'https://writing-corp.co.jp/matting/wp-json/';
 
 export function ensureTrailingSlash(value='') { return String(value).replace(/\/+$/,'') + '/'; }
 export function normalizeMediaUrl(value='') { try { const u = new URL(value); u.hash=''; u.search=''; u.pathname=u.pathname.replace(/\/+$/,'') + '/'; return u.toString(); } catch { return ensureTrailingSlash(value); } }
