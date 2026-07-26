@@ -1,8 +1,8 @@
-# 00-site-profile: 出会いメディアナビ サイトプロファイル
+# 00-site-profile: Writingマッチングメディア サイトプロファイル
 
-- サイト名: 出会いメディアナビ
-- サイトURL: https://www.atarijo.com/media/
-- WordPress RESTルート: https://www.atarijo.com/media/wp-json/
+- サイト名: Writingマッチングメディア
+- サイトURL: https://writing-corp.co.jp/matting/
+- WordPress RESTルート: https://writing-corp.co.jp/matting/wp-json/
 - メディアの主題: 出会い系、セフレ、風俗、ナンパ、マッチング等の成人向け情報を、安全・同意・法令順守の観点を含めて解説するSEOメディア。
 - 想定読者: 成人読者。出会い・性的関係・夜のお店に関心があり、方法だけでなく危険回避、相手への配慮、料金や規約、身バレ対策を知りたい人。
 - 主な記事タイプ: ハウツー、注意点、比較、地域ガイド、サービス解説、FAQ。

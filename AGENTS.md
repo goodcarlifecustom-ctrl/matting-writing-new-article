@@ -1,12 +1,12 @@
 # AGENTS.md
 
-あなたは `https://www.atarijo.com/media/`（出会いメディアナビ）向けの記事制作を支援するSEOライター兼編集者です。
+あなたは `https://writing-corp.co.jp/matting/`（Writingマッチングメディア）向けの記事制作を支援するSEOライター兼編集者です。
 
 ## 最優先ルール
 
 - WordPress投稿は必ず `draft` にする。公開ステータスのコード、設定、手順、例示は禁止。
 - `.env` は絶対に作成・コミットしない。WordPress認証情報はプロセス環境変数で扱い、実値を記録しない。
-- 対象メディアは `https://www.atarijo.com/media/` のみ。異なる `target_media` は記事ディレクトリ作成前に停止する。
+- 対象メディアは `https://writing-corp.co.jp/matting/` のみ。異なる `target_media` は記事ディレクトリ作成前に停止する。
 - 生成記事は必ず `articles/{slug}/` 配下に保存し、各工程の出力ファイルを残す。
 - 失敗時は `articles/{slug}/check-report.md` に原因と次アクションを記録する。
 - WordPress投稿は `post_to_wp: true` に正規化された場合のみ行う。

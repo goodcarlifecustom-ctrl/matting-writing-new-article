@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "enabled": true,
+  "outline": {
+    "enabled": true,
+    "title": "【この記事でわかること】"
+  },
+  "section_navigation": {
+    "enabled": true,
+    "minimum_h3": 3,
+    "default_title": "この章でわかること",
+    "overrides": []
+  },
+  "list_boxes": [],
+  "markers": [
+    {
+      "section": {
+        "level": 2,
+        "id": "section-01",
+        "heading": "エロ通話アプリを選ぶ前に知っておきたいこと"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "ed20afd8323a2398bc8f6f6be7bb10759991d9e30ca56c1c65194b2dab6aa28d",
+      "tone": "positive",
+      "text": "本記事で扱うのは、18歳以上の成人向け通話サービスです。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-02",
+        "heading": "6サービスの比較結果"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "bf7b788a0355324975bf91c729155325720b25e4d4664c22d714dd15461864c0",
+      "tone": "positive",
+      "text": "今回の候補はTSUBAKI、Mocom、FAMU、クレア、おチャベリ、ライブでゴーゴーです。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-03",
+        "heading": "TSUBAKIの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "9af704441c0f9a484225e03d42df22975b967716c53bbdf37da7033ec36b291c",
+      "tone": "positive",
+      "text": "TSUBAKIは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-04",
+        "heading": "Mocomの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "2776c89456b23daf50c44b95a7a4e3a9543c2bd5d049fb7d619d22cbcb14ff4c",
+      "tone": "positive",
+      "text": "Mocomは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-05",
+        "heading": "FAMUの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "23cd41e7bbea83045a3202974b00a09c71224313bfa39bbd178ee2f64d892082",
+      "tone": "positive",
+      "text": "FAMUは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-06",
+        "heading": "クレアの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f543396a9de5bfe146b1616309c07aaebd76a9ec9374347945b55a6fe59539ff",
+      "tone": "positive",
+      "text": "クレアは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-07",
+        "heading": "おチャベリの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "a1205e4997503251cddff9f414afe221ea863931ddd87a55ce4c19b8409b0958",
+      "tone": "positive",
+      "text": "おチャベリは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-08",
+        "heading": "ライブでゴーゴーの特徴と確認ポイント"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f0260afbcf15aaa9f6028ca7576ef1f562aac3904b6e77d17426c5b396634aa2",
+      "tone": "positive",
+      "text": "ライブでゴーゴーは今回の比較対象として公式案内、登録画面、利用規約を確認する候補です。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-09",
+        "heading": "料金を同じ条件で比較する方法"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "01f5267089970ffa8f106a66079230d9cb9a72f3aa000426486517e34376a14e",
+      "tone": "positive",
+      "text": "ポイント制では「1ポイントの購入価格」と「1分当たりの消費ポイント」を掛けて初めて実費の目安が分かります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-10",
+        "heading": "無料ポイントを確認する5つの項目"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "e50895862d7743ef9bd0dbd4da87ea09f4629e39f0be315efa692b40d3c37137",
+      "tone": "positive",
+      "text": "無料ポイントを見る時は、付与対象、必要な手続き、付与時期、有効期限、利用できる機能の5点を確認します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-11",
+        "heading": "安全なサービスを見分けるチェックリスト"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "80193d0fa6e6ef12ec7df1b5988f8b0d3516965f96ea9d945c5839732913b561",
+      "tone": "negative",
+      "text": "安全性は「本人確認済み」という表示一つでは判断できません。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-12",
+        "heading": "通話中に個人情報を守る方法"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "ae6bb7b7d3bd6a42ce068ba0eec0c1f10d03a088b5db7961197afe039e874ae7",
+      "tone": "positive",
+      "text": "個人情報は短い会話でも本人特定につながります。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-13",
+        "heading": "同意と年齢確認で守るべき線引き"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "0d76edb36244b45b77ea73b23c626758525bd6978fb7e1b150a9fe36aa9e9977",
+      "tone": "positive",
+      "text": "成人向けサービスでも、登録したことがあらゆる会話への同意を意味するわけではありません。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-14",
+        "heading": "詐欺・高額課金・脅迫を避ける"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "1d085eef9d89aa767dabac18ea2264fad65f57921588aa1106678a470fafea18",
+      "tone": "positive",
+      "text": "通話後の不審な金銭要求には応じないでください。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-15",
+        "heading": "自分に合うサービスの選び方"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "4a0ca448910b48e9e14b1e537ffcb7c02b9a5d9930e26ffe0e9465576127c47f",
+      "tone": "positive",
+      "text": "音声だけを希望するなら、カメラを使わずに登録から通話まで完結できるかを確認します。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-16",
+        "heading": "よくある質問"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "f0774631c7103567768e28bf32e9ce438df223ceb87ccd5ecbed75f61633449b",
+      "tone": "positive",
+      "text": "無料ポイントだけで利用できますか。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "section-17",
+        "heading": "まとめ"
+      },
+      "paragraph_index": 0,
+      "paragraph_text_sha256": "ce7059f8fb2d5fa0d1d17691a3211be84394939b8c42fc635fbac7ac5894ad36",
+      "tone": "positive",
+      "text": "比較では、刺激的な広告や無料という言葉を優先しません。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-01",
+        "heading": "TSUBAKIの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-02",
+        "heading": "Mocomの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-03",
+        "heading": "FAMUの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-04",
+        "heading": "クレアの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-05",
+        "heading": "おチャベリの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    },
+    {
+      "section": {
+        "level": 3,
+        "id": "section-02-06",
+        "heading": "ライブでゴーゴーの公式情報"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "1b54c5e02bee185a3bb7a648b788ad48c419fd2b2c5c92e1a63a151b373067c9",
+      "tone": "positive",
+      "text": "公式アプリストアへの導線が表示される場合は、開発元名を照合します。"
+    }
+  ]
+}

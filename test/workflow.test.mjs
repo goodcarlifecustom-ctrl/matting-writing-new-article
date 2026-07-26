@@ -30,7 +30,7 @@ test('create reads main_keyword and related_keywords list, writes required files
   const dir = await mkdtemp(path.join(tmpdir(), 'workflow-'));
   try {
     await mkdir(path.join(dir,'jobs'));
-    await writeFile(path.join(dir,'jobs/in.yml'), 'main_keyword: "マッチングアプリ 初心者 安全"\nrelated_keywords:\n  - "マッチングアプリ 始め方"\n  - "出会い系 安全対策"\nwordpress_draft: false\ntarget_media: "https://www.atarijo.com/media/"\narticle_type: "ハウツー"\npersona: "成人初心者"\narticle_purpose: "安全な始め方を理解してもらう"\nmin_word_count: 1000\ntarget_word_count: 1500\nmax_word_count: 2000\n');
+    await writeFile(path.join(dir,'jobs/in.yml'), 'main_keyword: "マッチングアプリ 初心者 安全"\nrelated_keywords:\n  - "マッチングアプリ 始め方"\n  - "出会い系 安全対策"\nwordpress_draft: false\ntarget_media: "https://writing-corp.co.jp/matting/"\narticle_type: "ハウツー"\npersona: "成人初心者"\narticle_purpose: "安全な始め方を理解してもらう"\nmin_word_count: 1000\ntarget_word_count: 1500\nmax_word_count: 2000\n');
     await run(['--input','jobs/in.yml'], dir);
     const articleDir = path.join(dir,'articles/matching-app-beginner-safety');
     assert.equal(existsSync(articleDir), true);
@@ -44,7 +44,7 @@ test('create reads main_keyword and related_keywords list, writes required files
 
 test('create supports comma related keywords and wordpress_draft true', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'workflow-'));
-  try { await run(['--main-keyword','出会い系 評判','--related-keywords','出会い系 口コミ,出会い系 安全','--wordpress-draft','true','--target-media','https://www.atarijo.com/media/','--article-type','評判','--persona','成人読者','--article-purpose','安全な判断材料を示す','--min-word-count','1000','--target-word-count','1500','--max-word-count','2000'], dir);
+  try { await run(['--main-keyword','出会い系 評判','--related-keywords','出会い系 口コミ,出会い系 安全','--wordpress-draft','true','--target-media','https://writing-corp.co.jp/matting/','--article-type','評判','--persona','成人読者','--article-purpose','安全な判断材料を示す','--min-word-count','1000','--target-word-count','1500','--max-word-count','2000'], dir);
     const input = await readFile(path.join(dir,'articles/dating-app-reviews/input.yml'),'utf8');
     assert.match(input, /post_to_wp: true/); assert.match(input, /出会い系 口コミ/);
   } finally { await rm(dir,{recursive:true,force:true}); }

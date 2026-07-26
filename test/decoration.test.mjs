@@ -5,7 +5,7 @@ import { validateDecoratedHtml } from '../scripts/decoration-utils.mjs';
 import { cpSync, readFileSync, writeFileSync, rmSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 const fixtureRoot = 'test/fixtures/decoration-article';
-const requiredCreateArgs=['--target-media','https://www.atarijo.com/media/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
+const requiredCreateArgs=['--target-media','https://writing-corp.co.jp/matting/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
 function sh(args){const patched=args[0]==='run'&&args[1]==='create'?args.concat(requiredCreateArgs):args; return execFileSync('npm',patched,{encoding:'utf8',stdio:'pipe'});}
 function prepare(slug){rmSync(`articles/${slug}`,{recursive:true,force:true}); mkdirSync(`articles/${slug}`,{recursive:true}); cpSync(fixtureRoot,`articles/${slug}`,{recursive:true});}
 function cleanup(slug){rmSync(`articles/${slug}`,{recursive:true,force:true});}
