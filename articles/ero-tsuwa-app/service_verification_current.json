@@ -1,0 +1,1166 @@
+{
+  "checked_at": "2026-07-26",
+  "method_note": "検索APIは401 Unauthorized。検索APIを必須条件にせず、既知の公開情報への直接確認を試みた。確定できない項目は推測していない。",
+  "counts": {
+    "VERIFIED": 0,
+    "PARTIAL": 13,
+    "UNVERIFIED": 20
+  },
+  "services": [
+    {
+      "service": "VI-VO",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "ジュエルライブ",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "エンジェルライブ",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "マダムライブ",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Mocom",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "ガールズチャット",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "CHATPIA",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "DXLIVE",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "FANZAライブチャット",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "FAMU",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "TSUBAKI",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "CREA",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "MIYABI",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "SHION",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "kyuun",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "マダムとおしゃべり館",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "HIYORI",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Connect",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "BAMEL",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "KANADE",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "stripchat",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "HIBIKI",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Utage",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "マロン",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "イエロートーク",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "KYUNCALL",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "FrogLive",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "エレファントライブ",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Eazy",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Again",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "ライブでゴーゴー",
+      "verification_status": "PARTIAL",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "いちゃトーク",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    },
+    {
+      "service": "Secret",
+      "verification_status": "UNVERIFIED",
+      "checked_at": "2026-07-26",
+      "official_url": null,
+      "operator": null,
+      "availability": "公式情報で要確認",
+      "new_registration": "公式情報で要確認",
+      "platforms": {
+        "web": "要確認",
+        "ios": "要確認",
+        "android": "要確認"
+      },
+      "age_requirement": "18歳以上向け記事。サービス固有条件は要確認",
+      "age_verification": "要確認",
+      "identity_verification": "要確認",
+      "features": {
+        "text_chat": "要確認",
+        "voice_call": "要確認",
+        "video_call": "要確認"
+      },
+      "point_purchase_price": null,
+      "yen_per_point": null,
+      "consumption_points": {
+        "text_chat": null,
+        "voice_call": null,
+        "video_call": null
+      },
+      "initial_free_points": null,
+      "payment_methods": "要確認",
+      "withdrawal": "要確認",
+      "safety_features": "要確認",
+      "evidence_urls": [],
+      "note": "検索APIが401。現行の主要公式情報を一式確認できず、数値や運営会社を推測していない。"
+    }
+  ]
+}
