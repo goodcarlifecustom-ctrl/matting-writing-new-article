@@ -3,6 +3,7 @@ import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { argvValue, DEFAULT_TARGET_MEDIA, normalizeMediaUrl, parseScalar } from './workflow-utils.mjs';
 import { validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
+import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 
 const slug = argvValue(process.argv, 'slug');
 const mode = argvValue(process.argv, 'mode') || 'draft';
@@ -36,13 +37,6 @@ if (metadata.status !== 'draft') error('DRAFT_STATUS_UNLOCKED', 'status を draf
 if (metadata.slug && metadata.slug !== slug) error('SLUG_MISMATCH', 'CLI、ディレクトリ、metadata.jsonのslugが一致しません');
 if (normalizeMediaUrl(parseScalar(input, 'target_media') || metadata.target_media) !== normalizeMediaUrl(DEFAULT_TARGET_MEDIA)) error('WP_DESTINATION_UNKNOWN', 'WordPress投稿先が対象メディアと一致しません');
 
-function htmlHeadings(html) {
-  return [...html.matchAll(/<h([2-6])\b([^>]*)>([\s\S]*?)<\/h\1>/gi)].map((m) => ({
-    level: Number(m[1]), text: stripTags(m[3]), id: m[2].match(/\bid=["']([^"']*)["']/i)?.[1] ?? null
-  }));
-}
-function flattenApproved(items = [], out = []) { for (const item of items) { out.push({ level: Number(item.level), text: String(item.text || '').trim(), id: item.id ?? null }); flattenApproved(item.children, out); } return out; }
-
 for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) {
   const html = await read(file); if (!html) continue;
   if (/<h1\b/i.test(html)) error('H1_PRESENT', `${file} にH1があります`);
@@ -56,16 +50,33 @@ for (const file of ['article.html', 'article-linked.html', 'article-decorated.ht
   if (renderProfile === 'swell_plain_headings' && /<!--\s*wp:heading\b/i.test(html)) warning('LEGACY_HEADING_CONFLICT', `${file} にwp:headingが残っています（プレーン見出しとの混在）`);
 }
 
+const sourceArticle = await read('article.html');
+const linked = await read('article-linked.html');
 const decorated = await read('article-decorated.html');
+for (const [file, html] of [['article-linked.html', linked], ['article-decorated.html', decorated]]) {
+  if (!sourceArticle || !html) continue;
+  const differences = compareDerivedHtml(sourceArticle, html);
+  if (differences.length) error('DERIVED_CONTENT_MISMATCH', `${file}がarticle.htmlと一致しません: ${differences.join('、')}`, 'article.htmlの本文を変えず、リンク追加または装飾工程をやり直してください。');
+  else pass(`${file}の可視本文・見出し・FAQ・内部アンカー・表を維持しています`);
+}
 if (existsSync(path.join(dir, 'approved_outline.json')) && decorated) {
   try {
     const approved = JSON.parse(await read('approved_outline.json'));
-    const expected = flattenApproved(approved.headings);
-    const actual = htmlHeadings(decorated).filter((h) => h.level <= 3);
+    const expected = canonicalHeadings(approved);
+    await writeFile(path.join(dir, 'canonical-headings.json'), JSON.stringify(expected, null, 2) + '\n');
+    const actual = htmlHeadingStructure(decorated);
     if (JSON.stringify(actual) !== JSON.stringify(expected)) error('APPROVED_OUTLINE_MISMATCH', 'article-decorated.htmlの見出しレベル・文言・IDがapproved_outline.jsonと一致しません', '承認済み見出しを変更せず本文側を復元してください。');
-    else pass('承認済み見出しのレベル・文言・ID・順序を維持しています');
+    else pass('承認済み見出しのレベル・文言・ID・親子関係・順序・件数を維持しています');
   } catch (e) { error('APPROVED_OUTLINE_INVALID', `approved_outline.jsonを検証できません: ${e.message}`); }
 }
+
+const rejectInternalStatusTerms = parseScalar(input, 'reject_internal_status_terms') ?? metadata.reader_content_policy?.reject_internal_status_terms;
+const readerPolicy = {
+  max_warning_boxes: parseScalar(input, 'max_warning_boxes') ?? metadata.reader_content_policy?.max_warning_boxes,
+  max_unverified_markers: parseScalar(input, 'max_unverified_markers') ?? metadata.reader_content_policy?.max_unverified_markers,
+  reject_internal_status_terms: rejectInternalStatusTerms === undefined ? true : !['false', '0', 'no', 'off'].includes(String(rejectInternalStatusTerms).toLowerCase())
+};
+for (const message of lintReaderContent(decorated, readerPolicy)) error('READER_CONTENT_LINT', message, '内部ステータスや反復した注意書きを読者向け本文から除いてください。');
 
 const research = await read('research.md');
 const sourceUncertain = /\b(PARTIAL|ACCESS_BLOCKED|HTTP\s*(?:000|401|403))\b/i.test(research);
