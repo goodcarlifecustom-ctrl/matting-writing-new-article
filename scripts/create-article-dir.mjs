@@ -47,6 +47,8 @@ const tags = parseList(inputText, 'tags');
 const internalLinkCandidates = parseList(inputText, 'internal_link_candidates');
 const referenceUrls = parseList(inputText, 'reference_urls');
 const notes = valueFrom(inputText, 'notes') || parseScalar(inputText, 'notes') || '';
+const renderProfile = normalizeSpaces(valueFrom(inputText, 'render_profile') || 'swell_plain_headings');
+if (renderProfile !== 'swell_plain_headings') { console.error('render_profile must be swell_plain_headings.'); process.exit(1); }
 const inputYml = [
   `main_keyword: ${yamlString(mainKeyword)}`,
   'related_keywords:', yamlList(relatedKeywords),
@@ -55,12 +57,13 @@ const inputYml = [
   `category: ${yamlString(category)}`,
   'tags:', yamlList(tags),
   `target_media: ${yamlString(targetMedia)}`,
+  `render_profile: ${renderProfile}`,
   'internal_link_candidates:', yamlList(internalLinkCandidates),
   'reference_urls:', yamlList(referenceUrls),
   `wordpress_draft: ${postToWp ? 'true' : 'false'}`, `post_to_wp: ${postToWp ? 'true' : 'false'}`, 'status: draft', `created_at: ${yamlString(now)}`, `notes: ${yamlString(notes)}`
 ].join('\n') + '\n';
 await writeFile(path.join(dir, 'input.yml'), inputYml, 'utf8');
-const metadata = { title: title === 'auto' ? null : title, slug, meta_description: null, target_keyword: mainKeyword, related_keywords: relatedKeywords, search_intent: null, persona, article_type: articleType, article_purpose: articlePurpose, min_char_count: minWordCount, target_char_count: targetWordCount, max_char_count: maxWordCount, min_word_count: minWordCount, target_word_count: targetWordCount, max_word_count: maxWordCount, status: 'draft', wordpress_draft: postToWp, post_to_wp: postToWp, category, tags, target_media: targetMedia, internal_link_candidates: internalLinkCandidates, wordpress_draft_id: null, wordpress_draft_url: null, created_at: now, updated_at: now, research_date: null, notes };
+const metadata = { title: title === 'auto' ? null : title, slug, meta_description: null, target_keyword: mainKeyword, related_keywords: relatedKeywords, search_intent: null, persona, article_type: articleType, article_purpose: articlePurpose, min_char_count: minWordCount, target_char_count: targetWordCount, max_char_count: maxWordCount, min_word_count: minWordCount, target_word_count: targetWordCount, max_word_count: maxWordCount, status: 'draft', render_profile: renderProfile, wordpress_draft: postToWp, post_to_wp: postToWp, category, tags, target_media: targetMedia, internal_link_candidates: internalLinkCandidates, content_status: 'PENDING', source_verification_status: 'PENDING', decoration_status: 'PENDING', draft_readiness: 'NOT_READY', publish_readiness: 'NOT_READY', wordpress_status: 'NOT_POSTED', wordpress_draft_id: null, wordpress_draft_url: null, created_at: now, updated_at: now, research_date: null, notes };
 await writeFile(path.join(dir, 'metadata.json'), JSON.stringify(metadata, null, 2) + '\n', 'utf8');
 const decoration = { version: 1, enabled: true, outline: { enabled: true, title: '【この記事でわかること】' }, section_navigation: { enabled: true, minimum_h3: 3, default_title: 'この章でわかること', overrides: [] }, list_boxes: [], markers: [] };
 await writeFile(path.join(dir, 'decoration.json'), JSON.stringify(decoration, null, 2) + '\n', 'utf8');

@@ -49,9 +49,15 @@ tags:
 npm run create -- --input jobs/sample-new-article.yml
 npm test
 npm run check -- --slug matching-app-beginner-safety
+npm run check:draft -- --slug matching-app-beginner-safety
+npm run check:publish -- --slug matching-app-beginner-safety
 npm run wp:doctor
 npm run wp:draft -- --slug matching-app-beginner-safety --dry-run
 ```
+
+`check:draft` は下書き作成を危険にする構造・安全性・投稿設定だけをERRORにし、情報再確認や軽微な文字数・装飾不足はWARNINGとして `DRAFT_READY` を維持します。`check:publish` は同じWARNINGを公開前ブロッカーとして扱います。結果は `metadata.json` の `content_status`、`source_verification_status`、`decoration_status`、`draft_readiness`、`publish_readiness`、`wordpress_status` に分離して保存します。
+
+標準の `render_profile: swell_plain_headings` ではH2〜H6をプレーンHTMLとして扱い、`wp:heading` コメントを要求しません。段落・リスト・表などのGutenberg/SWELL構造検証は継続します。`approved_outline.json` がある記事では、見出しのレベル・文言・ID・順序を完全一致で検証し、記事本文へ検証用の注意書きを自動挿入しません。
 
 ## WordPress環境変数
 
