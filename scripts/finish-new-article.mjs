@@ -48,7 +48,7 @@ Completed local-only article workflow for ${slug}; WordPress draft sync skipped 
       return;
     }
     await run('wordpress doctor', ['run', 'wp:doctor']);
-    await run('wordpress draft', ['run', 'wp:draft', '--', '--slug', slug, '--confirm', '--adopt-existing']);
+    await run('wordpress draft', ['run', 'wp:draft', '--', '--slug', slug, '--confirm']);
     console.log(`
 Completed article workflow and WordPress draft sync for ${slug}`);
   } catch (error) {

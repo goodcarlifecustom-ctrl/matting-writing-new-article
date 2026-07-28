@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from '../scripts/content-integrity.mjs';
+import { canonicalHeadings, compareDerivedHtml, compareSemanticHtml, htmlHeadingStructure, lintReaderContent, semanticSnapshot } from '../scripts/content-integrity.mjs';
 
 test('canonical headings include nested H2-H6, FAQ, conclusion, ids and parents', () => {
   const approved = {
@@ -30,6 +30,16 @@ test('derived comparison ignores generated SWELL navigation', () => {
   const source = '<h2 id="a">案内</h2><p>本文です。</p>';
   const decorated = '<div class="swell-block-capbox"><div>【この記事でわかること】</div><ul><li><a href="#a">案内</a></li></ul></div>' + source;
   assert.deepEqual(compareDerivedHtml(source, decorated), []);
+});
+
+test('semantic snapshot tolerates serialization changes and reports precise content drift',()=>{
+ const source='<h2 id="a" class="one">案内</h2><p title="x">本文 &amp; 説明</p><table><tr><td>値</td></tr></table><a href="#a">戻る</a><section id="faq"><h2 id="faq-title">FAQ</h2><p>回答</p></section>';
+ const normalized='<h2 class="one wp-added" id="a">案内</h2>\n<p class="wp-added" title="x">本文 &#38; 説明</p><table><tbody><tr><td>値</td></tr></tbody></table><a href="#a">戻る</a><section id="faq"><h2 id="faq-title">FAQ</h2><p>回答</p></section>';
+ assert.deepEqual(compareSemanticHtml(source,normalized),[]);
+ assert.equal(semanticSnapshot(source).headings.length,semanticSnapshot(normalized).headings.length);
+ assert.match(compareSemanticHtml(source,normalized.replace('値','変更')).join(),/可視本文|表の可視内容/);
+ assert.match(compareSemanticHtml(source,normalized.replace('回答','別回答')).join(),/可視本文|FAQ/);
+ assert.match(compareSemanticHtml(source,'').join(),/本文が空/);
 });
 
 test('reader lint rejects statuses, repeated paragraphs, warning boxes and marker excess', () => {

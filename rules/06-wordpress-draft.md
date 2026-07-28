@@ -47,4 +47,10 @@
 
 ## WordPress下書き
 
-WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。
+WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決する。未登録時は `missing_terms_policy: fail` またはその互換値 `stop` なら停止し、`create_exact` の場合だけ完全一致名で作成する。投稿ステータスは常に `draft` で、`publish`・`future` の更新は禁止する。
+
+`canonical_slug` は記事slugから変更しない。衝突時は `collision_policy` に従い、`fail` またはその互換値 `stop` は停止、`review_suffix` はレビュー用の `wordpress_slug` へ新規下書きを作成、`update_owned_draft` は `wordpress_draft_id` と `source_content_hash` のある所有下書きだけを更新する。実書き込みは `--confirm` が必須。保存後はRESTで別途再取得し、status、slug、タイトル、`content.raw` を比較してから結果を記録する。
+
+`--preflight` は認証付きGETだけを使い、ターム解決、slug衝突、予定操作を確認する。`missing_terms_policy: create_exact` でもpreflight中は作成せず、作成予定として報告する。`--dry-run`、`--preflight`、`--confirm` は同時指定しない。
+
+投稿後のREST再取得では、投稿ID、draft状態、公開日時、タイトル、WordPress slug、カテゴリー・タグID集合、本文の可視内容、H1不在、H2〜H6、FAQ、表、内部アンカーを検証する。`approved_outline.json` がある場合はcanonical見出しの文言、ID、親子関係、順序、件数を完全一致で検証する。属性順、Gutenbergコメント、無害なclass、空白・改行、自己終了タグ、等価なHTMLエンティティだけの差は許容する。失敗時は投稿ID、実status、不一致を記録し、自動公開、削除、再投稿、別slug投稿を行わない。

@@ -32,9 +32,9 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
       if (u.pathname === '/wp-json/wp/v2/posts' && req.method === 'POST') {
         captured = JSON.parse(body);
         res.statusCode = 201;
-        return res.end(JSON.stringify({ id: 42, status: 'draft', slug: captured.slug, title: { raw: captured.title }, content: { raw: captured.content } }));
+        return res.end(JSON.stringify({ id: 42, status: 'draft', slug: captured.slug, title: { raw: captured.title }, content: { raw: captured.content }, categories: captured.categories, tags: captured.tags || [] }));
       }
-      if (u.pathname === '/wp-json/wp/v2/posts/42' && req.method === 'GET') return res.end(JSON.stringify({ id: 42, status: 'draft', slug, title: { raw: '安全なGutenberg記事' }, content: { raw: captured.content } }));
+      if (u.pathname === '/wp-json/wp/v2/posts/42' && req.method === 'GET') return res.end(JSON.stringify({ id: 42, status: 'draft', slug, title: { raw: '安全なGutenberg記事' }, content: { raw: captured.content }, categories: captured.categories, tags: captured.tags || [] }));
       res.statusCode = 404; res.end('{}');
     });
   });

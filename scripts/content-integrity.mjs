@@ -71,7 +71,20 @@ function isGeneratedNavigation(node) {
   if (!classes(node).some((value) => value === 'swell-block-capbox' || value === 'cap_box')) return false;
   return /この記事でわかること|この章でわかること/.test(normalizeVisibleText(text(node)));
 }
-function semanticSnapshot(html = '') {
+function faqVisibleContent(root) {
+  const html = parse5.serialize(root), headings = [...html.matchAll(/<h([2-6])\b[^>]*>[\s\S]*?<\/h\1>/gi)], sections = [];
+  for (let index=0;index<headings.length;index++) {
+    const heading=headings[index],level=Number(heading[1]);
+    if(!/よくある質問|FAQ/i.test(normalizeVisibleText(text(parse5.parseFragment(heading[0]))))) continue;
+    const next=headings.slice(index+1).find(item=>Number(item[1])<=level);
+    const end=next?.index??html.length;
+    sections.push(normalizeVisibleText(text(parse5.parseFragment(html.slice(heading.index,end)))));
+  }
+  return sections;
+}
+
+/** Semantic HTML representation shared by derived-article and WordPress verification. */
+export function semanticSnapshot(html = '') {
   const root = parse5.parseFragment(html), visible = [], anchors = [], tables = [];
   const walk = (node, ignored = false) => {
     const skip = ignored || isGeneratedNavigation(node) || ['script', 'style', 'template'].includes(node.tagName);
@@ -84,7 +97,20 @@ function semanticSnapshot(html = '') {
     for (const child of node.childNodes || []) walk(child, skip);
   };
   walk(root);
-  return { visible: normalizeVisibleText(visible.join('')), headings: htmlHeadingStructure(html), anchors, tables };
+  return { visible: normalizeVisibleText(visible.join('')), headings: htmlHeadingStructure(html), anchors, tables, faq: faqVisibleContent(root) };
+}
+
+/** Return precise semantic differences while tolerating serialization-only HTML changes. */
+export function compareSemanticHtml(source, derived) {
+  const expected = semanticSnapshot(source), actual = semanticSnapshot(derived), differences = [];
+  const compact = (value) => normalizeVisibleText(value).replace(/\s+/g, '');
+  if (!actual.visible) differences.push('本文が空です');
+  if (compact(expected.visible) !== compact(actual.visible)) differences.push('正規化した可視本文が一致しません');
+  if (JSON.stringify(expected.headings) !== JSON.stringify(actual.headings)) differences.push('H2〜H6の文字列・ID・順序・親子関係が一致しません');
+  if (JSON.stringify(expected.anchors) !== JSON.stringify(actual.anchors)) differences.push('内部アンカーが一致しません');
+  if (JSON.stringify(expected.tables) !== JSON.stringify(actual.tables)) differences.push('表の可視内容が一致しません');
+  if (JSON.stringify(expected.faq) !== JSON.stringify(actual.faq)) differences.push('FAQが一致しません');
+  return differences;
 }
 
 export function compareDerivedHtml(source, derived) {
