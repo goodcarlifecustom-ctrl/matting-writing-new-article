@@ -76,3 +76,9 @@ test('validation fails when normal HTML blocks are not wrapped', () => {
   assert.match(errors, /ul \/ ol が wp:list/);
   assert.match(errors, /li が wp:list-item/);
 });
+
+test('swell_plain_headings accepts plain headings but keeps other block checks', () => {
+  const plain = validBase.replace(/<!-- \/?wp:heading[^>]* -->\n?/g, '');
+  assert.doesNotMatch(validateGutenbergContent(plain, { renderProfile: 'swell_plain_headings' }).errors.join('\n'), /wp:heading/);
+  assert.match(validateGutenbergContent(`${plain}\n<p>未変換</p>`, { renderProfile: 'swell_plain_headings' }).errors.join('\n'), /wp:paragraph/);
+});

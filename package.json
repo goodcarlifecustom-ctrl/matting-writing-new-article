@@ -6,7 +6,9 @@
   "scripts": {
     "create": "node scripts/create-article-dir.mjs",
     "extract": "node scripts/extract-headings.mjs",
-    "check": "node scripts/check-article.mjs",
+    "check": "node scripts/check-article.mjs --mode draft",
+    "check:draft": "node scripts/check-article.mjs --mode draft",
+    "check:publish": "node scripts/check-article.mjs --mode publish",
     "post": "node scripts/post-wordpress-draft.mjs --confirm --adopt-existing",
     "test": "node --test",
     "decorate": "node scripts/decorate-article.mjs",

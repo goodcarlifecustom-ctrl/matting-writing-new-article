@@ -215,12 +215,14 @@ function blockAttributes(content, name, index) {
   return event?.attrs || null;
 }
 
-export function validateGutenbergContent(html, { title = '' } = {}) {
+export function validateGutenbergContent(html, { title = '', renderProfile = 'gutenberg_blocks' } = {}) {
   const content = stripFrontMatter(html);
   const errors = [];
   errors.push(...validateBlockNesting(content));
   if (!/<!--\s*wp:/.test(content)) errors.push('Gutenberg block comments are missing');
-  errors.push(...findUnwrappedHtmlBlocks(content));
+  errors.push(...findUnwrappedHtmlBlocks(content).filter((message) =>
+    !(renderProfile === 'swell_plain_headings' && message.includes('h2〜h6 が wp:heading'))
+  ));
   if (/^---\s*$/m.test(content)) errors.push('front matter remains in content');
   const markdownTarget = removeExcludedForMarkdown(content).replace(/<!--[\s\S]*?-->/g, '');
   if (/^#{1,6}\s+/m.test(markdownTarget)) errors.push('Markdown headings remain');

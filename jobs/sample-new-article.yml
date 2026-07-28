@@ -9,6 +9,7 @@ min_word_count: 3000
 target_word_count: 4000
 max_word_count: 5000
 wordpress_draft: false
+render_profile: swell_plain_headings
 category: "出会い系"
 tags:
   - "安全対策"

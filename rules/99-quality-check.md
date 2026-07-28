@@ -45,6 +45,8 @@
 
 外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイトURLや旧文言、target_media不一致、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値、カテゴリー解決、draft固定を検証する。
 
+`check:draft` と `check:publish` を分離する。PARTIAL、ACCESS_BLOCKED、401・403・HTTP 000、確認日未取得、軽微な最低文字数不足、装飾・マーカー・章別ナビゲーション不足、プレーンHTML見出しと旧チェッカーの競合は下書き時WARNINGとし、本文へ注意書きとして転記しない。`approved_outline.json` がある場合はレベル・文言・ID・順序を変更しない。`render_profile: swell_plain_headings` ではプレーンHTML見出しを正式な出力とする。
+
 ## WordPress下書き
 
 WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。
