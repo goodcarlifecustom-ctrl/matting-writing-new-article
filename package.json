@@ -9,7 +9,7 @@
     "check": "node scripts/check-article.mjs --mode draft",
     "check:draft": "node scripts/check-article.mjs --mode draft",
     "check:publish": "node scripts/check-article.mjs --mode publish",
-    "post": "node scripts/post-wordpress-draft.mjs --confirm --adopt-existing",
+    "post": "node scripts/post-wordpress-draft.mjs --confirm",
     "test": "node --test",
     "decorate": "node scripts/decorate-article.mjs",
     "check:decoration": "node scripts/check-decoration.mjs",

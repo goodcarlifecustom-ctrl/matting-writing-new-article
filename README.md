@@ -53,6 +53,7 @@ npm run check:draft -- --slug matching-app-beginner-safety
 npm run check:publish -- --slug matching-app-beginner-safety
 npm run wp:doctor
 npm run wp:draft -- --slug matching-app-beginner-safety --dry-run
+npm run wp:draft -- --slug matching-app-beginner-safety --preflight
 ```
 
 `check:draft` は下書き作成を危険にする構造・安全性・投稿設定だけをERRORにし、情報再確認や軽微な文字数・装飾不足はWARNINGとして `DRAFT_READY` を維持します。`check:publish` は同じWARNINGを公開前ブロッカーとして扱います。結果は `metadata.json` の `content_status`、`source_verification_status`、`decoration_status`、`draft_readiness`、`publish_readiness`、`wordpress_status` に分離して保存します。
@@ -72,7 +73,9 @@ WP_APPLICATION_PASSWORD=
 
 ## WordPress投稿の安全条件
 
-投稿ステータスは常に `draft` です。公開済み記事は更新せず、同じslugの公開記事がある場合は停止します。同じslugの下書きが1件だけある場合のみ、明示オプション付きで安全に再利用できます。カテゴリー・タグは既存タームを一意に解決できない場合、推測で未分類へ投稿せず停止します。
+投稿ステータスは常に `draft` で、実書き込みには `--confirm` が必須です。`--dry-run` は認証や通信を行いません。`--preflight` は認証付きGETだけでターム、slug衝突、予定操作を確認し、WordPressへ書き込みません。これら3オプションは同時指定できません。`canonical_slug` は記事slugに固定し、実際の投稿slugは `wordpress_slug` に記録します。既定の `collision_policy: fail` は衝突時に停止し、従来設定の `stop` も同じ動作として受け付けます。`review_suffix` はレビュー用slugを新規作成、`update_owned_draft` はローカルの投稿IDと `source_content_hash` で所有を確認できる下書きだけを更新します。`publish`・`future` は常に更新を拒否します。
+
+カテゴリー・タグは名前またはslugの完全一致で解決します。既定の `missing_terms_policy: fail` は未登録タームで停止し、従来設定の `stop` も同じ動作として受け付けます。`create_exact` の場合だけ指定名どおりに作成します。保存後は書き込みレスポンスを信用せずREST APIで投稿を再取得し、ID、status、公開日時、slug、タイトル、カテゴリー・タグID集合、正規化した可視本文、表、FAQ、内部アンカー、canonical見出しを検証してからメタデータへ反映します。検証失敗時は投稿IDと実状態を保存しますが、自動削除、再投稿、別slug投稿は行いません。
 
 ## 競合調査・見出し設計
 
