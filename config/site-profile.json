@@ -1,11 +1,16 @@
 {
   "site_name": "Writingマッチングメディア",
-  "site_url": "https://writing-corp.co.jp/matting",
-  "rest_root": "https://writing-corp.co.jp/matting/wp-json/",
-  "default_post_type": "posts",
-  "default_status": "draft",
+  "site_url": "https://matching.writing-corp.co.jp/",
+  "wordpress_enabled": false,
+  "output_mode": "manual_copy",
+  "primary_output": "article-decorated.html",
   "default_category": "未分類",
-  "allowed_target_media": ["https://writing-corp.co.jp/matting/", "https://writing-corp.co.jp/matting"],
+  "target_media_policy": {
+    "required": false,
+    "use_default_when_omitted": true,
+    "allow_explicit_none": true,
+    "mismatch_action": "continue_without_site_context"
+  },
   "content_theme": "出会い・恋愛・成人向けサービスの情報を、安全性、同意、法令、個人情報保護に配慮して解説するSEOメディア",
   "audience": "成人読者。出会い系、セフレ、風俗、ナンパなどの情報を調べているが、安全面・法的リスク・相手への配慮も知りたい人",
   "prohibited_topics": ["未成年を性的対象にする内容", "同意のない性的行為を助長する内容", "売春・買春や違法行為を助長する内容", "個人情報の晒しやストーカー行為を助長する内容", "詐欺・なりすまし・規約違反の具体的手順"],

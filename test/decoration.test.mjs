@@ -5,10 +5,15 @@ import { validateDecoratedHtml } from '../scripts/decoration-utils.mjs';
 import { cpSync, readFileSync, writeFileSync, rmSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 const fixtureRoot = 'test/fixtures/decoration-article';
-const requiredCreateArgs=['--target-media','https://writing-corp.co.jp/matting/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
+const requiredCreateArgs=['--target-media','https://matching.writing-corp.co.jp/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
 function sh(args){const patched=args[0]==='run'&&args[1]==='create'?args.concat(requiredCreateArgs):args; return execFileSync('npm',patched,{encoding:'utf8',stdio:'pipe'});}
 function prepare(slug){rmSync(`articles/${slug}`,{recursive:true,force:true}); mkdirSync(`articles/${slug}`,{recursive:true}); cpSync(fixtureRoot,`articles/${slug}`,{recursive:true});}
 function cleanup(slug){rmSync(`articles/${slug}`,{recursive:true,force:true});}
+const temporarySlugs = ['decoration-fixture','decoration-bad','auto-marker-e2e-test','auto-marker-tone-scope-test','manual-marker-error-test','link-marker-safety-test','paragraph-index-drift-test','template-decoration-test','gutenberg-preserve-test'];
+test.after(() => {
+  temporarySlugs.forEach(cleanup);
+  for (const slug of temporarySlugs) assert.equal(existsSync(`articles/${slug}`), false, `${slug} cleanup failed`);
+});
 
 test('decorate creates ids, outline, h3 nav, capbox, markers and is idempotent without WordPress',()=>{
   const slug='decoration-fixture'; prepare(slug);
@@ -192,12 +197,19 @@ test('paragraph index drift fails instead of marking another paragraph',()=>{
   } finally { cleanup(slug); }
 });
 
-test('new article template enables decoration config with default WordPress draft posting enabled',()=>{
+test('new article template enables decoration config with local manual-copy delivery',()=>{
   const slug='template-decoration-test'; cleanup(slug);
   try {
     sh(['run','create','--','--main-keyword','テンプレート バイク','--related-keywords','テンプレート バイク 買取','--slug',slug]);
     assert.equal(JSON.parse(readFileSync(`articles/${slug}/decoration.json`)).enabled,true);
-    assert.match(readFileSync(`articles/${slug}/input.yml`,'utf8'),/post_to_wp: true/);
+    const input=readFileSync(`articles/${slug}/input.yml`,'utf8');
+    const metadata=JSON.parse(readFileSync(`articles/${slug}/metadata.json`,'utf8'));
+    assert.match(input,/post_to_wp: false/);
+    assert.match(input,/wordpress_draft: false/);
+    assert.equal(metadata.delivery_mode,'manual_copy');
+    assert.equal(metadata.primary_output,'article-decorated.html');
+    assert.equal(metadata.external_write_performed,false);
+    assert.equal(existsSync(`articles/${slug}/wp-result.md`),false);
   } finally { cleanup(slug); }
 });
 

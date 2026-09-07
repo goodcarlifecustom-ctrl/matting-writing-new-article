@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parse } from '@wordpress/block-serialization-default-parser';
 import { normalizeGutenbergBlocks, findUnwrappedHtmlBlocks } from '../scripts/gutenberg-utils.mjs';
-import { loadArticle } from '../scripts/wordpress-utils.mjs';
 
 function flatten(blocks, out = []) {
   for (const b of blocks) {
@@ -31,12 +30,13 @@ for (const slug of ['matching-app-beginner-safety']) {
   });
 }
 
-test('WordPress payload source is exactly article-decorated.html content', async () => {
+test('manual copy source is exactly article-decorated.html content', () => {
   const slug = 'matching-app-beginner-safety';
-  const decorated = readFileSync(`articles/${slug}/article-decorated.html`, 'utf8').replace(/^---\s*\n[\s\S]*?\n---\s*\n?/, '').trimStart();
-  const article = await loadArticle(slug);
-  assert.equal(article.source, `articles/${slug}/article-decorated.html`);
-  assert.equal(article.content, decorated);
-  assert.doesNotMatch(article.content, /^---/m);
-  assert.match(article.content, /<!-- wp:/);
+  const source = `articles/${slug}/article-decorated.html`;
+  const content = readFileSync(source, 'utf8');
+  assert.ok(content.trim());
+  assert.doesNotMatch(content, /^---/m);
+  assert.match(content, /<!-- wp:/);
+  assert.doesNotMatch(content, /<h1\b/i);
+  assert.equal(normalizeGutenbergBlocks(content).html, content);
 });

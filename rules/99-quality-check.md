@@ -1,12 +1,12 @@
 # Writingマッチングメディア記事制作ルール
 
-必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に、対象メディア `https://writing-corp.co.jp/matting/` 専用の記事を作成する。旧サイト固有の買取・査定・車両関連文脈は混入させない。
+必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に記事を作成する。既定の対象メディアは `https://matching.writing-corp.co.jp/` とし、旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
 ## 入力と保存
 
-- 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`, `wordpress_draft`。
-- 任意入力: `title`, `slug`, `category`, `tags`, `reference_urls`, `notes`, `internal_link_candidates`。
-- `target_media` 未指定時は標準値を使い、異なる値は停止する。
+- 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`。
+- 任意入力: `title`, `slug`, `category`, `tags`, `target_media`, `reference_urls`, `notes`, `internal_link_candidates`。
+- `target_media` の未指定・空欄時は既定値を使う。`なし`・`null`・別URLが指定されても停止せず、確認できないサイト固有情報を省略して記事生成を続ける。
 - `category` と `tags` は `metadata.json` にも保存する。
 - 安全な英数字slugを生成できない場合は明示slugを要求して停止する。
 
@@ -27,13 +27,13 @@
 
 ## 成果物
 
-`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
 
 `heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
 
 ## 本文生成
 
-- WordPress投稿タイトルと本文を分離する。本文内H1は禁止。
+- 記事タイトルと本文を分離する。本文内H1は禁止。
 - 記事タイトル相当のH2を本文先頭へ重複させない。
 - 完成本文はGutenbergブロックマークアップにする。
 - 「この記事でわかること」は1回だけ生成する。
@@ -43,10 +43,10 @@
 
 ## 外部リンク・装飾・品質
 
-外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイトURLや旧文言、target_media不一致、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値、カテゴリー解決、draft固定を検証する。
+外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイト固有の文脈、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値を検証する。`target_media` の未指定や不一致だけをエラーにしない。
 
 `check:draft` と `check:publish` を分離する。PARTIAL、ACCESS_BLOCKED、401・403・HTTP 000、確認日未取得、軽微な最低文字数不足、装飾・マーカー・章別ナビゲーション不足、プレーンHTML見出しと旧チェッカーの競合は下書き時WARNINGとし、本文へ注意書きとして転記しない。`approved_outline.json` がある場合はレベル・文言・ID・順序を変更しない。`render_profile: swell_plain_headings` ではプレーンHTML見出しを正式な出力とする。
 
-## WordPress下書き
+## 手動コピーによる受け渡し
 
-WordPress投稿は `post_to_wp: true` の記事だけ。投稿タイプは `wp/v2/types` で確認し、標準は `posts`。カテゴリー・タグは既存タームを名前またはslugで一意解決し、解決不能なら停止する。投稿ステータスは常に `draft`。公開済み記事の更新、削除、別slug投稿は禁止。投稿前後で `content.raw` を比較し、構造変化は失敗扱いにする。
+WordPressへの接続、認証、投稿、更新、削除、画像アップロードは行わない。旧入力に `wordpress_draft` や `post_to_wp` が含まれていても無効として扱い、外部書き込みを有効化しない。品質チェック後の `articles/{slug}/article-decorated.html` を利用者がWordPressのコードエディターへ手動コピーする。最終報告には同ファイルの絶対パスとリポジトリ相対パスを記載する。
