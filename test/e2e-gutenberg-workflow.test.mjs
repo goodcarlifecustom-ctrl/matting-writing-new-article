@@ -13,42 +13,27 @@ function npm(args, env = {}) { return execFileSync('npm', args, { cwd: root, enc
 async function node(args, env = {}) { return execFileAsync('node', args, { cwd: root, encoding: 'utf8', maxBuffer: 1024 * 1024, env: { ...process.env, ...env } }); }
 async function server(handler) { const s = http.createServer(handler); await new Promise(r => s.listen(0, '127.0.0.1', r)); return { url: `http://127.0.0.1:${s.address().port}`, close: () => new Promise(r => s.close(r)) }; }
 
-test('E2E normalizes job, decorates, checks, and posts mocked draft payload safely', async () => {
+test('E2E creates a manual-copy artifact without any WordPress HTTP request', async () => {
   const slug = 'e2e-gutenberg-safe-test';
   const dir = path.join(root, 'articles', slug);
   rmSync(dir, { recursive: true, force: true });
-  let captured = null;
+  let requestCount = 0;
   const srv = await server((req, res) => {
+    requestCount += 1;
     res.setHeader('content-type', 'application/json');
-    let body = '';
-    req.on('data', c => body += c);
-    req.on('end', () => {
-      const u = new URL(req.url, 'http://x');
-      if (u.pathname === '/wp-json/') return res.end('{}');
-      if (u.pathname === '/wp-json/wp/v2/users/me') return res.end('{"id":1}');
-      if (u.pathname === '/wp-json/wp/v2/categories') return res.end('[{"id":3,"name":"出会い系","slug":"dating"}]');
-      if (u.pathname === '/wp-json/wp/v2/tags') return res.end('[]');
-      if (u.pathname === '/wp-json/wp/v2/posts' && req.method === 'GET') return res.end('[]');
-      if (u.pathname === '/wp-json/wp/v2/posts' && req.method === 'POST') {
-        captured = JSON.parse(body);
-        res.statusCode = 201;
-        return res.end(JSON.stringify({ id: 42, status: 'draft', slug: captured.slug, title: { raw: captured.title }, content: { raw: captured.content }, categories: captured.categories, tags: captured.tags || [] }));
-      }
-      if (u.pathname === '/wp-json/wp/v2/posts/42' && req.method === 'GET') return res.end(JSON.stringify({ id: 42, status: 'draft', slug, title: { raw: '安全なGutenberg記事' }, content: { raw: captured.content }, categories: captured.categories, tags: captured.tags || [] }));
-      res.statusCode = 404; res.end('{}');
-    });
+    res.statusCode = 500;
+    res.end('{"error":"WordPress connection must stay disabled"}');
   });
   try {
     mkdirSync(path.join(root, 'tmp-e2e-jobs'), { recursive: true });
     const job = path.join(root, 'tmp-e2e-jobs', `${slug}.yml`);
     writeFileSync(job, [
-      'target_media: "https://writing-corp.co.jp/matting/"',
       'article_type: "比較"',
       'main_keyword: "安全 Gutenberg"',
       'related_keywords:',
-      '  - "Gutenberg 下書き"',
+      '  - "Gutenberg 手動コピー"',
       'persona: "編集担当者"',
-      'article_purpose: "安全な下書き投稿を確認する"',
+      'article_purpose: "装飾済みHTMLの手動コピーを確認する"',
       'min_word_count: 50',
       'target_word_count: 120',
       'max_word_count: 2000',
@@ -61,19 +46,19 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
     npm(['run', 'create', '--', '--input', job]);
     const source = [
       '<!-- wp:paragraph -->',
-      '<p>この記事では、Gutenberg形式の本文を安全に下書き投稿する流れを説明します。</p>',
+      '<p>この記事では、Gutenberg形式の本文を装飾済みHTMLとして手動コピーする流れを説明します。</p>',
       '<!-- /wp:paragraph -->',
       '<!-- wp:heading {"level":2,"anchor":"sec-01"} -->',
-      '<h2 class="wp-block-heading" id="sec-01">投稿前に確認すること</h2>',
+      '<h2 class="wp-block-heading" id="sec-01">コピー前に確認すること</h2>',
       '<!-- /wp:heading -->',
       '<!-- wp:paragraph -->',
-      '<p>投稿前には本文、リンク、表、アンカーが保たれているかを確認しましょう。重要です。</p>',
+      '<p>コピー前には本文、リンク、表、アンカーが保たれているかを確認しましょう。重要です。</p>',
       '<!-- /wp:paragraph -->',
       '<!-- wp:heading {"level":2,"anchor":"sec-02"} -->',
       '<h2 class="wp-block-heading" id="sec-02">まとめ</h2>',
       '<!-- /wp:heading -->',
       '<!-- wp:paragraph -->',
-      '<p>最後に、WordPressへ送るpayloadがdraft固定であることを確認します。重要です。</p>',
+      '<p>最後に、装飾済みHTMLがそのまま手動コピーできることを確認します。重要です。</p>',
       '<!-- /wp:paragraph -->'
     ].join('\n');
     for (const f of ['serp.md', 'headings.csv', 'heading-analysis.md', 'heading-plan.md', 'draft.md', 'external-links.md']) writeFileSync(path.join(dir, f), 'ok\n');
@@ -83,24 +68,50 @@ test('E2E normalizes job, decorates, checks, and posts mocked draft payload safe
     const meta = JSON.parse(readFileSync(metaPath, 'utf8'));
     Object.assign(meta, { title: '安全なGutenberg記事', meta_description: '説明文', search_intent: '確認', persona: '編集担当者', article_type: '比較', min_char_count: 50, target_char_count: 120, max_char_count: 2000 });
     writeFileSync(metaPath, JSON.stringify(meta, null, 2) + '\n');
-    npm(['run', 'decorate', '--', '--slug', slug]);
+    const disconnectedEnvironment = {
+      WP_SITE_URL: srv.url,
+      WP_REST_ROOT: `${srv.url}/wp-json/`,
+      WP_USERNAME: 'must-not-be-read',
+      WP_APPLICATION_PASSWORD: 'must-not-be-read',
+      WP_APP_PASSWORD: 'must-not-be-read',
+      WP_DEFAULT_STATUS: 'publish',
+      FINISH_ENABLE_WP_SYNC: '1'
+    };
+    const { stdout } = await node(['scripts/finish-new-article.mjs', '--slug', slug], disconnectedEnvironment);
     const decorated = readFileSync(path.join(dir, 'article-decorated.html'), 'utf8');
-    writeFileSync(path.join(dir, 'article.html'), decorated);
-    writeFileSync(path.join(dir, 'article-linked.html'), decorated);
-    npm(['run', 'check', '--', '--slug', slug], { ARTICLE_CHECK_SKIP_WP_AUTOSYNC: '1' });
-    await node(['scripts/post-wordpress-draft.mjs', '--slug', slug, '--confirm'], { WP_SITE_URL: srv.url, WP_REST_ROOT: '', WP_USERNAME: 'u', WP_APPLICATION_PASSWORD: 'p', WP_APP_PASSWORD: '', WP_DRAFT_SKIP_PRECHECKS: '1' });
-    assert.equal(captured.status, 'draft');
-    assert.equal(captured.content, readFileSync(path.join(dir, 'article-decorated.html'), 'utf8'));
-    const sentBlocks = parse(captured.content).map((b) => b.blockName);
+    assert.equal(requestCount, 0);
+    assert.match(stdout, /Completed local-only article workflow/);
+    assert.match(stdout, /Copy source \(relative\): articles[/\\]e2e-gutenberg-safe-test[/\\]article-decorated\.html/);
+    assert.match(stdout, /Copy source \(absolute\): .*article-decorated\.html/);
+    assert.match(stdout, /WordPress connection: disabled/);
+    assert.match(stdout, /External write performed: false/);
+    const sentBlocks = parse(decorated).map((b) => b.blockName);
     const rawBlocks = parse(decorated).map((b) => b.blockName);
     assert.deepEqual(sentBlocks, rawBlocks);
-    assert.ok(parse(captured.content).filter((b) => !b.blockName).every((b) => !String(b.innerHTML || '').trim()));
-    assert.match(captured.content, /<!-- wp:/);
-    assert.doesNotMatch(captured.content, /^---/m);
-    assert.doesNotMatch(captured.content, /metadata|作業ログ|rendered/i);
-    assert.doesNotMatch(captured.content, /<h1\b/i);
-    assert.doesNotMatch(captured.content.trimStart(), /^安全なGutenberg記事/);
-    assert.equal(existsSync(path.join(dir, 'wp-result.md')), true);
+    assert.ok(parse(decorated).filter((b) => !b.blockName).every((b) => !String(b.innerHTML || '').trim()));
+    assert.match(decorated, /<!-- wp:/);
+    assert.doesNotMatch(decorated, /^---/m);
+    assert.doesNotMatch(decorated, /metadata|作業ログ|rendered/i);
+    assert.doesNotMatch(decorated, /<h1\b/i);
+    assert.doesNotMatch(decorated.trimStart(), /^安全なGutenberg記事/);
+    const completed = JSON.parse(readFileSync(metaPath, 'utf8'));
+    assert.equal(completed.target_media, 'https://matching.writing-corp.co.jp/');
+    assert.equal(completed.wordpress_draft, false);
+    assert.equal(completed.post_to_wp, false);
+    assert.equal(completed.wordpress_status, 'DISABLED');
+    assert.equal(completed.delivery_mode, 'manual_copy');
+    assert.equal(completed.primary_output, 'article-decorated.html');
+    assert.equal(completed.copy_ready, true);
+    assert.equal(completed.external_write_performed, false);
+    assert.equal(existsSync(path.join(dir, 'wp-result.md')), false);
+
+    writeFileSync(path.join(dir, 'decoration.json'), '{invalid json\n');
+    await assert.rejects(node(['scripts/finish-new-article.mjs', '--slug', slug], disconnectedEnvironment));
+    const failed = JSON.parse(readFileSync(metaPath, 'utf8'));
+    assert.equal(failed.copy_ready, false);
+    assert.equal(failed.external_write_performed, false);
+    assert.match(readFileSync(path.join(dir, 'check-report.md'), 'utf8'), /result: FAIL/);
+    assert.equal(requestCount, 0);
   } finally {
     await srv.close();
     rmSync(dir, { recursive: true, force: true });

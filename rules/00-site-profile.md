@@ -1,8 +1,10 @@
 # 00-site-profile: Writingマッチングメディア サイトプロファイル
 
 - サイト名: Writingマッチングメディア
-- サイトURL: https://writing-corp.co.jp/matting/
-- WordPress RESTルート: https://writing-corp.co.jp/matting/wp-json/
+- 既定サイトURL: https://matching.writing-corp.co.jp/
+- 対象メディア入力: `target_media` は任意。未指定・空欄時は既定サイトURLを使用し、`なし`・`null`・別URLが指定されても記事生成を停止しない。
+- 出力方式: リポジトリ内で記事制作と検証を完結し、`article-decorated.html` を手動コピー用の最終成果物とする。
+- 外部処理: WordPress REST API、XML-RPC、管理画面、WP-CLIへの接続・認証・書き込み、およびWordPress以外の記事配信先への書き込みを禁止する。記事調査に必要な公開情報の読み取りと、このリポジトリへの通常のファイル保存・commit・Pull Requestは認める。
 - メディアの主題: 出会い系、セフレ、風俗、ナンパ、マッチング等の成人向け情報を、安全・同意・法令順守の観点を含めて解説するSEOメディア。
 - 想定読者: 成人読者。出会い・性的関係・夜のお店に関心があり、方法だけでなく危険回避、相手への配慮、料金や規約、身バレ対策を知りたい人。
 - 主な記事タイプ: ハウツー、注意点、比較、地域ガイド、サービス解説、FAQ。

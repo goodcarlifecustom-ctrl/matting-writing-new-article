@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { argvValue, DEFAULT_TARGET_MEDIA, normalizeMediaUrl, parseScalar } from './workflow-utils.mjs';
+import { argvValue, parseScalar } from './workflow-utils.mjs';
 import { validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
 import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 
@@ -35,7 +35,6 @@ const renderProfile = parseScalar(input, 'render_profile') || metadata.render_pr
 if (!['gutenberg_blocks', 'swell_plain_headings'].includes(renderProfile)) error('RENDER_PROFILE_UNKNOWN', `未知のrender_profileです: ${renderProfile}`);
 if (metadata.status !== 'draft') error('DRAFT_STATUS_UNLOCKED', 'status を draft に固定できません');
 if (metadata.slug && metadata.slug !== slug) error('SLUG_MISMATCH', 'CLI、ディレクトリ、metadata.jsonのslugが一致しません');
-if (normalizeMediaUrl(parseScalar(input, 'target_media') || metadata.target_media) !== normalizeMediaUrl(DEFAULT_TARGET_MEDIA)) error('WP_DESTINATION_UNKNOWN', 'WordPress投稿先が対象メディアと一致しません');
 
 for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) {
   const html = await read(file); if (!html) continue;
@@ -94,14 +93,6 @@ if (/(必ず|確実に)(出会える|会える|稼げる|成功する)|100%安�
 const adultTopic = /(成人|18歳|出会い|マッチング|エロ|性行為|ライブチャット)/.test(`${metadata.target_keyword || ''}${stripTags(decorated).slice(0, 2000)}`);
 if (adultTopic && !/(18歳以上|未成年.{0,12}(利用|禁止)|年齢確認)/.test(stripTags(decorated))) error('ADULT_SAFETY_FAIL', '成人向け記事に年齢・未成年利用防止の安全確認がありません');
 
-if (metadata.post_to_wp === true) {
-  const hasDestination = Boolean(process.env.WP_SITE_URL || process.env.WP_REST_ROOT);
-  const hasAuth = Boolean(process.env.WP_USERNAME && (process.env.WP_APPLICATION_PASSWORD || process.env.WP_APP_PASSWORD));
-  if (!hasDestination || !hasAuth) error('WP_CONFIGURATION_UNKNOWN', 'WordPress投稿先または認証が不明です');
-  if (process.env.WP_DEFAULT_STATUS && process.env.WP_DEFAULT_STATUS !== 'draft') error('DRAFT_STATUS_UNLOCKED', 'WordPress既定ステータスをdraftに固定できません');
-  if (metadata.wordpress_draft_id && !Number.isSafeInteger(Number(metadata.wordpress_draft_id))) error('UNKNOWN_OVERWRITE_RISK', '既存投稿IDを安全に特定できません');
-}
-
 const publishBlockers = mode === 'publish' ? warnings : [];
 const blocked = errors.length > 0 || publishBlockers.length > 0;
 const sourceStatus = sourceUncertain || !metadata.research_date ? 'REVERIFY_BEFORE_PUBLISH' : 'VERIFIED';
@@ -113,13 +104,20 @@ Object.assign(metadata, {
   decoration_status: decorationStatus,
   draft_readiness: errors.length ? 'NOT_READY' : 'DRAFT_READY',
   publish_readiness: errors.length || warnings.length ? 'REVERIFY_BEFORE_PUBLISH' : 'PUBLISH_READY',
-  wordpress_status: metadata.wordpress_status || (metadata.wordpress_draft_id ? 'DRAFT_EXISTS' : 'NOT_POSTED'),
+  wordpress_draft: false,
+  post_to_wp: false,
+  wordpress_status: 'DISABLED',
+  delivery_mode: 'manual_copy',
+  primary_output: 'article-decorated.html',
+  copy_ready: !blocked,
+  external_write_performed: false,
   validation_updated_at: new Date().toISOString()
 });
 if (Object.keys(metadata).length) { const tmp = path.join(dir, `.metadata-${process.pid}.tmp`); await writeFile(tmp, JSON.stringify(metadata, null, 2) + '\n'); await rename(tmp, path.join(dir, 'metadata.json')); }
 const lines = [
   '# 品質チェックレポート', '', `- slug: ${slug}`, `- mode: ${mode}`, `- result: ${blocked ? 'FAIL' : 'PASS'}`,
-  `- draft_readiness: ${metadata.draft_readiness}`, `- publish_readiness: ${metadata.publish_readiness}`, '',
+  `- draft_readiness: ${metadata.draft_readiness}`, `- publish_readiness: ${metadata.publish_readiness}`,
+  `- copy_ready: ${metadata.copy_ready}`, '- delivery_mode: manual_copy', '- copy_source: article-decorated.html', '- external_write_performed: false', '',
   '## ERROR', '', ...(errors.length ? errors.map((x) => `- [${x.code}] ${x.message}\n  - 次アクション: ${x.action}`) : ['- なし']), '',
   '## WARNING', '', ...(warnings.length ? warnings.map((x) => `- [${x.code}] ${x.message}\n  - 次アクション: ${x.action}`) : ['- なし']), '',
   '## PASS', '', ...passes.map((x) => `- ${x}`), ''
