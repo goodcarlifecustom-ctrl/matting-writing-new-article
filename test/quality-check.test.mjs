@@ -88,3 +88,42 @@ test('missing or different target_media and legacy WordPress flags do not block 
     }
   }
 });
+
+test('post-generation check blocks unsafe adult-content promotion', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const unsafe = `${paragraph('利用前に安全性を確認します。')}<h2 id="safe">安全な使い方</h2>${paragraph('18歳以上が対象です。')}${paragraph('高校生も登録できるのでおすすめです。')}${paragraph('援助交際の相手を募集できます。')}`;
+    for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), unsafe);
+    await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+    const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+    assert.match(report, /MINOR_PROMOTION/);
+    assert.match(report, /COMMERCIAL_SEX_PROMOTION/);
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});
+
+test('post-generation check accepts neutral safety FAQ boundaries', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const safe = [
+      paragraph('利用前に規約と安全性を確認します。'),
+      '<h2 id="safe">安全な使い方</h2>',
+      paragraph('18歳未満と高校生は利用できません。登録時に年齢確認があります。'),
+      '<h3 id="faq">高校生でも利用できますか？</h3>',
+      paragraph('いいえ。高校生は対象外です。'),
+      '<h3 id="rule">援助交際の相手を募集できますか？</h3>',
+      paragraph('援助交際、売春・買春を目的とする募集は禁止されています。')
+    ].join('');
+    for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), safe);
+    await writeFile(path.join(dir, 'approved_outline.json'), JSON.stringify({ headings: [{
+      level: 2, text: '安全な使い方', id: 'safe', children: [
+        { level: 3, text: '高校生でも利用できますか？', id: 'faq' },
+        { level: 3, text: '援助交際の相手を募集できますか？', id: 'rule' }
+      ]
+    }] }));
+    await runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd });
+    const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+    assert.doesNotMatch(report, /MINOR_PROMOTION|COMMERCIAL_SEX_PROMOTION|REPEATED_ADULT_SAFETY_NOTICE/);
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});

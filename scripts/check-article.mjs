@@ -4,6 +4,7 @@ import path from 'node:path';
 import { argvValue, parseScalar } from './workflow-utils.mjs';
 import { validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
 import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
+import { auditAdultSafety, repeatedAdultSafetyNotices } from './adult-safety-audit.mjs';
 
 const slug = argvValue(process.argv, 'slug');
 const mode = argvValue(process.argv, 'mode') || 'draft';
@@ -92,6 +93,12 @@ if (decorated && !/swell-block-capbox/.test(decorated)) warning('DECORATION_DENS
 if (/(必ず|確実に)(出会える|会える|稼げる|成功する)|100%安全|絶対安全/.test(stripTags(decorated))) error('HIGH_RISK_UNSUPPORTED_CLAIM', '根拠のない高リスクな保証表現があります');
 const adultTopic = /(成人|18歳|出会い|マッチング|エロ|性行為|ライブチャット)/.test(`${metadata.target_keyword || ''}${stripTags(decorated).slice(0, 2000)}`);
 if (adultTopic && !/(18歳以上|未成年.{0,12}(利用|禁止)|年齢確認)/.test(stripTags(decorated))) error('ADULT_SAFETY_FAIL', '成人向け記事に年齢・未成年利用防止の安全確認がありません');
+for (const finding of auditAdultSafety(decorated)) {
+  error(finding.code, `${finding.message}: ${finding.excerpt}`, '促進表現を削除し、必要な場合は規約・安全上の注意として中立的に説明してください。');
+}
+for (const finding of repeatedAdultSafetyNotices(decorated)) {
+  error(finding.code, finding.message, '年齢条件と年齢確認の案内は記事内の安全案内へ集約し、同じ定型警告を繰り返さないでください。');
+}
 
 const publishBlockers = mode === 'publish' ? warnings : [];
 const blocked = errors.length > 0 || publishBlockers.length > 0;
@@ -99,7 +106,7 @@ const sourceStatus = sourceUncertain || !metadata.research_date ? 'REVERIFY_BEFO
 const decorationStatus = warnings.some((x) => /DECORATION|MARKER/.test(x.code)) ? 'WARNING' : 'PASS';
 Object.assign(metadata, {
   render_profile: renderProfile,
-  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'ADULT_SAFETY_FAIL'].includes(x.code)) ? 'ERROR' : 'PASS',
+  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'ADULT_SAFETY_FAIL', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE'].includes(x.code)) ? 'ERROR' : 'PASS',
   source_verification_status: sourceStatus,
   decoration_status: decorationStatus,
   draft_readiness: errors.length ? 'NOT_READY' : 'DRAFT_READY',
