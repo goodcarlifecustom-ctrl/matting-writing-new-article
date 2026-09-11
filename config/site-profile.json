@@ -5,6 +5,12 @@
   "output_mode": "manual_copy",
   "primary_output": "article-decorated.html",
   "default_category": "未分類",
+  "source_policy": {
+    "rule_file": "rules/00-source-policy.md",
+    "config_file": "config/source-policy.json",
+    "manifest_file": "source-manifest.json",
+    "publication_default": "deny_unregistered"
+  },
   "target_media_policy": {
     "required": false,
     "use_default_when_omitted": true,

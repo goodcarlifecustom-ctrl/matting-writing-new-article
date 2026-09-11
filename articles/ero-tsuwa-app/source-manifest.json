@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "caa-consumer-hotline",
+      "url": "https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "消費者ホットライン188",
+      "claim_scope": ["課金・契約トラブルの公的相談先"],
+      "verified_at": "2026-07-26"
+    },
+    {
+      "id": "npa-romance-fraud",
+      "url": "https://www.npa.go.jp/bureau/safetylife/sos47/case/sns-romance/romance/",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "警察庁 SOS47 SNS型ロマンス詐欺",
+      "claim_scope": ["外部誘導や送金要求に関する注意喚起"],
+      "verified_at": "2026-07-26"
+    }
+  ]
+}
