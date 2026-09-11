@@ -53,13 +53,19 @@ npm run finish -- --slug matching-app-beginner-safety
 npm run check -- --slug matching-app-beginner-safety
 npm run check:draft -- --slug matching-app-beginner-safety
 npm run check:publish -- --slug matching-app-beginner-safety
+npm run check:content
 npm run check:sources
+npm run check:evidence:all
+npm run check:repository
+npm run ci
 npm test
 ```
 
 `check:draft` はローカル編集段階の検証です。情報再確認や軽微な文字数・装飾不足はWARNINGとして扱い、構造・安全性などの重大な問題だけをERRORにします。`check:publish` は人が公開前に確認するための厳格なローカル検証であり、WordPressへ接続または投稿するコマンドではありません。
 
-`check:sources` は全記事の公開領域と `source-manifest.json` を読み取り専用で照合します。Pull RequestではGitHub Actionsが `npm test` と `check:sources` を自動実行します。
+`check:content` は全記事の公開領域に制作過程の説明や反復免責がないか、`check:sources` は公開領域と `source-manifest.json`、`check:evidence:all` は口コミ根拠を、それぞれ読み取り専用で全件照合します。`check:repository` はこの3検査、`ci` はテストを含む全検査を順番に実行します。テスト用記事と全記事監査が競合しないよう、テストは直列実行します。Pull RequestではGitHub Actionsの `article-quality-gates` が `npm run ci` を自動実行します。
+
+ワークフローを置くだけではGitHub上のマージ必須条件にはなりません。`main` のRulesetまたはBranch protectionで、ステータスチェック `article-quality-gates` を必須に設定してください。必須ワークフローがスキップされて待機状態にならないよう、記事以外の変更を含む全Pull Requestで実行します。
 
 口コミ・評判・レビュー・体験談を扱う場合は、構成確定後、本文より先に `source-manifest.json` と見出しID単位の `section-evidence.json` を作成し、`npm run check:evidence -- --slug {slug} --stage pre-draft` に合格させます。個別レビューは正規App StoreまたはGoogle Playで直接確認できるもの、件数・割合・傾向などの集計表現は方法論を確認できる一次調査に限定します。公式仕様、競合まとめ、`research_only`資料、CTAで代用できません。
 

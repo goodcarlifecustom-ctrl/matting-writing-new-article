@@ -1,18 +1,35 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { validateDecoratedHtml } from '../scripts/decoration-utils.mjs';
-import { cpSync, readFileSync, writeFileSync, rmSync, mkdirSync, existsSync } from 'node:fs';
+import { cpSync, readFileSync, writeFileSync, rmSync, mkdirSync, existsSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
-const fixtureRoot = 'test/fixtures/decoration-article';
+const repoRoot = process.cwd();
+const fixtureRoot = path.join(repoRoot, 'test/fixtures/decoration-article');
+const testWorkspace = mkdtempSync(path.join(tmpdir(), 'decoration-workflow-'));
+process.chdir(testWorkspace);
 const requiredCreateArgs=['--target-media','https://matching.writing-corp.co.jp/','--article-type','テスト','--persona','テスト読者','--article-purpose','テスト目的','--min-word-count','100','--target-word-count','200','--max-word-count','10000'];
-function sh(args){const patched=args[0]==='run'&&args[1]==='create'?args.concat(requiredCreateArgs):args; return execFileSync('npm',patched,{encoding:'utf8',stdio:'pipe'});}
+const commandScripts = {
+  create: 'create-article-dir.mjs',
+  decorate: 'decorate-article.mjs',
+  'check:decoration': 'check-decoration.mjs'
+};
+function sh(args){
+  const command = args[1];
+  const delimiter = args.indexOf('--');
+  const commandArgs = delimiter >= 0 ? args.slice(delimiter + 1) : args.slice(2);
+  const patched = command === 'create' ? commandArgs.concat(requiredCreateArgs) : commandArgs;
+  return execFileSync(process.execPath, [path.join(repoRoot, 'scripts', commandScripts[command]), ...patched], { cwd: testWorkspace, encoding:'utf8',stdio:'pipe' });
+}
 function prepare(slug){rmSync(`articles/${slug}`,{recursive:true,force:true}); mkdirSync(`articles/${slug}`,{recursive:true}); cpSync(fixtureRoot,`articles/${slug}`,{recursive:true});}
 function cleanup(slug){rmSync(`articles/${slug}`,{recursive:true,force:true});}
 const temporarySlugs = ['decoration-fixture','decoration-bad','auto-marker-e2e-test','auto-marker-tone-scope-test','manual-marker-error-test','link-marker-safety-test','paragraph-index-drift-test','template-decoration-test','gutenberg-preserve-test'];
-test.after(() => {
+after(() => {
   temporarySlugs.forEach(cleanup);
   for (const slug of temporarySlugs) assert.equal(existsSync(`articles/${slug}`), false, `${slug} cleanup failed`);
+  process.chdir(repoRoot);
+  rmSync(testWorkspace, { recursive: true, force: true });
 });
 
 test('decorate creates ids, outline, h3 nav, capbox, markers and is idempotent without WordPress',()=>{

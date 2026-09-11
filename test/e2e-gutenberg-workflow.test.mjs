@@ -104,6 +104,10 @@ test('E2E creates a manual-copy artifact without any WordPress HTTP request', as
     assert.equal(completed.copy_ready, true);
     assert.equal(completed.external_write_performed, false);
     assert.equal(existsSync(path.join(dir, 'wp-result.md')), false);
+    const completedReport = readFileSync(path.join(dir, 'check-report.md'), 'utf8');
+    assert.match(completedReport, /^# 品質チェックレポート/m);
+    assert.match(completedReport, /口コミ根拠ゲート/);
+    assert.match(completedReport, /公開成果物の引用元は共通ソースポリシーに適合しています/);
 
     writeFileSync(path.join(dir, 'decoration.json'), '{invalid json\n');
     await assert.rejects(node(['scripts/finish-new-article.mjs', '--slug', slug], disconnectedEnvironment));

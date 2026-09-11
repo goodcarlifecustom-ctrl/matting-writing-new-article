@@ -62,3 +62,20 @@ test('repository policy keeps target_media optional and manual-copy delivery ena
     assert.doesNotMatch(content, new RegExp(legacyMedia.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${file} must not enforce the legacy media`);
   }
 });
+
+test('repository exposes one parity command and a stable required quality check', () => {
+  const pkg = JSON.parse(read('package.json'));
+  assert.equal(pkg.scripts['check:content'], 'node scripts/check-all-content.mjs');
+  assert.equal(pkg.scripts['check:evidence:all'], 'node scripts/check-review-evidence.mjs --all --stage verify');
+  assert.equal(pkg.scripts['check:repository'], 'npm run check:content && npm run check:sources && npm run check:evidence:all');
+  assert.equal(pkg.scripts.ci, 'npm test && npm run check:repository');
+  assert.equal(pkg.scripts.test, 'node --test --test-concurrency=1');
+
+  const workflow = read('.github/workflows/article-quality.yml');
+  assert.match(workflow, /^\s*pull_request:\s*$/m);
+  assert.match(workflow, /^\s*merge_group:\s*$/m);
+  assert.match(workflow, /^\s{2}article-quality-gates:\s*$/m);
+  assert.match(workflow, /^\s{4}name:\s*article-quality-gates\s*$/m);
+  assert.match(workflow, /^\s*- run:\s*npm run ci\s*$/m);
+  assert.doesNotMatch(workflow, /^\s*paths(?:-ignore)?:/m);
+});
