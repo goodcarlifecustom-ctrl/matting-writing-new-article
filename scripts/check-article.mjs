@@ -3,7 +3,7 @@ import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { argvValue, parseScalar, SITE_PROFILE } from './workflow-utils.mjs';
 import { findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
-import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
+import { canonicalHeadings, compareDerivedHtml, findEditorialDisclaimerOveruse, findEditorialProcessLeaks, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 import { auditAdultSafety, isAdultSafetyTopic, repeatedAdultSafetyNotices } from './adult-safety-audit.mjs';
 import { auditPublishedSources, SOURCE_POLICY, validateSourceManifest, validateSourcePolicyConfiguration } from './source-policy.mjs';
 
@@ -72,11 +72,9 @@ if (existsSync(path.join(dir, 'approved_outline.json')) && decorated) {
   } catch (e) { error('APPROVED_OUTLINE_INVALID', `approved_outline.jsonを検証できません: ${e.message}`); }
 }
 
-const rejectInternalStatusTerms = parseScalar(input, 'reject_internal_status_terms') ?? metadata.reader_content_policy?.reject_internal_status_terms;
 const readerPolicy = {
   max_warning_boxes: parseScalar(input, 'max_warning_boxes') ?? metadata.reader_content_policy?.max_warning_boxes,
-  max_unverified_markers: parseScalar(input, 'max_unverified_markers') ?? metadata.reader_content_policy?.max_unverified_markers,
-  reject_internal_status_terms: rejectInternalStatusTerms === undefined ? true : !['false', '0', 'no', 'off'].includes(String(rejectInternalStatusTerms).toLowerCase())
+  max_unverified_markers: parseScalar(input, 'max_unverified_markers') ?? metadata.reader_content_policy?.max_unverified_markers
 };
 for (const message of lintReaderContent(decorated, readerPolicy)) error('READER_CONTENT_LINT', message, '内部ステータスや反復した注意書きを読者向け本文から除いてください。');
 
@@ -101,6 +99,20 @@ for (const file of SOURCE_POLICY.published_artifacts || []) {
   publishedSourceArtifacts[file] = await read(file);
   if (!publishedSourceArtifacts[file].trim()) error('SOURCE_ARTIFACT_MISSING', `${file} がないか空のため出典検査を完了できません`, '公開成果物を完成させてから出典検査を再実行してください。');
 }
+let editorialFindingCount = 0;
+for (const [file, content] of Object.entries(publishedSourceArtifacts)) {
+  if (!content.trim()) continue;
+  for (const finding of [...findEditorialProcessLeaks(content), ...findEditorialDisclaimerOveruse(content)]) {
+    editorialFindingCount += 1;
+    const location = finding.line ? `${file}:${finding.line}` : file;
+    error(
+      finding.code,
+      `${location}: ${finding.message}: 「${finding.excerpt}」`,
+      '制作事情はresearch.mdまたはcheck-report.mdへ移し、公開成果物には読者が対象を判断するための情報だけを書いてください。'
+    );
+  }
+}
+if (editorialFindingCount === 0) pass('公開成果物に制作過程の説明や反復した免責文はありません');
 for (const finding of auditPublishedSources({
   artifacts: publishedSourceArtifacts,
   manifest: sourceManifest,
@@ -151,7 +163,7 @@ const sourceStatus = sourcePolicyFailed ? 'ERROR' : sourceUncertain || !metadata
 const decorationStatus = warnings.some((x) => /DECORATION|MARKER/.test(x.code)) ? 'WARNING' : 'PASS';
 Object.assign(metadata, {
   render_profile: renderProfile,
-  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE', ...sourcePolicyErrorCodes].includes(x.code)) ? 'ERROR' : 'PASS',
+  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'READER_CONTENT_LINT', 'EDITORIAL_PROCESS_LEAK', 'EDITORIAL_DISCLAIMER_OVERUSE', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE', ...sourcePolicyErrorCodes].includes(x.code)) ? 'ERROR' : 'PASS',
   source_verification_status: sourceStatus,
   source_policy_status: sourcePolicyFailed ? 'ERROR' : 'PASS',
   decoration_status: decorationStatus,

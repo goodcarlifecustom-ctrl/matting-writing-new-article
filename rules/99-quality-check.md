@@ -55,6 +55,20 @@
 
 `check:draft` と `check:publish` を分離する。PARTIAL、ACCESS_BLOCKED、401・403・HTTP 000、確認日未取得、軽微な最低文字数不足、装飾・マーカー・章別ナビゲーション不足、プレーンHTML見出しと旧チェッカーの競合は下書き時WARNINGとし、本文へ注意書きとして転記しない。`approved_outline.json` がある場合はレベル・文言・ID・順序を変更しない。`render_profile: swell_plain_headings` ではプレーンHTML見出しを正式な出力とする。
 
+## 公開本文と制作過程の分離
+
+`draft.md`、`article.html`、`article-linked.html`、`article-decorated.html`、`external-links.md` の可視テキストをすべて検査する。次の内容が1件でもあれば `EDITORIAL_PROCESS_LEAK` のERRORとし、記事単位の設定で無効化できない。
+
+- PARTIAL、ACCESS_BLOCKED、RESEARCH_FAIL、HTTPエラーなどの内部状態や取得失敗
+- `research.md`、`source-manifest.json`、`check-report.md`、`approved_outline.json` などの内部成果物
+- 出典・口コミ・レビューを確認、採用、不採用、掲載、使用しなかったという編集上の説明
+- 架空の投稿者や体験談を作らないという制作方針
+- 見出し固定、CTA指定、監査コード、生成・検証手順など読者に不要な制作指示
+
+「対象サービスは年代別割合を公式に公表していません」「料金は決済方法で異なる場合があります」「年齢確認は相手の身元や安全性を保証する制度ではありません」など、対象側の事実や読者に必要な注意は許可する。曖昧な単語単独ではなく、制作側の主語と編集・検証行為の組み合わせで判定する。
+
+保証・断定回避などの同型注意書きが公開成果物内で上限を超えて反復される場合は `EDITORIAL_DISCLAIMER_OVERUSE` のERRORとする。自動削除は行わず、重複する弁明を除いて読者が必要とする具体情報へ書き直す。
+
 ## 手動コピーによる受け渡し
 
 WordPressへの接続、認証、投稿、更新、削除、画像アップロードは行わない。旧入力に `wordpress_draft` や `post_to_wp` が含まれていても無効として扱い、外部書き込みを有効化しない。品質チェック後の `articles/{slug}/article-decorated.html` を利用者がWordPressのコードエディターへ手動コピーする。最終報告には同ファイルの絶対パスとリポジトリ相対パスを記載する。

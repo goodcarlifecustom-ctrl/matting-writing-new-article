@@ -128,11 +128,170 @@ function allElements(html) {
   walk(root); return nodes;
 }
 
+const READER_SEGMENT_TAGS = new Set([
+  'p', 'li', 'blockquote', 'figcaption', 'caption', 'td', 'th',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+]);
+
+function hiddenNode(node) {
+  if (['script', 'style', 'template'].includes(node?.tagName)) return true;
+  const attributes = Object.fromEntries((node?.attrs || []).map((item) => [item.name.toLowerCase(), item.value]));
+  return Object.hasOwn(attributes, 'hidden')
+    || String(attributes['aria-hidden'] || '').toLowerCase() === 'true'
+    || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/iu.test(attributes.style || '');
+}
+
+function segmentText(node, root = node, hidden = false) {
+  const nextHidden = hidden || hiddenNode(node);
+  if (nextHidden) return '';
+  if (node?.nodeName === '#text') return node.value || '';
+  return (node?.childNodes || []).map((child) => {
+    if (child !== root && child?.tagName && READER_SEGMENT_TAGS.has(child.tagName)) return '';
+    return segmentText(child, root, nextHidden);
+  }).join('');
+}
+
+function lineNumberAt(value, index) {
+  if (!Number.isInteger(index) || index < 0) return null;
+  return value.slice(0, index).split('\n').length;
+}
+
+function markdownReaderSegments(content) {
+  const mask = (value) => value.replace(/[^\n]/gu, ' ');
+  const visible = content
+    .replace(/<!--[\s\S]*?-->/gu, mask)
+    .replace(/```[\s\S]*?```/gu, mask)
+    .replace(/~~~[\s\S]*?~~~/gu, mask);
+  const segments = [];
+  const clean = (value) => normalizeVisibleText(value
+    .replace(/!\[([^\]]*)\]\([^)]*\)/gu, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/gu, '$1')
+    .replace(/^\s*(?:[-*+]\s+|\d+[.)]\s+|#{1,6}\s+)/u, '')
+    .replace(/[*_~`]/gu, ''));
+  let buffer = [], startLine = null;
+  const flush = () => {
+    const value = clean(buffer.join('\n'));
+    if (value) segments.push({ text: value, line: startLine });
+    buffer = [];
+    startLine = null;
+  };
+  for (const [index, line] of visible.split('\n').entries()) {
+    if (!line.trim()) { flush(); continue; }
+    if (/^\s*(?:[-*+]\s+|\d+[.)]\s+|#{1,6}\s+)/u.test(line)) {
+      flush();
+      const value = clean(line);
+      if (value) segments.push({ text: value, line: index + 1 });
+      continue;
+    }
+    if (startLine === null) startLine = index + 1;
+    buffer.push(line);
+  }
+  flush();
+  return segments;
+}
+
+/** Extract reader-visible paragraph, list, heading and caption units from HTML or Markdown. */
+export function readerFacingSegments(content = '') {
+  const raw = String(content);
+  const appearsToBeHtml = /<(?:p|li|blockquote|figcaption|caption|td|th|h[1-6])\b/iu.test(raw)
+    || /<!--\s*wp:/iu.test(raw);
+  if (!appearsToBeHtml) return markdownReaderSegments(raw);
+  const root = parse5.parseFragment(raw, { sourceCodeLocationInfo: true });
+  const segments = [];
+  const walk = (node, hidden = false) => {
+    const nextHidden = hidden || hiddenNode(node);
+    if (nextHidden) return;
+    if (node?.tagName && READER_SEGMENT_TAGS.has(node.tagName)) {
+      const value = normalizeVisibleText(segmentText(node));
+      if (value) {
+        const index = node.sourceCodeLocation?.startOffset ?? -1;
+        segments.push({ text: value, line: lineNumberAt(raw, index) });
+      }
+    }
+    for (const child of node?.childNodes || []) walk(child, nextHidden);
+  };
+  walk(root);
+  if (segments.length) return segments;
+  const fallback = normalizeVisibleText(segmentText(root));
+  return fallback ? [{ text: fallback, line: 1 }] : [];
+}
+
+function findingExcerpt(value, maximum = 180) {
+  const normalized = normalizeVisibleText(value);
+  return normalized.length <= maximum ? normalized : `${normalized.slice(0, maximum - 1)}…`;
+}
+
+const EDITORIAL_PROCESS_RULES = [
+  {
+    id: 'internal_status',
+    reason: '内部ステータス・監査コード',
+    pattern: /\b(?:PARTIAL|PASS_WITH_EXCEPTION|ACCESS_BLOCKED|DRAFT_READY|REVERIFY_BEFORE_PUBLISH|RESEARCH_FAIL|REVIEW_EVIDENCE_MISSING|EDITORIAL_PROCESS_LEAK|SOURCE_REVERIFY|PUBLISH_READY|NOT_READY)\b|HTTP\s*(?:000|401|403|404)|監査コード/iu
+  },
+  {
+    id: 'internal_artifact',
+    reason: '内部成果物・制作指示',
+    pattern: /(?:research\.md|source-manifest\.json|section-evidence\.json|check-report\.md|approved_outline\.json|canonical-headings\.json|draft\.md|article(?:-linked|-decorated)?\.html)|(?:承認済み|固定).{0,12}見出し|見出し.{0,12}(?:固定|変更できない)|CTA.{0,12}(?:指定|設置|追加)|(?:指定|設置|追加).{0,12}CTA|WordPress投稿停止理由/iu
+  },
+  {
+    id: 'execution_failure',
+    reason: '実行環境・取得失敗',
+    pattern: /(?:実行環境|制作環境|検索ツール|Web検索|ウェブ検索|プロキシ|ネットワーク制限).{0,40}(?:取得|接続|確認|アクセス|失敗|制限|エラー|利用でき|使え)|(?:取得|接続|アクセス).{0,24}(?:できなかった|できませんでした|失敗した).{0,24}(?:実行環境|検索ツール|Web検索|ウェブ検索|プロキシ)/iu
+  },
+  {
+    id: 'source_selection_narration',
+    reason: '出典・口コミの編集上の採否',
+    pattern: /(?:今回は|今回確認した|本記事では|当記事では|この記事では|ここでは|編集部では|筆者は|制作側).{0,120}(?:確認できな|確認できていな|確認できません|確認できた|確認済み|採用|不採用|掲載しな|掲載していな|使用しな|使用していな|取得できな|裏付けられな|一般化していな|検証した|生成した|執筆した|引用しな|推測せず|補完しな|調査した|優先した)/iu
+  },
+  {
+    id: 'source_selection_narration',
+    reason: '出典・口コミの編集上の採否',
+    pattern: /(?:口コミ|レビュー|体験談|投稿者|出典|情報源|資料|根拠).{0,48}(?:確認できな|確認できていな|未確認|採用していな|採用していません|採用しな|不採用|掲載していません|掲載しな|使用していな|使用していません|使用しな|取得できな|裏付けられな).{0,48}(?:今回は|本記事|当記事|この記事|ここでは|ため|ので|以上)/iu
+  },
+  {
+    id: 'anti_fabrication_narration',
+    reason: '架空情報を作らないという制作方針',
+    pattern: /架空.{0,24}(?:口コミ|レビュー|投稿者|体験談|料金|統計|順位).{0,40}(?:掲載|作成|生成|補完|使用).{0,12}(?:しない|しません|していない)|(?:口コミ|レビュー|投稿者|体験談).{0,24}架空.{0,32}(?:掲載|作成|生成|補完|使用).{0,12}(?:しない|しません|していない)/iu
+  },
+  {
+    id: 'evidence_gap_narration',
+    reason: '根拠不足を本文で説明する制作メモ',
+    pattern: /(?:公式仕様|公式情報|公式資料).{0,40}(?:確認できない|未確認).{0,24}(?:口コミ|レビュー)|(?:今回確認した|今回は).{0,48}(?:口コミ|レビュー|資料|出典).{0,48}(?:ない|なく|ありません|不足|採用|使用|裏付け)|(?:確認できる範囲|確認済み資料の範囲|資料(?:が|の)(?:ない|不足)(?:論点)?|根拠(?:が|の)(?:ない|不足)(?:論点)?).{0,60}(?:整理|説明|解説|回答|推測|補(?:う|わ)|示す|作らず)|(?:件数|発生数|割合).{0,24}(?:示さず|作らず|補わず)|資料.{0,16}(?:ない|ありません).{0,32}ここでは/iu
+  }
+];
+
+/** Find production notes or source-selection narration leaked into public article prose. */
+export function findEditorialProcessLeaks(content = '') {
+  const findings = [];
+  for (const segment of readerFacingSegments(content)) {
+    const matched = EDITORIAL_PROCESS_RULES.find(({ pattern }) => pattern.test(segment.text));
+    if (!matched) continue;
+    findings.push({
+      code: 'EDITORIAL_PROCESS_LEAK',
+      rule: matched.id,
+      message: `読者向け本文に${matched.reason}があります`,
+      excerpt: findingExcerpt(segment.text),
+      line: segment.line
+    });
+  }
+  return findings;
+}
+
+const EDITORIAL_DISCLAIMER_PATTERN = /(?:保証(?:でき|され|するものでは|し).{0,8}(?:ない|ありません|ません)|断定(?:でき|し).{0,8}(?:ない|ありません|ません)|(?:一つ|ひとつ)の(?:判断)?材料|参考程度|あくまで.{0,16}(?:目安|参考)|個人差があり|結果.{0,20}(?:異なり|異なる|左右され))/iu;
+
+/** Flag article-wide repetition of defensive boilerplate that crowds out direct answers. */
+export function findEditorialDisclaimerOveruse(content = '', { maximum = 5 } = {}) {
+  const segments = readerFacingSegments(content).filter(({ text: value }) => EDITORIAL_DISCLAIMER_PATTERN.test(value));
+  if (segments.length <= maximum) return [];
+  return [{
+    code: 'EDITORIAL_DISCLAIMER_OVERUSE',
+    message: `保証・断定回避などの同型注意書きが${segments.length}段落あり、上限${maximum}段落を超えています`,
+    excerpt: segments.slice(0, 2).map(({ text: value }) => findingExcerpt(value, 100)).join(' / '),
+    line: segments[0]?.line ?? null
+  }];
+}
+
 export function lintReaderContent(html = '', policy = {}) {
   const errors = [], plain = normalizeVisibleText(text(parse5.parseFragment(html)));
-  const reject = policy.reject_internal_status_terms !== false;
-  const internal = /\b(?:PARTIAL|PASS_WITH_EXCEPTION|ACCESS_BLOCKED|DRAFT_READY|REVERIFY_BEFORE_PUBLISH)\b|HTTP\s*(?:000|401|403)|検索ツール.{0,12}(?:エラー|失敗)|制作環境|検証スクリプト|WordPress投稿停止理由|情報確認日|確認できなかったため/iu;
-  if (reject && internal.test(plain)) errors.push('読者向け本文に内部検証情報があります');
   const nodes = allElements(html);
   const paragraphs = nodes.filter((node) => ['p', 'li'].includes(node.tagName)).map((node) => normalizeVisibleText(text(node))).filter((value) => value.length >= 40);
   const normalized = paragraphs.map((value) => value.replace(/[\s、。,.!！?？「」『』（）()]/g, ''));

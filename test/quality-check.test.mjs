@@ -244,3 +244,24 @@ test('reference_urls never acts as a citation allowlist', async () => {
     assert.match(await readFile(path.join(dir, 'check-report.md'), 'utf8'), /UNCLASSIFIED_CITATION_SOURCE.*draft\.md/);
   } finally { await rm(cwd, { recursive: true, force: true }); }
 });
+
+test('editorial process leakage is rejected in every published artifact and cannot be disabled per article', async () => {
+  for (const file of ['draft.md', 'article.html', 'article-linked.html', 'article-decorated.html', 'external-links.md']) {
+    const { cwd, dir } = await fixture();
+    try {
+      const leak = file.endsWith('.html')
+        ? '<!-- wp:paragraph -->\n<p>今回は公式アプリストアの個別レビューを採用していません。</p>\n<!-- /wp:paragraph -->\n\n<h2 id="safe">安全な使い方</h2>\n<!-- wp:paragraph -->\n<p>個人情報を守って利用します。</p>\n<!-- /wp:paragraph -->'
+        : '今回は公式アプリストアの個別レビューを採用していません。\n';
+      await writeFile(path.join(dir, file), leak);
+      await writeFile(path.join(dir, 'input.yml'), 'target_media: "https://matching.writing-corp.co.jp/"\nrender_profile: swell_plain_headings\nreject_internal_status_terms: false\n');
+      const metadata = JSON.parse(await readFile(path.join(dir, 'metadata.json'), 'utf8'));
+      metadata.reader_content_policy = { reject_internal_status_terms: false };
+      await writeFile(path.join(dir, 'metadata.json'), JSON.stringify(metadata));
+      await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+      const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+      assert.match(report, new RegExp(`EDITORIAL_PROCESS_LEAK.*${file.replace('.', '\\.')}`), file);
+      assert.match(report, /copy_ready: false/);
+      assert.equal(JSON.parse(await readFile(path.join(dir, 'metadata.json'), 'utf8')).content_status, 'ERROR');
+    } finally { await rm(cwd, { recursive: true, force: true }); }
+  }
+});
