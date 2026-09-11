@@ -100,6 +100,33 @@ function setAttr(attrs, k, v) { const a = attrs.find(x => x.name === k); if (a) 
 function addClass(attrs, c) { const cur = attrValue(attrs, 'class'); if (!(` ${cur} `).includes(` ${c} `)) setAttr(attrs, 'class', cur ? `${cur} ${c}` : c); }
 function block(name, attrs, inner) { return `<!-- wp:${name}${attrs ? ` ${JSON.stringify(attrs)}` : ''} -->\n${inner}\n<!-- /wp:${name} -->`; }
 
+export function enforceBlockHeadingBoundaries(html) {
+  return String(html).replace(
+    /(<!--\s*\/wp:[a-z0-9-]+(?:\/[a-z0-9-]+)?\s*-->)[ \t]*(?:\r?\n[ \t]*)?(?=<h[2-6]\b)/gi,
+    '$1\n\n'
+  );
+}
+
+export function findBlockHeadingBoundaryErrors(html) {
+  const content = stripFrontMatter(html);
+  const errors = [];
+  if (/(<!--\s*\/wp:[a-z0-9-]+(?:\/[a-z0-9-]+)?\s*-->)[ \t]*(?:\r?\n[ \t]*)?<h[2-6]\b/i.test(content)) {
+    errors.push('ブロック終了コメントと後続のH2〜H6の間に空行がありません');
+  }
+  const stack = [];
+  for (const event of parseWpBlocks(content)) {
+    if (event.type === 'open') {
+      const container = [...stack].reverse().find((item) => ['paragraph', 'heading'].includes(item.name));
+      if (container) errors.push(`wp:${container.name} 内に別ブロック wp:${event.name} があります`);
+      stack.push(event);
+    } else if (event.type === 'close') {
+      const matchingIndex = stack.map((item) => item.name).lastIndexOf(event.name);
+      if (matchingIndex >= 0) stack.splice(matchingIndex, 1);
+    }
+  }
+  return [...new Set(errors)];
+}
+
 function normalizeNodeChildren(node, stats) {
   if (node.childNodes?.length) node.childNodes = parse5.parseFragment(normalizeSegment(node.childNodes.map(serializeNode).join(''), stats).trim()).childNodes;
 }
@@ -113,7 +140,7 @@ function wrapListItems(node) {
   node.childNodes = out;
 }
 
-function normalizeSegment(html, stats) {
+function normalizeSegment(html, stats, renderProfile) {
   const doc = parse5.parseFragment(html);
   const out = [];
   for (const node of doc.childNodes || []) {
@@ -127,7 +154,7 @@ function normalizeSegment(html, stats) {
       addClass(node.attrs, 'wp-block-heading');
       const id = attrValue(node.attrs, 'id');
       stats.heading++;
-      out.push(block('heading', id ? { level, anchor: id } : { level }, serializeNode(node))); 
+      out.push(renderProfile === 'swell_plain_headings' ? serializeNode(node) : block('heading', id ? { level, anchor: id } : { level }, serializeNode(node)));
       continue;
     }
     if (tag === 'figure' && hasClass(node.attrs, 'wp-block-table')) { stats.table++; out.push(block('table', null, serializeNode(node)));  continue; }
@@ -148,20 +175,20 @@ function normalizeSegment(html, stats) {
   return out.join('');
 }
 
-export function normalizeGutenbergBlocks(html) {
+export function normalizeGutenbergBlocks(html, { renderProfile = 'gutenberg_blocks' } = {}) {
   const content = stripFrontMatter(html);
   const re = /<!--\s*(\/?)wp:([a-z0-9-]+(?:\/[a-z0-9-]+)?)([\s\S]*?)\s*(\/?)-->/gi;
   const stats = { paragraph: 0, heading: 0, table: 0, list: 0, quote: 0, preformatted: 0, separator: 0 };
   let out = '', last = 0, depth = 0, m;
   while ((m = re.exec(content))) {
-    if (m.index > last) out += depth === 0 ? normalizeSegment(content.slice(last, m.index), stats) : content.slice(last, m.index);
+    if (m.index > last) out += depth === 0 ? normalizeSegment(content.slice(last, m.index), stats, renderProfile) : content.slice(last, m.index);
     out += m[0];
     if (!m[1] && !m[4] && !/\/\s*$/.test(m[3] || '')) depth++;
     if (m[1]) depth = Math.max(0, depth - 1);
     last = re.lastIndex;
   }
-  if (last < content.length) out += depth === 0 ? normalizeSegment(content.slice(last), stats) : content.slice(last);
-  return { html: out.replace(/\n{3,}/g, '\n\n').trim() + '\n', stats };
+  if (last < content.length) out += depth === 0 ? normalizeSegment(content.slice(last), stats, renderProfile) : content.slice(last);
+  return { html: enforceBlockHeadingBoundaries(out.replace(/\n{3,}/g, '\n\n')).trim() + '\n', stats };
 }
 
 function blockRanges(content) {

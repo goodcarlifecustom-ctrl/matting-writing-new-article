@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { argvValue, parseScalar } from './workflow-utils.mjs';
-import { validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
+import { findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
 import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 import { auditAdultSafety, isAdultSafetyTopic, repeatedAdultSafetyNotices } from './adult-safety-audit.mjs';
 
@@ -40,6 +40,7 @@ if (metadata.slug && metadata.slug !== slug) error('SLUG_MISMATCH', 'CLI、デ�
 for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) {
   const html = await read(file); if (!html) continue;
   if (/<h1\b/i.test(html)) error('H1_PRESENT', `${file} にH1があります`);
+  for (const message of findBlockHeadingBoundaryErrors(html)) error('BLOCK_HEADING_BOUNDARY', `${file}: ${message}`, 'ブロック構造を変えず、終了コメントと後続見出しの間に空行を1行入れてください。');
   const validation = validateGutenbergContent(html, { title: metadata.title, renderProfile });
   for (const message of validation.errors) error('STRUCTURE_FATAL', `${file}: ${message}`);
   const ids = [...html.matchAll(/\bid=["']([^"']*)["']/gi)].map((m) => m[1]);

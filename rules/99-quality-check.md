@@ -57,3 +57,7 @@
 ## 手動コピーによる受け渡し
 
 WordPressへの接続、認証、投稿、更新、削除、画像アップロードは行わない。旧入力に `wordpress_draft` や `post_to_wp` が含まれていても無効として扱い、外部書き込みを有効化しない。品質チェック後の `articles/{slug}/article-decorated.html` を利用者がWordPressのコードエディターへ手動コピーする。最終報告には同ファイルの絶対パスとリポジトリ相対パスを記載する。
+
+## ブロックと見出しの境界検査
+
+`article.html`、`article-linked.html`、`article-decorated.html` のすべてを検査する。ブロック終了コメントの直後に空行なしでH2〜H6が続く場合（`--><h2`、`--><h3`、`--><h4`などを含む）、または `wp:paragraph` 内部にcap-blockなど別ブロックが入る場合は、`BLOCK_HEADING_BOUNDARY` のERRORとする。

@@ -48,3 +48,7 @@
 ## 手動コピーによる受け渡し
 
 WordPressへの接続、認証、投稿、更新、削除、画像アップロードは行わない。旧入力に `wordpress_draft` や `post_to_wp` が含まれていても無効として扱い、外部書き込みを有効化しない。品質チェック後の `articles/{slug}/article-decorated.html` を利用者がWordPressのコードエディターへ手動コピーする。
+
+## ブロック境界の維持
+
+外部リンク挿入時は、ブロック終了コメントと後続のH2〜H6の間にある空行を保持する。capbox内部、見出しの文言・ID・レベル・順序、render profileごとの `wp:heading` の有無を変更しない。

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateGutenbergContent, visibleCharCount } from '../scripts/gutenberg-utils.mjs';
+import { readFileSync } from 'node:fs';
+import { enforceBlockHeadingBoundaries, findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount } from '../scripts/gutenberg-utils.mjs';
 
 const validBase = `<!-- wp:paragraph -->
 <p>導入文です。</p>
@@ -81,4 +82,54 @@ test('swell_plain_headings accepts plain headings but keeps other block checks',
   const plain = validBase.replace(/<!-- \/?wp:heading[^>]* -->\n?/g, '');
   assert.doesNotMatch(validateGutenbergContent(plain, { renderProfile: 'swell_plain_headings' }).errors.join('\n'), /wp:heading/);
   assert.match(validateGutenbergContent(`${plain}\n<p>未変換</p>`, { renderProfile: 'swell_plain_headings' }).errors.join('\n'), /wp:paragraph/);
+});
+
+test('requires one blank line between a block close and a following heading', () => {
+  const capbox = '<!-- wp:loos/cap-block --><div class="swell-block-capbox"></div><!-- /wp:loos/cap-block -->';
+  const valid = `${capbox}\n\n<h2 id="stable">変更しない見出し</h2>`;
+  assert.deepEqual(findBlockHeadingBoundaryErrors(valid), []);
+  for (const invalid of [`${capbox}<h2 id="stable">変更しない見出し</h2>`, `${capbox}\n<h3 id="stable">変更しない見出し</h3>`]) {
+    assert.match(findBlockHeadingBoundaryErrors(invalid).join('\n'), /空行がありません/);
+    const fixed = enforceBlockHeadingBoundaries(invalid);
+    assert.match(fixed, /<!-- \/wp:loos\/cap-block -->\n\n<h[23] id="stable">変更しない見出し<\/h[23]>/);
+  }
+});
+
+test('rejects nested blocks inside wp:paragraph', () => {
+  const invalid = '<!-- wp:paragraph --><p>本文</p><!-- wp:loos/cap-block --><div></div><!-- /wp:loos/cap-block --><!-- /wp:paragraph -->';
+  assert.match(findBlockHeadingBoundaryErrors(invalid).join('\n'), /wp:paragraph 内に別ブロック/);
+});
+
+test('rejects a foreign block between wp:heading and its heading element', () => {
+  const invalid = '<!-- wp:heading {"level":2} --><!-- wp:loos/cap-block --><div></div><!-- /wp:loos/cap-block --><h2 id="stable">固定見出し</h2><!-- /wp:heading -->';
+  assert.match(findBlockHeadingBoundaryErrors(invalid).join('\n'), /wp:heading 内に別ブロック wp:loos\/cap-block/);
+});
+
+test('normalization preserves heading identity and respects both render profiles', () => {
+  const source = '<!-- wp:loos/cap-block --><div></div><!-- /wp:loos/cap-block --><h2 id="fixed-h2">固定H2</h2><h3 id="fixed-h3">固定H3</h3>';
+  const plain = normalizeGutenbergBlocks(source, { renderProfile: 'swell_plain_headings' }).html;
+  assert.equal(normalizeGutenbergBlocks(plain, { renderProfile: 'swell_plain_headings' }).html, plain);
+  assert.doesNotMatch(plain, /wp:heading/);
+  assert.match(plain, /<h2 id="fixed-h2"[^>]*>固定H2<\/h2>/);
+  assert.match(plain, /<h3 id="fixed-h3"[^>]*>固定H3<\/h3>/);
+  assert.match(plain, /<!-- \/wp:loos\/cap-block -->\n\n<h2/);
+  const gutenberg = normalizeGutenbergBlocks(source, { renderProfile: 'gutenberg_blocks' }).html;
+  assert.equal(normalizeGutenbergBlocks(gutenberg, { renderProfile: 'gutenberg_blocks' }).html, gutenberg);
+  assert.match(gutenberg, /<!-- wp:heading \{"level":2,"anchor":"fixed-h2"\} -->/);
+  assert.match(gutenberg, /<!-- wp:heading \{"level":3,"anchor":"fixed-h3"\} -->/);
+  const unspecified = normalizeGutenbergBlocks(source).html;
+  assert.equal(unspecified, gutenberg);
+  const headings = (html) => [...html.matchAll(/<h([2-6])\b[^>]*id="([^"]+)"[^>]*>([^<]+)<\/h\1>/g)].map((match) => [match[1], match[2], match[3]]);
+  assert.deepEqual(headings(plain), [['2', 'fixed-h2', '固定H2'], ['3', 'fixed-h3', '固定H3']]);
+  assert.deepEqual(headings(gutenberg), headings(plain));
+  assert.deepEqual(headings(unspecified), headings(plain));
+});
+
+
+test('car, general, and matching-app boundary fixtures all pass', () => {
+  for (const name of ['car', 'general', 'matching-app']) {
+    const html = readFileSync(`test/fixtures/block-heading-boundary/${name}.html`, 'utf8');
+    assert.deepEqual(findBlockHeadingBoundaryErrors(html), [], name);
+    assert.deepEqual(validateGutenbergContent(html, { renderProfile: 'swell_plain_headings' }).errors, [], name);
+  }
 });
