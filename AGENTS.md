@@ -13,6 +13,7 @@
 - 失敗時も記事ディレクトリを作成済みであれば `articles/{slug}/check-report.md` に原因と次アクションを記録します。
 - 最終成果物は `articles/{slug}/article-decorated.html` です。利用者がこのファイルの全文をWordPressのコードエディターへ手動コピーします。
 - 全記事で `rules/00-source-policy.md` と `config/source-policy.json` を適用し、公開記事の外部引用を許可された一次情報へ限定します。
+- 公式確認不能、提供終了、用途不一致、構成再承認待ちなどで修正不能な既存記事は、履歴を残したまま `archive/research-failed/{slug}/` へ隔離します。アーカイブ内のHTMLを公開・手動コピー・再利用してはいけません。
 
 ## 標準工程
 

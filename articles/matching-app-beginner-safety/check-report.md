@@ -1,71 +1,37 @@
 # 品質チェックレポート
 
 - slug: matching-app-beginner-safety
+- mode: publish
 - result: PASS
+- draft_readiness: DRAFT_READY
+- publish_readiness: PUBLISH_READY
+- copy_ready: true
+- delivery_mode: manual_copy
+- copy_source: article-decorated.html
+- external_write_performed: false
 
-## 詳細
+## ERROR
 
-- OK: input.yml を確認しました
-- OK: metadata.json を確認しました
-- OK: research.md を確認しました
-- OK: serp.md を確認しました
-- OK: headings.csv を確認しました
-- OK: heading-analysis.md を確認しました
-- OK: heading-plan.md を確認しました
-- OK: draft.md を確認しました
-- OK: article.html を確認しました
-- OK: article-linked.html を確認しました
-- OK: article-decorated.html を確認しました
-- OK: external-links.md を確認しました
-- OK: metadata.json は有効なJSONです
-- OK: research.md は空ではありません
-- OK: main_keyword を確認しました
-- OK: related_keywords 配列を確認しました
-- OK: title は生成済みです
-- OK: slug は生成済みです
-- OK: meta_description は生成済みです
-- OK: search_intent は生成済みです
-- OK: persona は生成済みです
-- OK: article_type は生成済みです
-- OK: target_word_count は生成済みです
-- OK: status: draft を確認しました
-- OK: min_char_count/min_word_count を確認しました
-- OK: target_char_count/target_word_count を確認しました
-- OK: max_char_count/max_word_count を確認しました
-- OK: 文字数設定の大小関係を確認しました
-- OK: wordpress_draft と post_to_wp の整合性を確認しました
-- OK: target_media は対象サイトと一致しています
-- OK: target_media を確認しました
-- OK: article_type を確認しました
-- OK: persona を確認しました
-- OK: article_purpose を確認しました
-- OK: post_to_wp はbooleanです
-- OK: slug は一致しています
-- OK: メインキーワードは一致しています
-- OK: article.html はGutenbergブロックとして有効です
-- OK: article.html にH1はありません
-- OK: article.html のH2/H3件数を確認しました
-- OK: article.html の隣接テーブル重複を確認しました
-- OK: article.html のH2連続構造を確認しました
-- OK: article.html の冒頭ラベルを確認しました
-- OK: article-linked.html はGutenbergブロックとして有効です
-- OK: article-linked.html にH1はありません
-- OK: article-linked.html のH2/H3件数を確認しました
-- OK: article-linked.html の隣接テーブル重複を確認しました
-- OK: article-linked.html のH2連続構造を確認しました
-- OK: article-linked.html の冒頭ラベルを確認しました
-- OK: article-decorated.html はGutenbergブロックとして有効です
-- OK: article-decorated.html にH1はありません
-- OK: article-decorated.html のH2/H3件数を確認しました
-- OK: article-decorated.html の隣接テーブル重複を確認しました
-- OK: article-decorated.html のH2連続構造を確認しました
-- OK: article-decorated.html の冒頭ラベルを確認しました
-- OK: 本文文字数は目標から大きく外れていません
-- OK: 外部URLのベタ書きは検出されません
-- OK: .env はコミット対象ではありません
-- OK: 旧サイト固有文言は検出されませんでした
-- OK: 認証情報・nonceの残存は検出されませんでした
-- WARN: post_to_wp:true ですが WP_SITE_URL が未設定です（投稿コマンド実行時に必須）
-- WARN: post_to_wp:true ですが WP_USERNAME が未設定です（投稿コマンド実行時に必須）
-- WARN: post_to_wp:true ですが WP_APPLICATION_PASSWORD が未設定です（投稿コマンド実行時に必須）
-- OK: WordPress投稿ステータスはwp:draftでdraft固定です
+- なし
+
+## WARNING
+
+- なし
+
+## PASS
+
+- input.yml を確認しました
+- metadata.json を確認しました
+- source-manifest.json を確認しました
+- research.md を確認しました
+- draft.md を確認しました
+- article.html を確認しました
+- article-linked.html を確認しました
+- article-decorated.html を確認しました
+- external-links.md を確認しました
+- metadata.json は有効なJSONです
+- article-linked.htmlの可視本文・見出し・FAQ・内部アンカー・表を維持しています
+- article-decorated.htmlの可視本文・見出し・FAQ・内部アンカー・表を維持しています
+- 口コミ根拠ゲートは対象外です
+- 公開成果物に制作過程の説明や反復した免責文はありません
+- 公開成果物の引用元は共通ソースポリシーに適合しています

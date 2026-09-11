@@ -23,6 +23,17 @@
       "paragraph_text_sha256": "1286bad9bd8a76315872eb6a637a12b9ab9c9456a50842b70c6ba45067f8e5fc",
       "tone": "positive",
       "text": "初回は公共の場所を選び、不安がある誘いは断って構いません。"
+    },
+    {
+      "section": {
+        "level": 2,
+        "id": "safety-basics",
+        "heading": "安全に始めるための基本"
+      },
+      "paragraph_index": 1,
+      "paragraph_text_sha256": "e041da039e78b40fc53dbe721d67c26b2f65b0fdece2453df98ffda0816fc43e",
+      "tone": "negative",
+      "text": "金銭の要求や外部サイトへの誘導があれば、やり取りを止めてアプリ内から通報してください。"
     }
   ]
 }

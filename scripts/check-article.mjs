@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
+import { readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { argvValue, parseScalar, SITE_PROFILE } from './workflow-utils.mjs';
 import { findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
@@ -16,7 +16,10 @@ if (!slug || !['draft', 'publish'].includes(mode)) {
 }
 
 const dir = path.join('articles', slug);
-await mkdir(dir, { recursive: true });
+if (!existsSync(dir)) {
+  console.error(`[ARTICLE_DIRECTORY_MISSING] ${dir} がありません。先に npm run create を実行してください。`);
+  process.exit(1);
+}
 const errors = [], warnings = [], passes = [];
 const error = (code, message, action = '原因を修正して再検証してください。') => errors.push({ code, message, action });
 const warning = (code, message, action = '公開前に再確認してください。') => warnings.push({ code, message, action });
