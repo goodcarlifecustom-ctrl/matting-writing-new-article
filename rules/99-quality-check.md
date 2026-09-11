@@ -1,11 +1,12 @@
 # Writingマッチングメディア記事制作ルール
 
-必ず `rules/00-site-profile.md` と `config/site-profile.json` を前提に記事を作成する。既定の対象メディアは `https://matching.writing-corp.co.jp/` とし、旧サイト固有の買取・査定・車両関連文脈は混入させない。
+必ず `rules/00-site-profile.md`、`rules/00-source-policy.md`、`config/site-profile.json`、`config/source-policy.json` を前提に記事を作成する。既定の対象メディアは `https://matching.writing-corp.co.jp/` とし、旧サイト固有の買取・査定・車両関連文脈は混入させない。
 
 ## 入力と保存
 
 - 必須入力: `main_keyword`, `related_keywords`, `article_type`, `persona`, `article_purpose`, `min_word_count`, `target_word_count`, `max_word_count`。
-- 任意入力: `title`, `slug`, `category`, `tags`, `target_media`, `reference_urls`, `notes`, `internal_link_candidates`。
+- 任意入力: `title`, `slug`, `category`, `tags`, `target_media`, `reference_urls`, `citation_sources`, `notes`, `internal_link_candidates`。
+- `reference_urls` は競合見出し調査専用であり、公開記事の引用許可にはならない。`citation_sources` も候補入力であり、確認後に `source-manifest.json` へ登録した情報源だけを公開記事で使用する。
 - `target_media` の未指定・空欄時は既定値を使う。`なし`・`null`・別URLが指定されても停止せず、確認できないサイト固有情報を省略して記事生成を続ける。
 - `category` と `tags` は `metadata.json` にも保存する。
 - 安全な英数字slugを生成できない場合は明示slugを要求して停止する。
@@ -27,7 +28,7 @@
 
 ## 成果物
 
-`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `source-manifest.json`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
 
 `heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
 
@@ -43,7 +44,7 @@
 
 ## 外部リンク・装飾・品質
 
-外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイト固有の文脈、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値を検証する。`target_media` の未指定や不一致だけをエラーにしない。
+外部引用とCTAは `rules/00-source-policy.md` に従う。`draft.md`、3種類の `article*.html`、`external-links.md` の外部URL、禁止媒体名、調査専用情報の漏えい、`source-manifest.json` との一致、CTA属性を検査し、違反を公開停止エラーにする。外部リンクは実在確認し、`target="_blank"` の場合は `rel="noopener noreferrer"` を付ける。SWELL装飾は `article-linked.html` から冪等生成し、装飾済みHTMLを再入力にしない。品質チェックでは旧サイト固有の文脈、H1、Markdown残存、ブロック閉じ漏れ、見出しID重複、空見出し、類似段落、根拠のない数値を検証する。`target_media` の未指定や不一致だけをエラーにしない。
 
 成人向けテーマでは、完成した `article-decorated.html` の可視本文を対象に次の追加監査を行う。
 

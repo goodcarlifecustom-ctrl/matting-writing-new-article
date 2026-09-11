@@ -1,10 +1,11 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { argvValue, parseScalar } from './workflow-utils.mjs';
+import { argvValue, parseScalar, SITE_PROFILE } from './workflow-utils.mjs';
 import { findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
 import { canonicalHeadings, compareDerivedHtml, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 import { auditAdultSafety, isAdultSafetyTopic, repeatedAdultSafetyNotices } from './adult-safety-audit.mjs';
+import { auditPublishedSources, SOURCE_POLICY, validateSourceManifest, validateSourcePolicyConfiguration } from './source-policy.mjs';
 
 const slug = argvValue(process.argv, 'slug');
 const mode = argvValue(process.argv, 'mode') || 'draft';
@@ -21,7 +22,7 @@ const warning = (code, message, action = '公開前に再確認してくださ�
 const pass = (message) => passes.push(message);
 const read = async (file) => existsSync(path.join(dir, file)) ? readFile(path.join(dir, file), 'utf8') : '';
 
-const required = ['input.yml', 'metadata.json', 'research.md', 'draft.md', 'article.html', 'article-linked.html', 'article-decorated.html'];
+const required = ['input.yml', 'metadata.json', 'source-manifest.json', 'research.md', 'draft.md', 'article.html', 'article-linked.html', 'article-decorated.html', 'external-links.md'];
 for (const file of required) {
   const target = path.join(dir, file);
   if (!existsSync(target) || (await stat(target)).size === 0) error('CONTENT_MISSING', `${file} がないか空です`);
@@ -80,6 +81,47 @@ const readerPolicy = {
 for (const message of lintReaderContent(decorated, readerPolicy)) error('READER_CONTENT_LINT', message, '内部ステータスや反復した注意書きを読者向け本文から除いてください。');
 
 const research = await read('research.md');
+for (const finding of validateSourcePolicyConfiguration()) {
+  error(finding.code, finding.message, 'config/source-policy.json を共通出典ルールに合う設定へ修正してください。');
+}
+let sourceManifest = { version: SOURCE_POLICY.manifest_version, sources: [] };
+const sourceManifestText = await read('source-manifest.json');
+if (sourceManifestText) {
+  try {
+    sourceManifest = JSON.parse(sourceManifestText);
+    for (const finding of validateSourceManifest(sourceManifest)) {
+      error(finding.code, finding.message, 'rules/00-source-policy.md に従って source-manifest.json を修正してください。');
+    }
+  } catch {
+    error('SOURCE_MANIFEST_MISMATCH', 'source-manifest.json が有効なJSONではありません', 'source-manifest.json を有効なJSONへ修正してください。');
+  }
+} else error('SOURCE_MANIFEST_MISMATCH', 'source-manifest.json がないか空です', '記事ディレクトリへ有効な source-manifest.json を作成してください。');
+const publishedSourceArtifacts = {};
+for (const file of SOURCE_POLICY.published_artifacts || []) {
+  publishedSourceArtifacts[file] = await read(file);
+  if (!publishedSourceArtifacts[file].trim()) error('SOURCE_ARTIFACT_MISSING', `${file} がないか空のため出典検査を完了できません`, '公開成果物を完成させてから出典検査を再実行してください。');
+}
+for (const finding of auditPublishedSources({
+  artifacts: publishedSourceArtifacts,
+  manifest: sourceManifest,
+  targetMedia: metadata.target_media || parseScalar(input, 'target_media'),
+  siteUrl: SITE_PROFILE.site_url
+})) {
+  error(finding.code, finding.message, '公的機関・公式サイト等の許可ソースへ差し替え、競合由来の記述と数値も削除して再検証してください。');
+}
+const sourcePolicyErrorCodes = new Set([
+  'PROHIBITED_CITATION_SOURCE',
+  'UNCLASSIFIED_CITATION_SOURCE',
+  'RESEARCH_SOURCE_LEAK',
+  'SOURCE_MANIFEST_MISMATCH',
+  'SOURCE_ARTIFACT_MISSING',
+  'AFFILIATE_LINK_AS_EVIDENCE',
+  'REDIRECTOR_SOURCE_URL',
+  'INSECURE_SOURCE_URL',
+  'UNSOURCED_SURVEY_CLAIM',
+  'SOURCE_POLICY_INVALID'
+]);
+if (!errors.some((finding) => sourcePolicyErrorCodes.has(finding.code))) pass('公開成果物の引用元は共通ソースポリシーに適合しています');
 const sourceUncertain = /\b(PARTIAL|ACCESS_BLOCKED|HTTP\s*(?:000|401|403))\b/i.test(research);
 if (sourceUncertain) warning('SOURCE_REVERIFY', '一次情報にPARTIAL、ACCESS_BLOCKED、またはアクセス失敗があります');
 if (!metadata.research_date || /##\s*情報確認日\s*\n+\s*(?:未確認|未取得)/.test(research)) warning('RESEARCH_DATE_MISSING', '情報確認日を取得できていません');
@@ -104,12 +146,14 @@ if (matchingMedia || isAdultSafetyTopic(`${metadata.title || ''} ${metadata.targ
 
 const publishBlockers = mode === 'publish' ? warnings : [];
 const blocked = errors.length > 0 || publishBlockers.length > 0;
-const sourceStatus = sourceUncertain || !metadata.research_date ? 'REVERIFY_BEFORE_PUBLISH' : 'VERIFIED';
+const sourcePolicyFailed = errors.some((finding) => sourcePolicyErrorCodes.has(finding.code));
+const sourceStatus = sourcePolicyFailed ? 'ERROR' : sourceUncertain || !metadata.research_date ? 'REVERIFY_BEFORE_PUBLISH' : 'VERIFIED';
 const decorationStatus = warnings.some((x) => /DECORATION|MARKER/.test(x.code)) ? 'WARNING' : 'PASS';
 Object.assign(metadata, {
   render_profile: renderProfile,
-  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE'].includes(x.code)) ? 'ERROR' : 'PASS',
+  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE', ...sourcePolicyErrorCodes].includes(x.code)) ? 'ERROR' : 'PASS',
   source_verification_status: sourceStatus,
+  source_policy_status: sourcePolicyFailed ? 'ERROR' : 'PASS',
   decoration_status: decorationStatus,
   draft_readiness: errors.length ? 'NOT_READY' : 'DRAFT_READY',
   publish_readiness: errors.length || warnings.length ? 'REVERIFY_BEFORE_PUBLISH' : 'PUBLISH_READY',

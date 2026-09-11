@@ -15,8 +15,10 @@ async function fixture() {
   const metadata = { title: '安全ガイド', slug: 'sample', status: 'draft', target_media: 'https://matching.writing-corp.co.jp/', post_to_wp: false, render_profile: 'swell_plain_headings', min_char_count: 1000, research_date: null };
   await writeFile(path.join(dir, 'input.yml'), 'target_media: "https://matching.writing-corp.co.jp/"\nrender_profile: swell_plain_headings\n');
   await writeFile(path.join(dir, 'metadata.json'), JSON.stringify(metadata));
+  await writeFile(path.join(dir, 'source-manifest.json'), JSON.stringify({ version: 1, sources: [] }));
   await writeFile(path.join(dir, 'research.md'), '# 調査\n\nPARTIAL\n\n## 情報確認日\n\n未取得\n');
   await writeFile(path.join(dir, 'draft.md'), '本文');
+  await writeFile(path.join(dir, 'external-links.md'), '# 外部リンク\n\nなし\n');
   for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), html);
   await writeFile(path.join(dir, 'approved_outline.json'), JSON.stringify({ headings: [{ level: 2, text: '安全な使い方', id: 'safe', children: [] }] }));
   return { cwd, dir };
@@ -196,5 +198,49 @@ test('post-generation audit reads the final decorated artifact', async () => {
     await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
     const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
     assert.match(report, /MINOR_PROMOTION/);
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});
+
+test('source policy rejects App-Liv and 出会いコンパス in every published artifact', async () => {
+  for (const file of ['draft.md', 'article.html', 'article-linked.html', 'article-decorated.html', 'external-links.md']) {
+    const { cwd, dir } = await fixture();
+    try {
+      const prohibited = file.endsWith('.html')
+        ? '<!-- wp:paragraph -->\n<p><a href="https://deai.app-liv.jp/archive/144119/">出会いコンパスの200人調査</a></p>\n<!-- /wp:paragraph -->\n\n<h2 id="safe">安全な使い方</h2>\n<!-- wp:paragraph -->\n<p>個人情報を守って利用します。</p>\n<!-- /wp:paragraph -->'
+        : '[出会いコンパスの200人調査](https://deai.app-liv.jp/archive/144119/)\n';
+      await writeFile(path.join(dir, file), prohibited);
+      await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+      const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+      assert.match(report, new RegExp(`PROHIBITED_CITATION_SOURCE.*${file}`));
+    } finally { await rm(cwd, { recursive: true, force: true }); }
+  }
+});
+
+test('source policy accepts a registered public-agency source', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    const html = '<!-- wp:paragraph -->\n<p><a href="https://www.caa.go.jp/policies/">消費者庁</a>の情報を確認します。</p>\n<!-- /wp:paragraph -->\n\n<h2 id="safe">安全な使い方</h2>\n<!-- wp:paragraph -->\n<p>個人情報を守って利用します。</p>\n<!-- /wp:paragraph -->';
+    for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), html);
+    await writeFile(path.join(dir, 'draft.md'), '[消費者庁](https://www.caa.go.jp/policies/)の情報を確認します。\n');
+    await writeFile(path.join(dir, 'external-links.md'), '- https://www.caa.go.jp/policies/\n');
+    await writeFile(path.join(dir, 'source-manifest.json'), JSON.stringify({
+      version: 1,
+      sources: [{ id: 'caa-policies', url: 'https://www.caa.go.jp/policies/', type: 'public_authority', role: 'citation', name: '消費者庁 政策一覧', claim_scope: ['消費者政策'], verified_at: '2026-09-11' }]
+    }));
+    await runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd });
+    const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+    assert.doesNotMatch(report, /PROHIBITED_CITATION_SOURCE|UNCLASSIFIED_CITATION_SOURCE|SOURCE_MANIFEST_MISMATCH/);
+    const metadata = JSON.parse(await readFile(path.join(dir, 'metadata.json'), 'utf8'));
+    assert.equal(metadata.source_policy_status, 'PASS');
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});
+
+test('reference_urls never acts as a citation allowlist', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    await writeFile(path.join(dir, 'input.yml'), 'target_media: "https://matching.writing-corp.co.jp/"\nrender_profile: swell_plain_headings\nreference_urls:\n  - "https://competitor.example/survey"\n');
+    await writeFile(path.join(dir, 'draft.md'), '[競合調査](https://competitor.example/survey)\n');
+    await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+    assert.match(await readFile(path.join(dir, 'check-report.md'), 'utf8'), /UNCLASSIFIED_CITATION_SOURCE.*draft\.md/);
   } finally { await rm(cwd, { recursive: true, force: true }); }
 });

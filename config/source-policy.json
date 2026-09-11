@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "manifest_version": 1,
+  "mode": "allowlist",
+  "rule_file": "rules/00-source-policy.md",
+  "manifest_file": "source-manifest.json",
+  "require_https": true,
+  "unclassified_action": "error",
+  "published_artifacts": [
+    "draft.md",
+    "article.html",
+    "article-linked.html",
+    "article-decorated.html",
+    "external-links.md"
+  ],
+  "research_only_artifacts": [
+    "research.md",
+    "serp.md",
+    "headings.csv",
+    "heading-analysis.md",
+    "heading-plan.md"
+  ],
+  "allowed_source_types": [
+    "public_authority",
+    "official_subject",
+    "official_terms_help",
+    "official_app_store",
+    "academic_primary",
+    "standards_body",
+    "public_registry_dataset",
+    "first_party_research_with_methodology"
+  ],
+  "research_only_source_types": [
+    "competitor_editorial",
+    "secondary_review"
+  ],
+  "prohibited_source_types": [
+    "affiliate_media",
+    "content_farm",
+    "third_party_survey_without_methodology"
+  ],
+  "public_authority_domain_suffixes": [
+    "go.jp",
+    "lg.jp"
+  ],
+  "official_store_domains": [
+    "apps.apple.com",
+    "play.google.com"
+  ],
+  "approved_external_domains": [],
+  "prohibited_domains": [
+    "app-liv.jp"
+  ],
+  "prohibited_source_aliases": [
+    "出会いコンパス",
+    "App-Liv",
+    "Appliv"
+  ],
+  "redirector_domains": [
+    "bit.ly",
+    "goo.gl",
+    "t.co",
+    "tinyurl.com"
+  ],
+  "affiliate_link_policy": {
+    "manifest_section": "sources",
+    "manifest_role": "affiliate_cta",
+    "purpose_attribute": "data-link-purpose",
+    "purpose_value": "affiliate-cta",
+    "required_rel_tokens": [
+      "sponsored",
+      "noopener",
+      "noreferrer"
+    ],
+    "may_support_claims": false
+  },
+  "error_codes": [
+    "SOURCE_POLICY_INVALID",
+    "PROHIBITED_CITATION_SOURCE",
+    "UNCLASSIFIED_CITATION_SOURCE",
+    "RESEARCH_SOURCE_LEAK",
+    "SOURCE_MANIFEST_MISMATCH",
+    "SOURCE_ARTIFACT_MISSING",
+    "AFFILIATE_LINK_AS_EVIDENCE",
+    "REDIRECTOR_SOURCE_URL",
+    "INSECURE_SOURCE_URL",
+    "UNSOURCED_SURVEY_CLAIM"
+  ]
+}

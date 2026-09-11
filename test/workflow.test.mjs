@@ -37,6 +37,7 @@ test('create defaults an omitted target_media to the matching site and writes lo
     const input = await readFile(path.join(articleDir,'input.yml'),'utf8');
     assert.match(input, /main_keyword:/);
     assert.match(input, /related_keywords:/);
+    assert.match(input, /^citation_sources: \[\]$/m);
     assert.match(input, new RegExp(`target_media: "${DEFAULT_TARGET_MEDIA}"`));
     assert.match(input, /wordpress_draft: false/);
     assert.match(input, /post_to_wp: false/);
@@ -46,6 +47,9 @@ test('create defaults an omitted target_media to the matching site and writes lo
     assert.equal(metadata.delivery_mode, 'manual_copy');
     assert.equal(metadata.primary_output, 'article-decorated.html');
     assert.equal(metadata.external_write_performed, false);
+    assert.equal(metadata.source_policy_status, 'PENDING');
+    assert.deepEqual(metadata.citation_source_candidates, []);
+    assert.deepEqual(JSON.parse(await readFile(path.join(articleDir,'source-manifest.json'),'utf8')), { version: 1, sources: [] });
     assert.equal(existsSync(path.join(articleDir,'research.md')), true);
     assert.equal(existsSync(path.join(articleDir,'article-decorated.html')), true);
     assert.equal(existsSync(path.join(articleDir,'wp-result.md')), false);

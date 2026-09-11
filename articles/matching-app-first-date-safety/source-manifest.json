@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "caa-matching-app-guidance",
+      "url": "https://www.caa.go.jp/policies/policy/consumer_policy/caution/internet/assets/caution_internet_220121_0001.pdf",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "消費者庁 マッチングアプリの動向整理",
+      "claim_scope": ["個人情報保護", "外部サービス誘導", "投資勧誘への注意"],
+      "verified_at": "2026-06-25"
+    },
+    {
+      "id": "gov-online-romance-fraud",
+      "url": "https://www.gov-online.go.jp/useful/202407/video-286325.html",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "政府広報オンライン SNSの投資詐欺・ロマンス詐欺",
+      "claim_scope": ["投資詐欺・ロマンス詐欺の注意喚起"],
+      "verified_at": "2026-06-25"
+    },
+    {
+      "id": "npa-romance-fraud",
+      "url": "https://www.npa.go.jp/bureau/safetylife/sos47/case/sns-romance/romance/",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "警察庁 SOS47 SNS型ロマンス詐欺",
+      "claim_scope": ["恋愛感情や親近感を利用した詐欺への注意"],
+      "verified_at": "2026-06-25"
+    },
+    {
+      "id": "npa-sos47",
+      "url": "https://www.npa.go.jp/bureau/safetylife/sos47/",
+      "type": "public_authority",
+      "role": "citation",
+      "name": "警察庁 SOS47",
+      "claim_scope": ["警察相談窓口と消費生活相談先"],
+      "verified_at": "2026-06-25"
+    }
+  ]
+}

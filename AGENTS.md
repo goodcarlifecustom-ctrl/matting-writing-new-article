@@ -12,16 +12,18 @@
 - 生成記事は必ず `articles/{slug}/` 配下に保存し、各工程の出力ファイルを残します。
 - 失敗時も記事ディレクトリを作成済みであれば `articles/{slug}/check-report.md` に原因と次アクションを記録します。
 - 最終成果物は `articles/{slug}/article-decorated.html` です。利用者がこのファイルの全文をWordPressのコードエディターへ手動コピーします。
+- 全記事で `rules/00-source-policy.md` と `config/source-policy.json` を適用し、公開記事の外部引用を許可された一次情報へ限定します。
 
 ## 標準工程
 
-`rules/00-site-profile.md` を前提に、`rules/00-keyword-analysis.md`、`rules/01-heading-research.md`、`rules/02-heading-plan-generation.md`、`rules/03-article-generation.md`、`rules/04-external-links.md`、`rules/05-swell-decoration.md`、`rules/99-quality-check.md` の順に実行します。WordPress投稿工程は実行しません。
+`rules/00-site-profile.md` と `rules/00-source-policy.md` を前提に、`rules/00-keyword-analysis.md`、`rules/01-heading-research.md`、`rules/02-heading-plan-generation.md`、`rules/03-article-generation.md`、`rules/04-external-links.md`、`rules/05-swell-decoration.md`、`rules/99-quality-check.md` の順に実行します。WordPress投稿工程は実行しません。
 
 ## 記事制作方針
 
 - 日本語のSEO記事を作成し、検索意図を満たすことを最優先にします。
 - 成人向けテーマでは年齢、同意、個人情報、詐欺、犯罪、安全、健康、法律への配慮を入れます。
-- 根拠が必要な情報は一次情報や信頼できる外部リンクで確認します。
+- 根拠が必要な情報は、公的機関、対象サービス公式、公式規約・ヘルプ、公式アプリストア、学術一次資料、標準化団体、公的レジストリ・統計、方法開示済み一次調査で確認します。
+- 競合SEO・アフィリエイト媒体は構成調査だけに使用し、公開記事の引用元にしません。`reference_urls` は引用許可を意味しません。
 - 検索順位、出会えること、性的関係、料金、効果を保証する表現は使いません。
 - 承認済み構成が与えられた場合は、見出しのレベル、文言、ID、順序、親子関係を変更しません。
 
@@ -29,7 +31,7 @@
 
 - Markdown本文は `articles/{slug}/draft.md` に保存します。
 - 本文HTMLは `article.html`、リンク追加後は `article-linked.html`、SWELL装飾後は `article-decorated.html` に保存します。
-- `metadata.json`、`research.md`、`check-report.md` は全記事で必須です。`category` と `tags` もメタデータへ保存します。
+- `metadata.json`、`research.md`、`source-manifest.json`、`external-links.md`、`check-report.md` は全記事で必須です。`category` と `tags` もメタデータへ保存します。
 - 最終報告には `article-decorated.html` の絶対パスとリポジトリ相対パスを記載し、手動コピー対象であることを明記します。
 
 ## 禁止事項
@@ -39,3 +41,4 @@
 - ハルシネーション、根拠のない断定、検索順位・出会い・性的成功・料金の保証。
 - 未成年、同意のない行為、違法行為、詐欺、ストーカー、個人情報晒しを助長する内容。
 - 架空の口コミ、体験談、料金、順位、投稿者の作成。
+- 競合SEO・アフィリエイト媒体のURL、媒体名、引用、派生統計を公開記事へ残すこと。リンクだけを削除して、その媒体に由来する数値や主張を残すことも禁止します。
