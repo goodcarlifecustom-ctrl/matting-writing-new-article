@@ -1,0 +1,85 @@
+{
+  "headings": [
+    {
+      "level": 2,
+      "text": "PCMAXの良い口コミ・評判",
+      "id": "pcmax-good-reviews",
+      "children": [
+        { "level": 3, "text": "PCMAXの良い評判は実際に出会えたこと", "id": "pcmax-good-review-met" },
+        { "level": 3, "text": "PCMAXの良い評判は利用者が多くすぐに会えたこと", "id": "pcmax-good-review-many-users" },
+        { "level": 3, "text": "PCMAXの良い評判は目的別掲示板で相手を探しやすいこと", "id": "pcmax-good-review-boards" },
+        { "level": 3, "text": "PCMAXの良い評判は魅力的な異性と気軽に遊べたこと", "id": "pcmax-good-review-casual" }
+      ]
+    },
+    {
+      "level": 2,
+      "text": "PCMAXの悪い口コミ・評判",
+      "id": "pcmax-bad-reviews",
+      "children": [
+        { "level": 3, "text": "PCMAXの悪い評判はポイント料金が高いこと", "id": "pcmax-bad-review-cost" },
+        { "level": 3, "text": "PCMAXの悪い評判は業者が多いこと", "id": "pcmax-bad-review-vendors" },
+        { "level": 3, "text": "PCMAXの悪い評判は写真と実物の印象が違うこと", "id": "pcmax-bad-review-photos" },
+        { "level": 3, "text": "PCMAXの悪い評判は無料ポイントが少ないこと", "id": "pcmax-bad-review-free-points" },
+        { "level": 3, "text": "PCMAXの悪い評判は気軽な出会いを求める利用者が多いこと", "id": "pcmax-bad-review-casual-users" }
+      ]
+    },
+    {
+      "level": 2,
+      "text": "PCMAXに業者がいる実態",
+      "id": "pcmax-vendor-reality",
+      "children": [
+        { "level": 3, "text": "PCMAXにサクラはいないが業者がいる理由", "id": "pcmax-sakura-and-vendors" },
+        { "level": 3, "text": "PCMAXにいる業者の特徴", "id": "pcmax-vendor-features" },
+        { "level": 3, "text": "PCMAXで注意すべき美人局の手口", "id": "pcmax-badger-game" },
+        { "level": 3, "text": "PCMAXで注意すべき援デリの特徴", "id": "pcmax-illicit-service-vendors" },
+        { "level": 3, "text": "すぐに会いたがるメッセージを送る", "id": "pcmax-rush-to-meet" },
+        { "level": 3, "text": "体の関係をすぐに持ちかける", "id": "pcmax-rush-intimacy" },
+        { "level": 3, "text": "早い段階でLINE交換を求める", "id": "pcmax-early-line-exchange" },
+        { "level": 3, "text": "外部サイトへ誘導する", "id": "pcmax-external-site" },
+        { "level": 3, "text": "プロフィール写真に不自然さがある", "id": "pcmax-unnatural-photo" },
+        { "level": 3, "text": "プロフィール設定が高条件すぎる", "id": "pcmax-unrealistic-profile" }
+      ]
+    },
+    {
+      "level": 2,
+      "text": "PCMAXで安全に出会うコツ",
+      "id": "pcmax-safe-meeting-tips",
+      "children": [
+        { "level": 3, "text": "出会いの目的が一致する相手を選ぶ", "id": "pcmax-match-intent" },
+        { "level": 3, "text": "誠実さが伝わるプロフィールを作る", "id": "pcmax-honest-profile" },
+        { "level": 3, "text": "相手に合わせたメッセージを送る", "id": "pcmax-tailored-message" },
+        { "level": 3, "text": "目的に合う掲示板を選ぶ", "id": "pcmax-choose-board" },
+        { "level": 3, "text": "新人プロフィール検索を活用する", "id": "pcmax-new-user-search" },
+        { "level": 3, "text": "いまヒマ機能を活用する", "id": "pcmax-available-now" },
+        { "level": 3, "text": "ポイント消費を抑えてやり取りする", "id": "pcmax-save-points" },
+        { "level": 3, "text": "すぐに会おうとする誘いには応じない", "id": "pcmax-decline-rushed-meetings" },
+        { "level": 3, "text": "待ち合わせ場所を自分で決める", "id": "pcmax-choose-meeting-place" },
+        { "level": 3, "text": "待ち合わせ時間を自分で決める", "id": "pcmax-choose-meeting-time" },
+        { "level": 3, "text": "持ち歩く現金を最小限にする", "id": "pcmax-minimize-cash" }
+      ]
+    },
+    {
+      "level": 2,
+      "text": "PCMAXに関するよくある質問",
+      "id": "pcmax-faq",
+      "children": [
+        { "level": 3, "text": "PCMAXにサクラがいるのか", "id": "pcmax-faq-sakura" },
+        { "level": 3, "text": "PCMAXは無料でも出会えるのか", "id": "pcmax-faq-free" },
+        { "level": 3, "text": "PCMAXは安全に利用できるのか", "id": "pcmax-faq-safety" },
+        { "level": 3, "text": "PCMAXで身バレする可能性はあるのか", "id": "pcmax-faq-privacy" },
+        { "level": 3, "text": "PCMAXはすぐに退会できるのか", "id": "pcmax-faq-withdrawal" },
+        { "level": 3, "text": "PCMAXは写真なしでも出会えるのか", "id": "pcmax-faq-no-photo" },
+        { "level": 3, "text": "PCMAXの利用者は何歳が多いのか", "id": "pcmax-faq-age-range" },
+        { "level": 3, "text": "PCMAXにはどのような女性が多いのか", "id": "pcmax-faq-women" },
+        { "level": 3, "text": "PCMAXで既読スルーされる理由は何か", "id": "pcmax-faq-no-reply" },
+        { "level": 3, "text": "PCMAXと併用しやすいアプリは何か", "id": "pcmax-faq-other-apps" }
+      ]
+    },
+    {
+      "level": 2,
+      "text": "PCMAXの評判まとめ",
+      "id": "pcmax-reputation-summary",
+      "children": []
+    }
+  ]
+}
