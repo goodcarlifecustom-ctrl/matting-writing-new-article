@@ -11,7 +11,7 @@ const checker = path.resolve('scripts/check-article.mjs');
 async function fixture() {
   const cwd = await mkdtemp(path.join(tmpdir(), 'quality-'));
   const dir = path.join(cwd, 'articles', 'sample'); await mkdir(dir, { recursive: true });
-  const html = '<!-- wp:paragraph -->\n<p>18歳以上の成人を対象とし、年齢確認と同意を大切にします。</p>\n<!-- /wp:paragraph -->\n<h2 id="safe">安全な使い方</h2>\n<!-- wp:paragraph -->\n<p>個人情報を守って利用します。</p>\n<!-- /wp:paragraph -->';
+  const html = '<!-- wp:paragraph -->\n<p>18歳以上の成人を対象とし、年齢確認と同意を大切にします。</p>\n<!-- /wp:paragraph -->\n\n<h2 id="safe">安全な使い方</h2>\n<!-- wp:paragraph -->\n<p>個人情報を守って利用します。</p>\n<!-- /wp:paragraph -->';
   const metadata = { title: '安全ガイド', slug: 'sample', status: 'draft', target_media: 'https://matching.writing-corp.co.jp/', post_to_wp: false, render_profile: 'swell_plain_headings', min_char_count: 1000, research_date: null };
   await writeFile(path.join(dir, 'input.yml'), 'target_media: "https://matching.writing-corp.co.jp/"\nrender_profile: swell_plain_headings\n');
   await writeFile(path.join(dir, 'metadata.json'), JSON.stringify(metadata));
@@ -41,6 +41,29 @@ test('approved outline mismatch is a draft error', async () => {
     await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
     const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
     assert.match(report, /APPROVED_OUTLINE_MISMATCH/);
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});
+
+test('reports BLOCK_HEADING_BOUNDARY for every generated HTML artifact', async () => {
+  for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) {
+    const { cwd, dir } = await fixture();
+    try {
+      const invalid = '<!-- wp:loos/cap-block --><div class="swell-block-capbox"></div><!-- /wp:loos/cap-block --><h2 id="safe">安全な使い方</h2>';
+      await writeFile(path.join(dir, file), invalid);
+      await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+      assert.match(await readFile(path.join(dir, 'check-report.md'), 'utf8'), new RegExp(`BLOCK_HEADING_BOUNDARY.*${file}`));
+    } finally { await rm(cwd, { recursive: true, force: true }); }
+  }
+});
+
+test('reports BLOCK_HEADING_BOUNDARY when another block is nested in wp:heading', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    const invalid = '<!-- wp:heading {"level":2,"anchor":"safe"} --><!-- wp:loos/cap-block --><div></div><!-- /wp:loos/cap-block --><h2 id="safe">安全な使い方</h2><!-- /wp:heading -->';
+    await writeFile(path.join(dir, 'article-decorated.html'), invalid);
+    await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+    const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+    assert.match(report, /BLOCK_HEADING_BOUNDARY.*wp:heading 内に別ブロック/);
   } finally { await rm(cwd, { recursive: true, force: true }); }
 });
 
@@ -92,7 +115,7 @@ test('missing or different target_media and legacy WordPress flags do not block 
 test('post-generation check blocks unsafe adult-content promotion', async () => {
   const { cwd, dir } = await fixture();
   try {
-    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->\n\n`;
     const unsafe = `${paragraph('利用前に安全性を確認します。')}<h2 id="safe">安全な使い方</h2>${paragraph('18歳以上が対象です。')}${paragraph('高校生も登録できるのでおすすめです。')}${paragraph('援助交際の相手を募集できます。')}`;
     for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), unsafe);
     await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
@@ -109,7 +132,7 @@ test('post-generation check blocks unsafe adult-content promotion', async () => 
 test('post-generation check accepts neutral safety FAQ boundaries', async () => {
   const { cwd, dir } = await fixture();
   try {
-    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->\n\n`;
     const safe = [
       paragraph('利用前に規約と安全性を確認します。'),
       '<h2 id="safe">安全な使い方</h2>',
@@ -135,7 +158,7 @@ test('post-generation check accepts neutral safety FAQ boundaries', async () => 
 test('adult-topic check does not require a boilerplate age warning', async () => {
   const { cwd, dir } = await fixture();
   try {
-    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->\n\n`;
     const html = `${paragraph('マッチングアプリでは、個人情報を守り、相手の同意を尊重して利用します。')}<h2 id="safe">安全な使い方</h2>${paragraph('不審な請求や外部誘導には応じず、必要に応じて通報します。')}`;
     for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), html);
     const metadata = JSON.parse(await readFile(path.join(dir, 'metadata.json')));
@@ -150,7 +173,7 @@ test('adult-topic check does not require a boilerplate age warning', async () =>
 test('adult audit does not block ordinary content for students and children', async () => {
   const { cwd, dir } = await fixture();
   try {
-    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->`;
+    const paragraph = (value) => `<!-- wp:paragraph -->\n<p>${value}</p>\n<!-- /wp:paragraph -->\n\n`;
     const html = `${paragraph('高校生におすすめの参考書と、児童も利用できる図書館を紹介します。')}<h2 id="safe">教材の選び方</h2>${paragraph('対象学年と貸出条件を確認しましょう。')}`;
     for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), html);
     const metadata = JSON.parse(await readFile(path.join(dir, 'metadata.json')));
@@ -168,7 +191,7 @@ test('post-generation audit reads the final decorated artifact', async () => {
   const { cwd, dir } = await fixture();
   try {
     const original = await readFile(path.join(dir, 'article-decorated.html'), 'utf8');
-    const unsafe = `${original}\n<!-- wp:paragraph -->\n<p>マッチングアプリでは高校生も登録できます。</p>\n<!-- /wp:paragraph -->`;
+    const unsafe = `${original}\n<!-- wp:paragraph -->\n<p>マッチングアプリでは高校生も登録できます。</p>\n<!-- /wp:paragraph -->\n\n`;
     await writeFile(path.join(dir, 'article-decorated.html'), unsafe);
     await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
     const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');

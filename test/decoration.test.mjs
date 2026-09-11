@@ -256,6 +256,21 @@ test('decorate preserves existing Gutenberg block attributes, nesting, custom bl
     assert.match(one,/<!-- wp:group \{"className":"outer","style":\{"spacing":\{"padding":"1rem"\}\},"backgroundColor":"white","textColor":"black"\} -->/);
     assert.match(one,/<!-- wp:heading \{"level":2,"anchor":"keep-anchor","className":"keep-class","align":"wide"\} -->/);
     assert.match(one,/<h2 class="wp-block-heading keep-class" id="keep-anchor">保持する見出し<\/h2>/);
+    const headingBlocks=[...one.matchAll(/<!-- wp:heading\b[^>]*-->([\s\S]*?)<!-- \/wp:heading -->/g)];
+    assert.equal(headingBlocks.length,2);
+    for(const block of headingBlocks){
+      assert.doesNotMatch(block[1],/<!-- wp:/);
+      assert.match(block[1],/<h[2-6]\b/);
+    }
+    const outlineEnd=one.indexOf('<!-- /wp:loos/cap-block -->');
+    const headingOpen=one.indexOf('<!-- wp:heading');
+    const headingElement=one.indexOf('<h2');
+    assert.ok(outlineEnd < headingOpen && headingOpen < headingElement, 'outline capbox must precede the complete heading block');
+    for (const paragraph of one.matchAll(/<!-- wp:paragraph -->[\s\S]*?<p\b[\s\S]*?<\/p>[\s\S]*?<!-- \/wp:paragraph -->/g)) {
+      const paragraphHtml=paragraph[0];
+      assert.doesNotMatch(paragraphHtml, /<!-- wp:loos\/cap-block/);
+      assert.ok(paragraphHtml.indexOf('</p>') < paragraphHtml.indexOf('<!-- /wp:paragraph -->'));
+    }
     assert.match(one,/<!-- wp:columns \{"align":"wide"\} -->/);
     assert.match(one,/<!-- wp:column \{"width":"50%"\} -->/);
     assert.match(one,/<!-- wp:loos\/custom-block \{"foo":"bar"\} -->/);

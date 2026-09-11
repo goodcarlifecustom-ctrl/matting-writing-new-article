@@ -50,3 +50,7 @@
 ## 手動コピーによる受け渡し
 
 WordPressへの接続、認証、投稿、更新、削除、画像アップロードは行わない。旧入力に `wordpress_draft` や `post_to_wp` が含まれていても無効として扱い、外部書き込みを有効化しない。品質チェック後の `articles/{slug}/article-decorated.html` を利用者がWordPressのコードエディターへ手動コピーする。
+
+## ブロックと見出しの境界
+
+`article.html` のSWELL・Gutenbergブロック終了コメントと後続のH2〜H6の間には、必ず空行を1行入れる。`--><h2`、`--><h3`などの直接連結を禁止する。見出しの文言・ID・レベル・順序とcapbox内部の構造は変更しない。`render_profile: swell_plain_headings` の見出しに `wp:heading` コメントを追加せず、別profileで既存の `wp:heading` が必要な場合は維持する。
