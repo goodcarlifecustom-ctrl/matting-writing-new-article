@@ -79,6 +79,16 @@
 
 調査人数・割合などの数値根拠には `evidence_kind: "survey_result"` を付け、`claim_scope` に調査・統計・回答数・割合など、実際に裏付けられる内容を具体的に記録する。数値出典に使える `type` は `public_authority`、`academic_primary`、`public_registry_dataset`、`first_party_research_with_methodology` に限る。方法開示済み一次調査では、`methodology` に `researcher`（調査主体）、`population`（対象）、`method`（方法）、`period`（期間）、`sample_size`（正の整数）も記録する。無関係な公式案内や相談窓口リンクを同じ段落へ置いても、調査数値の出典にはならない。
 
+## 口コミ・評判根拠の事前確定
+
+口コミ・評判・レビュー・体験談を事実として扱う見出しがある場合は、`構成確定 → source-manifest.json → section-evidence.json → npm run check:evidence -- --slug {slug} --stage pre-draft → 本文生成` の順序を守る。見出しには一意のIDを付け、`section-evidence.json` の `sections[].heading_id` から `evidence_item_ids` を介して `evidence_items[]` の根拠へ対応付ける。対応する `source-manifest.json` の `claim_scope` にも同じ見出しIDを記録する。
+
+- 個別例は、対象サービスの正規App StoreまたはGoogle Play掲載ページで直接確認できるレビューに限る。出典は `type: "official_app_store"`、`role: "citation"`、`evidence_kind: "individual_review_example"` とし、`section-evidence.json` の証拠項目に `source_id`、`kind`、`subject`、`supported_claim` と、再特定用の `review`（`platform`、表示名、`published_at`、`rating`、短い原文、`retrieved_at`）を記録する。同一レビューを別の評価見出しへ使い回してはいけない。
+- 口コミの件数・割合・満足度・順位・多数派・傾向などの集計表現は、調査主体、対象、方法、期間、回答数を原資料で確認できる一次調査だけを根拠にする。`evidence_kind: "survey_result"` とし、自社等の一次調査は `type: "first_party_research_with_methodology"` と完全な `methodology` を必須とする。公的・学術・レジストリ資料も、当該集計の原調査と方法が確認できる場合だけ使用する。
+- 対象サービスの公式仕様・機能・料金、競合SEOや口コミまとめ、`role: "research_only"` の資料、アフィリエイトCTAは、口コミ・体験または集計結果の根拠として代用できない。
+
+事前検査で `SECTION_EVIDENCE_INVALID`、`REVIEW_EVIDENCE_MISSING` または `REVIEW_EVIDENCE_INVALID` が出た場合は本文生成前に停止する。親グループとまとめは合格済み子見出しから派生でき、口コミの見方・調べ方などの案内見出しは対象外とする。根拠不足、取得失敗、出典の採否などは内部の `research.md`、`section-evidence.json`、`check-report.md` に記録し、公開記事領域へ制作過程の説明として書かない。
+
 ## アフィリエイトCTA
 
 アフィリエイトリンクは読者を公式申込先へ案内するCTAであり、引用元ではない。掲載する場合は `source-manifest.json` の `sources` に `role: "affiliate_cta"` としてURL単位で登録し、リンクへ `data-link-purpose="affiliate-cta"` と `rel="sponsored noopener noreferrer"` を付ける。CTAリンクを料金、性能、評判、ランキング、統計その他の事実の根拠にしてはいけない。

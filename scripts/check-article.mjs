@@ -5,6 +5,7 @@ import { argvValue, parseScalar, SITE_PROFILE } from './workflow-utils.mjs';
 import { findBlockHeadingBoundaryErrors, validateGutenbergContent, visibleCharCount, stripTags } from './gutenberg-utils.mjs';
 import { canonicalHeadings, compareDerivedHtml, findEditorialDisclaimerOveruse, findEditorialProcessLeaks, htmlHeadingStructure, lintReaderContent } from './content-integrity.mjs';
 import { auditAdultSafety, isAdultSafetyTopic, repeatedAdultSafetyNotices } from './adult-safety-audit.mjs';
+import { auditReviewEvidence, requiredReviewHeadings } from './review-evidence.mjs';
 import { auditPublishedSources, SOURCE_POLICY, validateSourceManifest, validateSourcePolicyConfiguration } from './source-policy.mjs';
 
 const slug = argvValue(process.argv, 'slug');
@@ -61,14 +62,17 @@ for (const [file, html] of [['article-linked.html', linked], ['article-decorated
   if (differences.length) error('DERIVED_CONTENT_MISMATCH', `${file}がarticle.htmlと一致しません: ${differences.join('、')}`, 'article.htmlの本文を変えず、リンク追加または装飾工程をやり直してください。');
   else pass(`${file}の可視本文・見出し・FAQ・内部アンカー・表を維持しています`);
 }
-if (existsSync(path.join(dir, 'approved_outline.json')) && decorated) {
+let approvedOutline = null;
+if (existsSync(path.join(dir, 'approved_outline.json'))) {
   try {
-    const approved = JSON.parse(await read('approved_outline.json'));
-    const expected = canonicalHeadings(approved);
+    approvedOutline = JSON.parse(await read('approved_outline.json'));
+    const expected = canonicalHeadings(approvedOutline);
     await writeFile(path.join(dir, 'canonical-headings.json'), JSON.stringify(expected, null, 2) + '\n');
-    const actual = htmlHeadingStructure(decorated);
-    if (JSON.stringify(actual) !== JSON.stringify(expected)) error('APPROVED_OUTLINE_MISMATCH', 'article-decorated.htmlの見出しレベル・文言・IDがapproved_outline.jsonと一致しません', '承認済み見出しを変更せず本文側を復元してください。');
-    else pass('承認済み見出しのレベル・文言・ID・親子関係・順序・件数を維持しています');
+    if (decorated) {
+      const actual = htmlHeadingStructure(decorated);
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) error('APPROVED_OUTLINE_MISMATCH', 'article-decorated.htmlの見出しレベル・文言・IDがapproved_outline.jsonと一致しません', '承認済み見出しを変更せず本文側を復元してください。');
+      else pass('承認済み見出しのレベル・文言・ID・親子関係・順序・件数を維持しています');
+    }
   } catch (e) { error('APPROVED_OUTLINE_INVALID', `approved_outline.jsonを検証できません: ${e.message}`); }
 }
 
@@ -76,7 +80,7 @@ const readerPolicy = {
   max_warning_boxes: parseScalar(input, 'max_warning_boxes') ?? metadata.reader_content_policy?.max_warning_boxes,
   max_unverified_markers: parseScalar(input, 'max_unverified_markers') ?? metadata.reader_content_policy?.max_unverified_markers
 };
-for (const message of lintReaderContent(decorated, readerPolicy)) error('READER_CONTENT_LINT', message, '内部ステータスや反復した注意書きを読者向け本文から除いてください。');
+for (const message of lintReaderContent(decorated, readerPolicy)) error('READER_CONTENT_LINT', message, '反復した段落・注意書き・未確認マーカーを読者向け本文から除いてください。');
 
 const research = await read('research.md');
 for (const finding of validateSourcePolicyConfiguration()) {
@@ -94,6 +98,21 @@ if (sourceManifestText) {
     error('SOURCE_MANIFEST_MISMATCH', 'source-manifest.json が有効なJSONではありません', 'source-manifest.json を有効なJSONへ修正してください。');
   }
 } else error('SOURCE_MANIFEST_MISMATCH', 'source-manifest.json がないか空です', '記事ディレクトリへ有効な source-manifest.json を作成してください。');
+const articleType = parseScalar(input, 'article_type') || metadata.article_type || '';
+const reviewRequirement = requiredReviewHeadings({ articleType, approvedOutline });
+const reviewEvidenceRequired = reviewRequirement.reviewArticle || reviewRequirement.headings.length > 0;
+let sectionEvidence = null;
+const sectionEvidenceText = await read('section-evidence.json');
+if (sectionEvidenceText.trim()) {
+  try { sectionEvidence = JSON.parse(sectionEvidenceText); }
+  catch { error('SECTION_EVIDENCE_INVALID', 'section-evidence.json が有効なJSONではありません', '口コミ根拠を見出しID単位の有効なJSONへ修正してください。'); }
+}
+const reviewEvidenceFindings = auditReviewEvidence({ slug, articleType, approvedOutline, sourceManifest, sectionEvidence });
+for (const finding of reviewEvidenceFindings) {
+  error(finding.code, `${finding.heading_id ? `${finding.heading_id}: ` : ''}${finding.message}`, '許可された公式アプリストアの個別レビューまたは方法開示済み一次調査を見出しIDへ対応付け、本文生成前に再検証してください。');
+}
+if (reviewEvidenceRequired && reviewEvidenceFindings.length === 0) pass(`口コミ根拠ゲートは${reviewRequirement.headings.length}見出しすべてに合格しています`);
+else if (!reviewEvidenceRequired) pass('口コミ根拠ゲートは対象外です');
 const publishedSourceArtifacts = {};
 for (const file of SOURCE_POLICY.published_artifacts || []) {
   publishedSourceArtifacts[file] = await read(file);
@@ -163,7 +182,8 @@ const sourceStatus = sourcePolicyFailed ? 'ERROR' : sourceUncertain || !metadata
 const decorationStatus = warnings.some((x) => /DECORATION|MARKER/.test(x.code)) ? 'WARNING' : 'PASS';
 Object.assign(metadata, {
   render_profile: renderProfile,
-  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'READER_CONTENT_LINT', 'EDITORIAL_PROCESS_LEAK', 'EDITORIAL_DISCLAIMER_OVERUSE', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE', ...sourcePolicyErrorCodes].includes(x.code)) ? 'ERROR' : 'PASS',
+  content_status: errors.some((x) => ['APPROVED_OUTLINE_MISMATCH', 'H1_PRESENT', 'HIGH_RISK_UNSUPPORTED_CLAIM', 'READER_CONTENT_LINT', 'EDITORIAL_PROCESS_LEAK', 'EDITORIAL_DISCLAIMER_OVERUSE', 'SECTION_EVIDENCE_INVALID', 'REVIEW_EVIDENCE_MISSING', 'REVIEW_EVIDENCE_INVALID', 'MINOR_PROMOTION', 'COMMERCIAL_SEX_PROMOTION', 'REPEATED_ADULT_SAFETY_NOTICE', ...sourcePolicyErrorCodes].includes(x.code)) ? 'ERROR' : 'PASS',
+  review_evidence_status: reviewEvidenceRequired ? (reviewEvidenceFindings.length || errors.some((x) => ['SECTION_EVIDENCE_INVALID', 'REVIEW_EVIDENCE_INVALID', 'SOURCE_MANIFEST_MISMATCH', 'SOURCE_POLICY_INVALID'].includes(x.code)) ? 'ERROR' : 'PASS') : 'NOT_REQUIRED',
   source_verification_status: sourceStatus,
   source_policy_status: sourcePolicyFailed ? 'ERROR' : 'PASS',
   decoration_status: decorationStatus,

@@ -81,6 +81,15 @@ notes: "承認済み見出し固定。口コミ根拠を生成前に検証し、
 
 口コミ根拠として使えるのは、App StoreまたはGoogle PlayのPCMAX公式掲載ページで確認できる個別レビュー、または調査主体が直接公開し、対象・方法・期間・回答数を確認できる一次調査だけとする。個別レビューは `source-manifest.json` に `type: "official_app_store"`、`role: "citation"`、`evidence_kind: "individual_review_example"` として登録し、内部の `section-evidence.json` へプラットフォーム、投稿日、評価、識別情報、短い要約、出典IDを記録する。一次調査は `rules/00-source-policy.md` の方法論要件を満たすこと。
 
+次の4見出しは「多い・少ない」という集計主張を含むため、個別レビューでは合格にしない。対象・方法・期間・回答数を原資料で確認できる `survey_result` がなければ、承認済み見出しを説明文で埋めず停止する。
+
+- `pcmax-good-review-many-users`
+- `pcmax-bad-review-vendors`
+- `pcmax-bad-review-free-points`
+- `pcmax-bad-review-casual-users`
+
+`section-evidence.json` は `version`、`article_slug`、`sections`、`evidence_items` を持たせる。各 `sections[]` に `heading_id`、判定済みの `classification`、`evidence_item_ids` または `derived_from_section_ids` を記録し、各 `evidence_items[]` に一意の `id`、`kind`、`source_id`、`subject`、`supported_claim` と、個別レビューなら `review`、一次調査なら `survey` を記録する。
+
 同じレビューを複数見出しへ機械的に流用しない。見出し文言を裏付けないレビュー、投稿者・投稿日・評価等を確認できない転載、検索スニペット、競合記事の要約は不採用とする。
 
 `npm run check:evidence -- --slug pcmax-reputation --stage pre-draft` を実行し、`PASS`になるまで `draft.md`、`article.html`、`article-linked.html`、`article-decorated.html` へ本文を書かない。実行環境から公式レビューを取得できず、ユーザー提供の出典付きレビュー資料もない場合は、不足する見出しIDを `check-report.md` に記録して停止する。停止理由や不足説明を公開成果物へ転記しない。

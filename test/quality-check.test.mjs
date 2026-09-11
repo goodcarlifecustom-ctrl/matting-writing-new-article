@@ -265,3 +265,24 @@ test('editorial process leakage is rejected in every published artifact and cann
     } finally { await rm(cwd, { recursive: true, force: true }); }
   }
 });
+
+test('quality check blocks review articles when any review heading lacks pre-draft evidence', async () => {
+  const { cwd, dir } = await fixture();
+  try {
+    const outline = { headings: [{ level: 2, text: 'サービスの口コミ・評判', id: 'reviews', children: [
+      { level: 3, text: '良い評判は操作しやすいこと', id: 'review-easy' }
+    ] }] };
+    const html = '<h2 id="reviews">サービスの口コミ・評判</h2><p>利用者の評価を確認します。</p><h3 id="review-easy">良い評判は操作しやすいこと</h3><p>画面の操作性に関する評価です。</p>';
+    await writeFile(path.join(dir, 'input.yml'), 'article_type: "口コミ・評判"\nrender_profile: swell_plain_headings\n');
+    await writeFile(path.join(dir, 'approved_outline.json'), JSON.stringify(outline));
+    for (const file of ['article.html', 'article-linked.html', 'article-decorated.html']) await writeFile(path.join(dir, file), html);
+    await assert.rejects(runFile('node', [checker, '--mode', 'draft', '--slug', 'sample'], { cwd }));
+    const report = await readFile(path.join(dir, 'check-report.md'), 'utf8');
+    assert.match(report, /SECTION_EVIDENCE_INVALID/);
+    assert.match(report, /REVIEW_EVIDENCE_MISSING.*review-easy|review-easy.*REVIEW_EVIDENCE_MISSING/s);
+    const metadata = JSON.parse(await readFile(path.join(dir, 'metadata.json'), 'utf8'));
+    assert.equal(metadata.review_evidence_status, 'ERROR');
+    assert.equal(metadata.content_status, 'ERROR');
+    assert.equal(metadata.copy_ready, false);
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});

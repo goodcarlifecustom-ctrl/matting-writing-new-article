@@ -225,7 +225,7 @@ const EDITORIAL_PROCESS_RULES = [
   {
     id: 'internal_status',
     reason: '内部ステータス・監査コード',
-    pattern: /\b(?:PARTIAL|PASS_WITH_EXCEPTION|ACCESS_BLOCKED|DRAFT_READY|REVERIFY_BEFORE_PUBLISH|RESEARCH_FAIL|REVIEW_EVIDENCE_MISSING|EDITORIAL_PROCESS_LEAK|SOURCE_REVERIFY|PUBLISH_READY|NOT_READY)\b|HTTP\s*(?:000|401|403|404)|監査コード/iu
+    pattern: /\b(?:PARTIAL|UNVERIFIED|PASS_WITH_EXCEPTION|ACCESS_BLOCKED|DRAFT_READY|REVERIFY_BEFORE_PUBLISH|RESEARCH_FAIL|REVIEW_EVIDENCE_MISSING|EDITORIAL_PROCESS_LEAK|SOURCE_REVERIFY|PUBLISH_READY|NOT_READY)\b|HTTP\s*(?:000|401|403|404)|監査コード/iu
   },
   {
     id: 'internal_artifact',
@@ -240,7 +240,7 @@ const EDITORIAL_PROCESS_RULES = [
   {
     id: 'source_selection_narration',
     reason: '出典・口コミの編集上の採否',
-    pattern: /(?:今回は|今回確認した|本記事では|当記事では|この記事では|ここでは|編集部では|筆者は|制作側).{0,120}(?:確認できな|確認できていな|確認できません|確認できた|確認済み|採用|不採用|掲載しな|掲載していな|使用しな|使用していな|取得できな|裏付けられな|一般化していな|検証した|生成した|執筆した|引用しな|推測せず|補完しな|調査した|優先した)/iu
+    pattern: /(?:今回は|今回確認した|本記事では|当記事では|この記事では|ここでは|編集部では|筆者は|制作側).{0,120}(?:確認できな|確認できていな|確認できません|確認できた|確認済み|未確認|採用|不採用|掲載しな|掲載していな|使用しな|使用していな|取得できな|裏付けられな|一般化していな|検証した|生成した|執筆した|引用しな|推測せず|補(?:完|って|わ)(?:しな|いな|ず)|調査した|優先した)/iu
   },
   {
     id: 'source_selection_narration',

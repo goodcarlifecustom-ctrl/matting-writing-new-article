@@ -48,8 +48,10 @@ test('create defaults an omitted target_media to the matching site and writes lo
     assert.equal(metadata.primary_output, 'article-decorated.html');
     assert.equal(metadata.external_write_performed, false);
     assert.equal(metadata.source_policy_status, 'PENDING');
+    assert.equal(metadata.review_evidence_status, 'PENDING');
     assert.deepEqual(metadata.citation_source_candidates, []);
     assert.deepEqual(JSON.parse(await readFile(path.join(articleDir,'source-manifest.json'),'utf8')), { version: 1, sources: [] });
+    assert.deepEqual(JSON.parse(await readFile(path.join(articleDir,'section-evidence.json'),'utf8')), { version: 1, article_slug: 'matching-app-beginner-safety', sections: [], evidence_items: [] });
     assert.equal(existsSync(path.join(articleDir,'research.md')), true);
     assert.equal(existsSync(path.join(articleDir,'article-decorated.html')), true);
     assert.equal(existsSync(path.join(articleDir,'wp-result.md')), false);

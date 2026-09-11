@@ -78,7 +78,9 @@ test('editorial process audit catches internal status, files, fixed headings and
     '<p>PCMAX固有の発生数は示さず、一般的な対策を解説します。</p>',
     '<p>今回確認したPCMAX公式資料には、年代別の統計がありません。</p>',
     '<p>良い評判は、今回は裏付けられる個別レビューがないため一般化していません。</p>',
-    '<p>本記事ではこの不確実性を残し、確認できた公式ページを優先しました。</p>'
+    '<p>本記事ではこの不確実性を残し、確認できた公式ページを優先しました。</p>',
+    '<p>UNVERIFIEDのため詳細は掲載しません。</p>',
+    '<p>本記事では未確認の金額や会員数を補っていません。</p>'
   ];
   for (const sample of samples) assert.ok(findEditorialProcessLeaks(sample).length > 0, sample);
 });

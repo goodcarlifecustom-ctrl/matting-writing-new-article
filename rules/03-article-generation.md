@@ -28,9 +28,11 @@
 
 ## 成果物
 
-`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `source-manifest.json`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `source-manifest.json`, `section-evidence.json`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
 
 `heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
+
+口コミ・評判・レビュー・体験談を扱う場合は、構成確定後に `source-manifest.json` と見出しID単位の `section-evidence.json` を完成させ、`npm run check:evidence -- --slug {slug} --stage pre-draft` に合格してから本文を生成する。個別例は正規App StoreまたはGoogle Playで直接確認できるレビュー、集計表現は方法論付き一次調査だけを使用する。公式仕様、競合まとめ、`research_only`資料、CTAは代用不可とし、根拠不足なら公開本文を作成せず内部資料へ記録して停止する。
 
 ## 本文生成
 

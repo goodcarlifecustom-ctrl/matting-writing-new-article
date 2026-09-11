@@ -61,11 +61,13 @@ npm test
 
 `check:sources` は全記事の公開領域と `source-manifest.json` を読み取り専用で照合します。Pull RequestではGitHub Actionsが `npm test` と `check:sources` を自動実行します。
 
+口コミ・評判・レビュー・体験談を扱う場合は、構成確定後、本文より先に `source-manifest.json` と見出しID単位の `section-evidence.json` を作成し、`npm run check:evidence -- --slug {slug} --stage pre-draft` に合格させます。個別レビューは正規App StoreまたはGoogle Playで直接確認できるもの、件数・割合・傾向などの集計表現は方法論を確認できる一次調査に限定します。公式仕様、競合まとめ、`research_only`資料、CTAで代用できません。
+
 標準の `render_profile: swell_plain_headings` ではH2〜H6をプレーンHTMLとして扱い、`wp:heading` コメントを要求しません。段落・リスト・表などのGutenberg/SWELL構造検証は継続します。`approved_outline.json` がある記事では、見出しのレベル・文言・ID・順序を完全一致で検証し、記事本文へ検証用の注意書きを自動挿入しません。
 
 ## 成果物と手動コピー
 
-記事ごとの成果物は `articles/{slug}/` に保存します。調査・構成・本文の中間成果物に加え、公開用出典台帳 `source-manifest.json` と読者向け外部リンク一覧 `external-links.md` を残します。最終成果物は次のファイルです。
+記事ごとの成果物は `articles/{slug}/` に保存します。調査・構成・本文の中間成果物に加え、公開用出典台帳 `source-manifest.json`、内部用の見出し別根拠台帳 `section-evidence.json`、読者向け外部リンク一覧 `external-links.md` を残します。最終成果物は次のファイルです。
 
 ```text
 articles/{slug}/article-decorated.html
@@ -80,6 +82,8 @@ articles/{slug}/article-decorated.html
 ## 出典・外部リンク
 
 公開記事の引用元は、公的機関、対象サービス公式、公式規約・ヘルプ、公式アプリストア、学術一次資料、標準化団体、公的レジストリ・統計、方法開示済み一次調査に限定します。公式アプリストアのレビューは個別体験の例としてのみ扱います。
+
+口コミ根拠ゲートに合格できない場合は、`draft.md`以降を作成しません。取得失敗、出典の採否、根拠不足などの制作過程は内部資料だけに記録し、読者向け本文へ説明文として出力しません。
 
 公的機関ドメインと公式アプリストア以外の外部URLは、全記事共通の `config/source-policy.json` にある `approved_external_domains` と、記事ごとの `source-manifest.json` の両方へ登録します。記事台帳だけで任意サイトを「公式」として許可することはできません。
 
