@@ -18,7 +18,8 @@
     "serp.md",
     "headings.csv",
     "heading-analysis.md",
-    "heading-plan.md"
+    "heading-plan.md",
+    "section-evidence.json"
   ],
   "allowed_source_types": [
     "public_authority",
@@ -84,6 +85,9 @@
     "AFFILIATE_LINK_AS_EVIDENCE",
     "REDIRECTOR_SOURCE_URL",
     "INSECURE_SOURCE_URL",
-    "UNSOURCED_SURVEY_CLAIM"
+    "UNSOURCED_SURVEY_CLAIM",
+    "SECTION_EVIDENCE_INVALID",
+    "REVIEW_EVIDENCE_INVALID",
+    "REVIEW_EVIDENCE_MISSING"
   ]
 }

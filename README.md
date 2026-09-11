@@ -53,25 +53,35 @@ npm run finish -- --slug matching-app-beginner-safety
 npm run check -- --slug matching-app-beginner-safety
 npm run check:draft -- --slug matching-app-beginner-safety
 npm run check:publish -- --slug matching-app-beginner-safety
+npm run check:content
 npm run check:sources
+npm run check:evidence:all
+npm run check:repository
+npm run ci
 npm test
 ```
 
 `check:draft` はローカル編集段階の検証です。情報再確認や軽微な文字数・装飾不足はWARNINGとして扱い、構造・安全性などの重大な問題だけをERRORにします。`check:publish` は人が公開前に確認するための厳格なローカル検証であり、WordPressへ接続または投稿するコマンドではありません。
 
-`check:sources` は全記事の公開領域と `source-manifest.json` を読み取り専用で照合します。Pull RequestではGitHub Actionsが `npm test` と `check:sources` を自動実行します。
+`check:content` は全記事の公開領域に制作過程の説明や反復免責がないか、`check:sources` は公開領域と `source-manifest.json`、`check:evidence:all` は口コミ根拠を、それぞれ読み取り専用で全件照合します。`check:repository` はこの3検査、`ci` はテストを含む全検査を順番に実行します。テスト用記事と全記事監査が競合しないよう、テストは直列実行します。Pull RequestではGitHub Actionsの `article-quality-gates` が `npm run ci` を自動実行します。
+
+ワークフローを置くだけではGitHub上のマージ必須条件にはなりません。`main` のRulesetまたはBranch protectionで、ステータスチェック `article-quality-gates` を必須に設定してください。必須ワークフローがスキップされて待機状態にならないよう、記事以外の変更を含む全Pull Requestで実行します。
+
+口コミ・評判・レビュー・体験談を扱う場合は、構成確定後、本文より先に `source-manifest.json` と見出しID単位の `section-evidence.json` を作成し、`npm run check:evidence -- --slug {slug} --stage pre-draft` に合格させます。個別レビューは正規App StoreまたはGoogle Playで直接確認できるもの、件数・割合・傾向などの集計表現は方法論を確認できる一次調査に限定します。公式仕様、競合まとめ、`research_only`資料、CTAで代用できません。
 
 標準の `render_profile: swell_plain_headings` ではH2〜H6をプレーンHTMLとして扱い、`wp:heading` コメントを要求しません。段落・リスト・表などのGutenberg/SWELL構造検証は継続します。`approved_outline.json` がある記事では、見出しのレベル・文言・ID・順序を完全一致で検証し、記事本文へ検証用の注意書きを自動挿入しません。
 
 ## 成果物と手動コピー
 
-記事ごとの成果物は `articles/{slug}/` に保存します。調査・構成・本文の中間成果物に加え、公開用出典台帳 `source-manifest.json` と読者向け外部リンク一覧 `external-links.md` を残します。最終成果物は次のファイルです。
+記事ごとの成果物は `articles/{slug}/` に保存します。調査・構成・本文の中間成果物に加え、公開用出典台帳 `source-manifest.json`、内部用の見出し別根拠台帳 `section-evidence.json`、読者向け外部リンク一覧 `external-links.md` を残します。最終成果物は次のファイルです。
 
 ```text
 articles/{slug}/article-decorated.html
 ```
 
 品質チェック完了後、このファイルの全文を利用者がWordPressのコードエディターへ手動でコピーします。コピー後の保存、下書き、公開、更新は利用者がWordPress側で行い、このリポジトリからは一切実行しません。
+
+調査不合格、公式確認不能、構成の再承認待ちなどで公開できない過去成果物は `archive/research-failed/{slug}/` へ移し、履歴を保ったまま公開対象から隔離します。アーカイブ内のHTMLは手動コピー対象ではありません。検査を回避するためのメタデータ例外は設けず、再開時は新しい `articles/{slug}/` で全工程をやり直します。
 
 ## 競合調査・見出し設計
 
@@ -80,6 +90,8 @@ articles/{slug}/article-decorated.html
 ## 出典・外部リンク
 
 公開記事の引用元は、公的機関、対象サービス公式、公式規約・ヘルプ、公式アプリストア、学術一次資料、標準化団体、公的レジストリ・統計、方法開示済み一次調査に限定します。公式アプリストアのレビューは個別体験の例としてのみ扱います。
+
+口コミ根拠ゲートに合格できない場合は、`draft.md`以降を作成しません。取得失敗、出典の採否、根拠不足などの制作過程は内部資料だけに記録し、読者向け本文へ説明文として出力しません。
 
 公的機関ドメインと公式アプリストア以外の外部URLは、全記事共通の `config/source-policy.json` にある `approved_external_domains` と、記事ごとの `source-manifest.json` の両方へ登録します。記事台帳だけで任意サイトを「公式」として許可することはできません。
 

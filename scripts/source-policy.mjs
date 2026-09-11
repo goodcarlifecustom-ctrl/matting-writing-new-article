@@ -40,7 +40,10 @@ const REQUIRED_ERROR_CODES = [
   'AFFILIATE_LINK_AS_EVIDENCE',
   'REDIRECTOR_SOURCE_URL',
   'INSECURE_SOURCE_URL',
-  'UNSOURCED_SURVEY_CLAIM'
+  'UNSOURCED_SURVEY_CLAIM',
+  'SECTION_EVIDENCE_INVALID',
+  'REVIEW_EVIDENCE_INVALID',
+  'REVIEW_EVIDENCE_MISSING'
 ];
 const REQUIRED_AFFILIATE_REL = ['sponsored', 'noopener', 'noreferrer'];
 const SURVEY_EVIDENCE_TYPES = new Set(['public_authority', 'academic_primary', 'public_registry_dataset', 'first_party_research_with_methodology']);
@@ -104,7 +107,7 @@ export function validateSourcePolicyConfiguration(policy = SOURCE_POLICY) {
   for (const file of ['draft.md', 'article.html', 'article-linked.html', 'article-decorated.html', 'external-links.md']) {
     if (!publishedArtifacts.includes(file)) findings.push({ code: 'SOURCE_POLICY_INVALID', message: `published_artifacts に ${file} が必要です。` });
   }
-  for (const file of ['research.md', 'serp.md', 'headings.csv', 'heading-analysis.md', 'heading-plan.md']) {
+  for (const file of ['research.md', 'serp.md', 'headings.csv', 'heading-analysis.md', 'heading-plan.md', 'section-evidence.json']) {
     if (!researchOnlyArtifacts.includes(file)) findings.push({ code: 'SOURCE_POLICY_INVALID', message: `research_only_artifacts に ${file} が必要です。` });
   }
   if (!sameStringSet(policy?.allowed_source_types, REQUIRED_ALLOWED_TYPES)) findings.push({ code: 'SOURCE_POLICY_INVALID', message: 'allowed_source_types は承認済みの8種別から変更できません。' });
@@ -392,6 +395,9 @@ export function validateSourceManifest(manifest, policy = SOURCE_POLICY) {
     }
     if (source.evidence_kind === 'survey_result' && !SURVEY_EVIDENCE_TYPES.has(source.type)) {
       findings.push({ code: 'SOURCE_MANIFEST_MISMATCH', message: `${label}.evidence_kind が survey_result の場合、調査・統計を扱える出典種別にしてください。` });
+    }
+    if (source.evidence_kind === 'individual_review_example' && source.type !== 'official_app_store') {
+      findings.push({ code: 'SOURCE_MANIFEST_MISMATCH', message: `${label}.evidence_kind が individual_review_example の場合、type は official_app_store にしてください。` });
     }
     if (source.type === 'first_party_research_with_methodology' && source.role === 'citation') {
       const methodology = source.methodology;

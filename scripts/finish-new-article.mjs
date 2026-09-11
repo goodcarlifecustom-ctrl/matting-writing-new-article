@@ -44,8 +44,8 @@ async function main() {
   if (!slug) fail('Usage: npm run finish -- --slug <slug>');
   try {
     await run('decorate', ['run', 'decorate', '--', '--slug', slug]);
-    await run('quality check', ['run', 'check', '--', '--slug', slug]);
     await run('decoration check', ['run', 'check:decoration', '--', '--slug', slug]);
+    await run('quality check', ['run', 'check', '--', '--slug', slug]);
 
     const metadata = JSON.parse(await readFile(path.join('articles', slug, 'metadata.json'), 'utf8'));
     if (metadata.status !== 'draft') fail('metadata.status must be draft');

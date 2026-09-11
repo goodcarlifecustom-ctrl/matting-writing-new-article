@@ -28,9 +28,11 @@
 
 ## 成果物
 
-`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `source-manifest.json`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
+`research.md`, `serp.md`, `headings.csv`, `heading-analysis.md`, `heading-plan.md`, `source-manifest.json`, `section-evidence.json`, `draft.md`, `article.html`, `article-linked.html`, `article-decorated.html`, `external-links.md`, `check-report.md` を保存する。最終成果物は手動コピー用の `article-decorated.html` とする。
 
 `heading-analysis.md` には、共通論点、異なる論点、不足論点、採用トピック、不採用トピックと理由、独自追加情報、一次情報が必要な箇所、別記事へ分けるべきトピックを記載する。
+
+口コミ・評判・レビュー・体験談を扱う場合は、構成確定後に `source-manifest.json` と見出しID単位の `section-evidence.json` を完成させ、`npm run check:evidence -- --slug {slug} --stage pre-draft` に合格してから本文を生成する。個別例は正規App StoreまたはGoogle Playで直接確認できるレビュー、集計表現は方法論付き一次調査だけを使用する。公式仕様、競合まとめ、`research_only`資料、CTAは代用不可とし、根拠不足なら公開本文を作成せず内部資料へ記録して停止する。
 
 ## 本文生成
 
@@ -40,6 +42,10 @@
 - 「この記事でわかること」は1回だけ生成する。
 - H2・H3には安定した重複しないIDを設定し、目次リンク先IDを実在させる。
 - 架空の口コミ、体験談、統計、料金、ランキングを生成しない。
+- 公開成果物では読者の疑問へ直接答え、調査・生成・検証の事情を説明しない。出典を採用しなかった理由、取得できなかった情報、架空情報を作らない方針、見出しやCTAの制作指示は `research.md` または `check-report.md` にだけ記録する。
+- 「今回はレビューを確認していない」「本記事では確認済み資料だけを使用する」「架空の投稿者は掲載しない」などの編集上の弁明で、根拠のない見出しを埋めない。根拠不足で見出しを正確に成立させられない場合は、本文生成前に停止する。
+- 対象サービスが情報を公表していないこと自体が読者の判断材料になる場合は、「対象サービスは年代別割合を公式に公表していません」のように対象側の公開状況を直接説明してよい。「本記事では確認できませんでした」のように制作側を主語にしない。
+- 「保証しない」「断定できない」「一つの材料」などの同型注意書きを各章へ機械的に反復しない。必要な留保は主張の直後に簡潔に置き、本文の中心を具体的な仕様・利用方法・判断基準にする。
 - 年齢、同意、個人情報、詐欺、犯罪、安全、健康、法律に関する注意を適切に扱う。
 - 成人向けテーマでも、年齢条件・年齢確認の定型警告を本文の必須要素にしない。規約や比較上必要な場合だけ読者が確認しやすい一箇所で説明し、「18歳以上」「年齢確認が必要」など同じ文面を導入・各サービス紹介・まとめへ機械的に繰り返さない。
 - 18歳未満・高校生へ利用を勧める表現や、援助交際、売春・買春の募集・仲介・実行を後押しする表現を生成しない。規約、安全性、違法性の中立的な説明、注意喚起、FAQで禁止事項を説明することは妨げない。

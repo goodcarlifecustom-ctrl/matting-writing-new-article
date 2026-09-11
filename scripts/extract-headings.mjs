@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
@@ -56,7 +56,11 @@ async function searchUrls(keyword) {
 
 const slug = arg('slug');
 if (!slug) { console.error('Usage: npm run extract -- --slug slug [--keyword KW|--main_keyword KW] [--url https://...]'); process.exit(1); }
-const dir = path.join('articles', slug); await mkdir(dir, { recursive: true });
+const dir = path.join('articles', slug);
+if (!existsSync(dir)) {
+  console.error(`[ARTICLE_DIRECTORY_MISSING] ${dir} がありません。先に npm run create を実行してください。`);
+  process.exit(1);
+}
 const inputText = existsSync(path.join(dir, 'input.yml')) ? await readFile(path.join(dir, 'input.yml'), 'utf8') : '';
 const mainKeyword = arg('main_keyword') || arg('keyword') || yamlValue(inputText, 'main_keyword') || yamlValue(inputText, 'keyword') || '';
 const title = arg('title') || yamlValue(inputText, 'title') || '';
